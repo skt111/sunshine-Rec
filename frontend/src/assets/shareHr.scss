@@ -1,0 +1,652 @@
+@mixin fw($val) {
+    float: left;
+    width: #{$val + "%"};
+}
+
+.detailModal {
+    .ivu-modal-header {
+        background: #c9e7ff;
+    }
+
+    .ivu-modal-footer {
+        text-align: center;
+    }
+}
+
+input[readonly] {
+    background: #f3f3f3;
+}
+
+select[disabled] {
+    background: #f3f3f3;
+}
+
+textarea[readonly] {
+    background: #f3f3f3;
+}
+
+.shareTabs .tabs {
+    .tabs-nav {
+        margin: 0 0 16px 0;
+        border-bottom: 1px solid #e8e8e8;
+        outline: none;
+        transition: padding 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+        padding-bottom: 0px;
+
+        .tabs-tab {
+            color: #2c3e50;
+            font-size: 14px;
+            background: #fff;
+            border: none;
+            position: relative;
+            display: inline-block;
+            box-sizing: border-box;
+            height: 100%;
+            margin: 0 32px 0 0;
+            padding: 12px 16px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: color 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+        }
+
+        .tabs-tab-active {
+            color: #1890ff;
+            font-weight: 500;
+            border-bottom: 2px solid #1890ff;
+        }
+    }
+}
+
+/* --模块--- */
+.shrDiv {
+    @include fw(77);
+    margin-left: 20px;
+    margin-top: 30px;
+
+}
+
+/* --内容-- */
+.shrCon {
+    @include fw(100);
+}
+
+.shrTable {
+    @include fw(100);
+
+    .ivu-table-header thead tr th {
+        padding: 10px 0px;
+        color: #333;
+    }
+
+    .ivu-table-header table {
+        border-top: 1px solid #e8eaec;
+        border-left: 1px solid #e8eaec;
+        border-right: 1px solid #e8eaec;
+        border-radius: 3px;
+    }
+
+    .ivu-table-border td,
+    .ivu-table-border th {
+        border-right: none;
+    }
+}
+
+/* -----按钮------ */
+@mixin button {
+    width: 90px;
+    height: 25px;
+    text-align: center;
+    background: #1890ff;
+    color: #fff;
+    padding: 5px 30px;
+    line-height: 30px;
+    font-size: 14px;
+    border-radius: 4px;
+    border: 1px solid #1890ff;
+}
+
+.shareLine .but {
+    @include button;
+}
+
+.progress .but {
+    @include button;
+
+    &.btn {
+        background: #fff;
+        border-color: #1890ff;
+        color: #1890ff;
+    }
+}
+
+.shareLine .butr {
+    background: #fff;
+    color: #333;
+    border: 1px solid #aaa;
+}
+
+.mr20 {
+    margin-right: 20px;
+}
+
+.detailModal .ivu-modal-header {
+    background: #1890ff;
+}
+
+/* -------员工详情------ */
+@mixin inDiv($val1, $val2) {
+    @include fw(#{$val1});
+    position: relative;
+
+    .leftSpan {
+        width: 130px;
+        height: 32px;
+        line-height: 32px;
+        text-align: right;
+        float: left;
+    }
+
+    .moreLine {
+        line-height: 16px;
+        padding-right: 4px;
+    }
+
+    .rightStatus {
+        height: 32px;
+        line-height: 32px;
+
+        .operateBtn {
+            color: #1890ff;
+            text-decoration: underline;
+            margin-left: 20px;
+            cursor: pointer;
+        }
+    }
+
+    .saveBtn {
+        height: 32px;
+        line-height: 32px;
+        font-size: 16px;
+    }
+
+    .input {
+        width: #{$val2 + "%"};
+        height: 32px;
+        border: 1px solid #dcdee2;
+        border-radius: 5px;
+        outline: none;
+        padding-left: 10px;
+    }
+
+    .ivu-date-picker {
+        padding-left: 0px;
+    }
+
+    .ivu-icon-ios-search {
+        position: absolute;
+        right: 0px;
+        height: 32px;
+        line-height: 32px;
+    }
+
+    .twos {
+        width: 65%;
+        float: left;
+        line-height: 32px;
+
+        .ivu-date-picker {
+            width: 46%;
+        }
+
+        .lineMiddle {
+            margin: 0px 5px;
+        }
+    }
+}
+
+@mixin tipCon {
+    display: inline-block;
+    border: 1px solid #9ed9ff;
+    background: #e6f7ff;
+    border-radius: 5px;
+    padding-left: 10px;
+    font-weight: normal;
+    line-height: 32px;
+    height: 32px;
+    position: relative;
+    z-index: 1;
+
+    .ivu-icon {
+        font-size: 16px;
+        width: 16px;
+        height: 16px;
+        color: #1890ff;
+        margin-right: 10px;
+    }
+}
+
+.contentTable {
+    @include fw(100);
+}
+
+.baseCon,
+.joinCon,
+.otherCon,
+.fileCon,
+.sendCon,
+.contractCon,
+.noticeCon {
+    @include fw(100);
+    position: relative;
+}
+
+.imgSrc {
+    position: absolute;
+    right: 20%;
+    top: -10px;
+
+    img {
+        width: 100px;
+        height: 100px;
+    }
+}
+
+.leftLine {
+    height: 100%;
+    width: 1px;
+    background: #1890ff;
+    top: 0;
+    left: 16px;
+    position: absolute;
+}
+
+.stepTip {
+    @include fw(100);
+    height: 32px;
+    line-height: 32px;
+    margin-bottom: 10px;
+    position: relative;
+    margin-top: 10px;
+
+    .xuhao {
+        width: 32px;
+        height: 32px;
+        border-radius: 32px;
+        font-size: 16px;
+        color: #fff;
+        border-color: #1890ff;
+        background: #1890ff;
+        display: inline-block;
+        text-align: center;
+        z-index: 100;
+        position: relative;
+    }
+
+    .title {
+        font-size: 16px;
+        font-weight: 700;
+        z-index: 100;
+        background: #fff;
+        padding: 0 10px;
+        position: relative;
+    }
+
+    .tip {
+        @include tipCon;
+
+    }
+
+    .line {
+        z-index: 1;
+        width: 100%;
+        height: 1px;
+        background: #1890ff;
+        display: inline-block;
+        position: absolute;
+        top: 15px;
+        left: 10px;
+        filter: progid:DXImageTransform.Microsoft.Gradient(startColorStr='#1890ff', endColorStr='#fff', gradientType='1');
+        background: -moz-linear-gradient(left, #1890ff, #fff);
+        background: -o-linear-gradient(left, #1890ff, #fff);
+        background: -webkit-gradient(linear,
+                0% 0%,
+                100% 0%,
+                from(#1890ff),
+                to(#fff));
+        background: -ms-linear-gradient(left, #1890ff, #fff);
+        background: linear-gradient(to right, #1890ff 0%, #fff 100%);
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#1890ff', endColorstr='#fff', GradientType=0);
+
+        :root .gradient {
+            filter: none;
+        }
+    }
+
+    img {
+        width: 32px;
+        height: 32px;
+        position: absolute;
+        right: 0px;
+        cursor: pointer;
+
+        &.normal {
+            transform: rotate(180deg);
+            -webkit-transform: rotate(180deg);
+            transition: transform .5s;
+        }
+
+        &.inverse {
+            transform: rotate(0deg);
+            -webkit-transform: rotate(0deg);
+            transition: transform .5s;
+        }
+    }
+}
+
+.shareLine .resultRem {
+    display: inline-block;
+    width: 16%;
+    border: 1px solid #9ed9ff;
+    background: #e6f7ff;
+    border-radius: 5px;
+    padding-left: 10px;
+    font-weight: normal;
+    margin-left: 20px;
+    line-height: 14px;
+    height: 32px;
+    position: relative;
+    top: 8px;
+
+    .ivu-icon {
+        font-size: 16px;
+        width: 16px;
+        height: 16px;
+        color: #1890ff;
+        margin-right: 10px;
+    }
+
+    label {
+        font-size: 12px;
+    }
+}
+
+.shareLine {
+    @include fw(100);
+    margin-top: 10px;
+    padding-left: 20px;
+
+    .viewInfo {
+        color: #1890ff;
+        text-decoration: underline;
+        margin-left: 25px;
+        cursor: pointer;
+        margin-right: 20px;
+    }
+
+    .orangeBtn {
+        background: #faad14;
+        border-color: #faad14;
+        padding: 5px 10px;
+    }
+
+    .addInfoBtn {
+        background: #fff;
+        border-color: #faad14;
+        color: #faad14;
+        padding: 5px 10px;
+    }
+
+    .offStatus {
+        font-size: 12px;
+        display: inline-block;
+        height: 14px;
+        line-height: 14px;
+        margin-left: 10px;
+    }
+
+    .shareInput3 {
+        @include inDiv(33.33, 60);
+
+        .input {
+            min-width: 111px;
+        }
+
+        .leftSpan {
+            width: 104px !important;
+        }
+    }
+
+    .shareInput {
+        @include inDiv(50, 65);
+        .rightSpan {
+            width: 68%;
+            display: inline-block;
+            height: 32px;
+            line-height: 32px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+    }
+
+    .shareInput1 {
+        @include inDiv(100, 70);
+
+        .leftSpan {
+            width: 104px !important;
+        }
+    }
+
+    .shareInput4 {
+        @include inDiv(25, 46);
+    }
+}
+
+/* ---添加模块-- */
+.shrConIn {
+    @include fw(94);
+    margin: 20px 20px 10px 40px;
+    border: 1px solid #eee;
+    padding-bottom: 20px;
+    padding-top: 10px;
+    position: relative;
+
+    .shareLine {
+        .shareInput3 {
+            @include inDiv(33.33, 50);
+        }
+    }
+
+    &.detailInfo {
+        padding: 20px;
+
+        .lineInput {
+            text-align: center;
+            border-left: none;
+            border-right: none;
+            border-top: none;
+            border-bottom: 1px solid #333;
+            height: 32px;
+            width: 50px;
+        }
+
+        span {
+            height: 32px;
+            line-height: 32px;
+        }
+    }
+}
+
+.shrConEvery {
+    border: none;
+    margin: 10px 20px 10px 40px;
+    padding: 0;
+
+    .tip {}
+
+    .title {
+        margin-left: 10px;
+        margin-right: 10px;
+        width: 20%;
+        display: inline-block;
+    }
+
+    .remarks {
+        @include tipCon;
+        width: 25%;
+        margin-right: 8%;
+
+        label {
+            overflow: hidden;
+            width: 85%;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            display: inline-block;
+            line-height: 30px;
+            position: absolute;
+        }
+    }
+
+    .statusEmail {
+        text-align: right;
+        width: 56px;
+        display: inline-block;
+        color: #aaa;
+    }
+
+    .green {
+        color: #52c41a;
+    }
+
+    .red {
+
+        color: #f5222d;
+    }
+
+    .status {
+        margin-right: 2%;
+        cursor: pointer;
+
+        &.isHas {
+            color: #1890ff;
+            text-decoration: underline;
+        }
+
+        .ivu-icon {
+            margin-left: -5px;
+            margin-right: 5px;
+        }
+
+        label {
+            color: #aaa;
+        }
+    }
+
+    .btn {
+        @include button;
+        display: inline-block;
+        line-height: 25px;
+        width: 110px;
+        background: #fff;
+        border-color: #1890ff;
+        color: #1890ff;
+        padding: 0;
+
+        &.orangeBtn {
+            color: #faad14;
+            border-color: #faad14;
+        }
+    }
+}
+
+.choiceModal {
+    .ivu-modal-close {
+        border-radius: 30px;
+    }
+
+    .ivu-modal-header {
+        border-bottom: 0px;
+    }
+
+    .ivu-modal-header p {
+        height: 32px;
+        line-height: 32px;
+        text-align: center;
+
+        .headerTip {
+            img {
+                width: 30px;
+                margin-right: 10px;
+            }
+
+            label,
+            span {
+                font-weight: bold;
+                position: absolute;
+            }
+        }
+    }
+
+    .ivu-modal-close .ivu-icon-ios-close {
+        color: #fff;
+        top: 0px;
+        background: #f5222d;
+    }
+
+    .ivu-modal-footer {
+        display: none;
+    }
+}
+
+.hasFoot {
+    .ivu-modal-footer {
+        display: block;
+    }
+}
+
+/* =======vtip======== */
+.v-tip-container.tipShow {
+    max-width: 500px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 9999;
+    box-sizing: border-box;
+    width: 200px;
+    padding: 6px 8px;
+    margin: 0;
+    color: #fff;
+    font-size: 14px;
+    font-family: Arial, "Microsoft Yahei";
+    background: #000;
+    box-shadow: 0 1px 6px rgba(0, 0, 0, .1);
+    border: 1px solid #000;
+    border-radius: 8px;
+    filter: alpha(Opacity=80);
+    -moz-opacity: 0.8;
+    opacity: 0.8;
+}
+
+.v-tip-container.tipShow .v-tip-arrows[class*=' top-']::after,
+.v-tip-container.tipShow .v-tip-arrows[class^=top-]::after {
+    top: -2px;
+    border-top-color: #000
+}
+
+.v-tip-container.tipShow .v-tip-arrows[class*=' bottom-']::after,
+.v-tip-container.tipShow .v-tip-arrows[class^=bottom-]::after {
+    top: 2px;
+    border-bottom-color: #000
+}
+
+.v-tip-container.tipShow .v-tip-arrows[class*=' left-']::after,
+.v-tip-container.tipShow .v-tip-arrows[class^=left-]::after {
+    left: -2px;
+    border-left-color: #000
+}
+
+.v-tip-container.tipShow .v-tip-arrows[class*=' right-']::after,
+.v-tip-container.tipShow .v-tip-arrows[class^=right-]::after {
+    left: 2px;
+    border-right-color: #000
+}

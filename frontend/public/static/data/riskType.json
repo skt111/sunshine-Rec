@@ -1,0 +1,277 @@
+{
+  "success": true,
+  "message": "success",
+  "riskTypeList": [{
+      "code": "AL",
+      "content": "资产负债匹配风险",
+      "type": "FXLB"
+    },
+    {
+      "code": "CR",
+      "content": "信用风险",
+      "type": "FXLB"
+    },
+    {
+      "code": "LR",
+      "content": "流动性风险",
+      "type": "FXLB"
+    },
+    {
+      "code": "MR",
+      "content": "市场风险",
+      "type": "FXLB"
+    },
+    {
+      "code": "OR",
+      "content": "声誉风险",
+      "type": "FXLB"
+    },
+    {
+      "code": "SR",
+      "content": "保险风险",
+      "type": "FXLB"
+    },
+    {
+      "code": "IR",
+      "content": "战略风险",
+      "type": "FXLB"
+    }
+  ],
+  "rateList": [{
+      "code": "ELSE",
+      "content": "不定期",
+      "type": "ZBPL"
+    },
+    {
+      "code": "HALFYEAR",
+      "content": "半年度",
+      "type": "ZBPL"
+    },
+    {
+      "code": "MONTH",
+      "content": "月度",
+      "type": "ZBPL"
+    },
+    {
+      "code": "QUARTER",
+      "content": "季度",
+      "type": "ZBPL"
+    },
+    {
+      "code": "YEAR",
+      "content": "年度",
+      "type": "ZBPL"
+    }
+  ],
+  "statusList": [{
+      "code": "RED",
+      "content": "红",
+      "type": "YJZT"
+    },
+    {
+      "code": "YELLOW",
+      "content": "黄",
+      "type": "YJZT"
+    },
+    {
+      "code": "BLUE",
+      "content": "蓝",
+      "type": "YJZT"
+    }
+  ],
+  "statusList2": [{
+      "code": "RED",
+      "content": "红",
+      "type": "YJZT"
+    },
+    {
+      "code": "YELLOW",
+      "content": "黄",
+      "type": "YJZT"
+    }
+  ],
+  "codeList": [{
+      "code": ">",
+      "content": ">"
+    },
+    {
+      "code": "<",
+      "content": "<"
+    },
+    {
+      "code": "=",
+      "content": "="
+    },
+    {
+      "code": ">=",
+      "content": ">="
+    },
+    {
+      "code": "<=",
+      "content": "<="
+    }
+  ],
+  "indexList": [{
+      "code": "GHQ",
+      "content": "集团"
+    },
+    {
+      "code": "PHQ",
+      "content": "产险"
+    },
+    {
+      "code": "LHQ",
+      "content": "寿险"
+    }
+  ],
+  "riskLevelList": [{
+    "code": "RITO",
+    "content": "风险容忍度",
+    "type": "RISKLEVEL"
+  },
+  {
+    "code": "ONE",
+    "content": "第一层级风险限额",
+    "type": "RISKLEVEL"
+  },
+  {
+    "code": "TWO",
+    "content": "第二级风险限额",
+    "type": "RISKLEVEL"
+  }
+],
+  "flowNodeList": [{
+      "code": "init",
+      "content": "未填写"
+    },{
+      "code": "in",
+      "content": "审核中"
+    },
+    {
+      "code": "finish",
+      "content": "已完成"
+    },{
+      "code": "overdue",
+      "content": "逾期未反馈"
+    },{
+      "code": "reject",
+      "content": "驳回"
+    }
+  ],
+  "changeStatusList": [{
+    "code": "init",
+    "content": "尚未整改"
+  },
+  {
+    "code": "in",
+    "content": "整改中"
+  },
+  {
+    "code": "finish",
+    "content": "已完成"
+  }
+],
+"toTypeList": [{
+  "code": "T",
+  "content": "指标报送"
+},
+{
+  "code": "TP",
+  "content": "指标报送审批"
+},
+{
+  "code": "R",
+  "content": "风险预警单填报"
+},{
+  "code": "RP",
+  "content": "风险预警单审批"
+},
+{
+  "code": "Z",
+  "content": "整改进度填报"
+},
+{
+  "code": "ZP",
+  "content": "整改进度审批"
+}
+],
+  "configData": [{
+      "id": 6,
+      "indexFrequency": "ELSE",
+      "indexTaskDate": "43200000",
+      "indexSendDate": "9",
+      "indexEndDate": "12",
+      "createTime": "1536644075000",
+      "creater": "admin",
+      "updateTime": "1536644082000",
+      "updater": "admin",
+      "indexFrequencyName": "不定期",
+      "taskDateStr": "20:00"
+    },
+    {
+      "id": 4,
+      "indexFrequency": "HALFYEAR",
+      "indexTaskDate": "43200000",
+      "indexSendDate": "2",
+      "indexEndDate": "6",
+      "createTime": "1536644075000",
+      "creater": "admin",
+      "updateTime": "1536644082000",
+      "updater": "admin",
+      "indexFrequencyName": "半年度",
+      "taskDateStr": "20:00"
+    },
+    {
+      "id": 2,
+      "indexFrequency": "MONTH",
+      "indexTaskDate": "39600000",
+      "indexSendDate": "3",
+      "indexEndDate": "1",
+      "createTime": "1536644075000",
+      "creater": "admin",
+      "updateTime": "1536644082000",
+      "updater": "admin",
+      "indexFrequencyName": "月度",
+      "taskDateStr": "20:00"
+    },
+    {
+      "id": 3,
+      "indexFrequency": "QUARTER",
+      "indexTaskDate": "25200000",
+      "indexSendDate": "6",
+      "indexEndDate": "7",
+      "createTime": "1536644075000",
+      "creater": "admin",
+      "updateTime": "1536644082000",
+      "updater": "admin",
+      "indexFrequencyName": "季度",
+      "taskDateStr": "20:00"
+    },
+    {
+      "id": 1,
+      "indexFrequency": "WEEK",
+      "indexTaskDate": "36000000",
+      "indexSendDate": "2",
+      "indexEndDate": "1",
+      "createTime": "1536644075000",
+      "creater": "admin",
+      "updateTime": "1536644082000",
+      "updater": "admin",
+      "indexFrequencyName": "周",
+      "taskDateStr": "20:00"
+    },
+    {
+      "id": 5,
+      "indexFrequency": "YEAR",
+      "indexTaskDate": "54000000",
+      "indexSendDate": "2018-09-19",
+      "indexEndDate": "2018-09-29",
+      "createTime": "1536644075000",
+      "creater": "admin",
+      "updateTime": "1536644082000",
+      "updater": "admin",
+      "indexFrequencyName": "年度",
+      "taskDateStr": "20:00"
+    }
+  ]
+}

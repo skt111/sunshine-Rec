@@ -1,0 +1,83 @@
+{
+    "status":"success",
+    "success": true,
+    "message": "success",
+    "twoList": [{
+        "comCode": "AL",
+        "comName": "北京",
+        "comLevel": "FXLB"
+      },
+      {
+        "comCode": "CR",
+        "comName": "湖南",
+        "comLevel": "FXLB"
+      },
+      {
+        "comCode": "LR",
+        "comName": "重庆",
+        "comLevel": "FXLB"
+      },
+      {
+        "comCode": "MR",
+        "comName": "山西",
+        "comLevel": "FXLB"
+      },
+      {
+        "comCode": "OR",
+        "comName": "广东",
+        "comLevel": "FXLB"
+      },
+      {
+        "comCode": "SR",
+        "comName": "山东",
+        "comLevel": "FXLB"
+      },
+      {
+        "comCode": "IR",
+        "comName": "湖北",
+        "comLevel": "FXLB"
+      }
+    ],
+    "threeList": [{
+        "comCode": "ELSE",
+        "comName": "山东本部",
+        "comLevel": "ZBPL"
+      },
+      {
+        "comCode": "HALFYEAR",
+        "comName": "山东德州",
+        "comLevel": "ZBPL"
+      },
+      {
+        "comCode": "MONTH",
+        "comName": "山东烟台",
+        "comLevel": "ZBPL"
+      },
+      {
+        "comCode": "QUARTER",
+        "comName": "山东济宁",
+        "comLevel": "ZBPL"
+      },
+      {
+        "comCode": "YEAR",
+        "comName": "山东东营",
+        "comLevel": "ZBPL"
+      }
+    ],
+    "fourList": [{
+        "comCode": "RED",
+        "comName": "烟台市区一区",
+        "comLevel": "YJZT"
+      },
+      {
+        "comCode": "YELLOW",
+        "comName": "烟台市区二区",
+        "comLevel": "YJZT"
+      },
+      {
+        "comCode": "BLUE",
+        "comName": "山东烟台军官区",
+        "comLevel": "YJZT"
+      }
+    ]
+  }

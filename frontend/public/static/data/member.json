@@ -1,0 +1,130 @@
+{
+  "status":"success",
+  "success": true,
+  "message": "success",
+  "numList": [{
+      "title": "从业总人数",
+      "nums": "286,560",
+      "changeNum": "1000",
+      "changePercent":"6%",
+      "yearIn":"1000",
+      "yearOut":"1,500"
+    },
+    {
+      "title": "非销售人员",
+      "nums": "40,560",
+      "changeNum": "1000",
+      "changePercent":"6%",
+      "yearIn":"1000",
+      "yearOut":"1,500"
+    },
+    {
+      "title": "销售人员",
+      "nums": "106,560",
+      "changeNum": "1000",
+      "changePercent":"6%",
+      "yearIn":"1000",
+      "yearOut":"1,500"
+    },
+    {
+      "title": "代理人",
+      "nums": "155,560",
+      "changeNum": "1000",
+      "changePercent":"6%",
+      "yearIn":"1000",
+      "yearOut":"1,500"
+    }
+  ],
+  "perType":[{
+    "code":"all",
+    "title":"全人力"
+  },{
+    "code":"sa",
+    "title":"非销售人力"
+  },{
+    "code":"nsa",
+    "title":"销售人力"
+  }],
+  "memList": [{
+    "title": "总人力成本",
+    "nums": "40亿",
+    "changeNum": "500",
+    "changePercent":"5%"
+  },
+    {
+      "title": "非销售人力成本",
+    "nums": "10亿",
+    "changeNum": "500",
+    "changePercent":"5%"
+    },
+    {
+      "title": "销售人力成本",
+    "nums": "40亿",
+    "changeNum": "500",
+    "changePercent":"5%"
+    },
+    {
+      "title": "代理人佣金",
+    "nums": "15亿",
+    "changeNum": "500",
+    "changePercent":"5%"
+    }
+  ],
+  "effectList": [{
+      "title": "人力成本率",
+      "nums": "40亿",
+    "changeNum": "500",
+    "changePercent":"5%"
+    },
+    {
+      "title": "非销售人力成本",
+      "nums": "10亿",
+    "changeNum": "500",
+    "changePercent":"5%"
+    },
+    {
+      "title": "保费收入",
+      "nums": "15亿",
+    "changeNum": "500",
+    "changePercent":"5%"
+    }
+  ],
+  "valueList": [{
+    "title": "人均服务保费",
+    "nums": "0.2",
+  "changeNum": "500",
+  "changePercent":"5%"
+  },
+  {
+    "title": "保费收入",
+    "nums": "10亿",
+  "changeNum": "500",
+  "changePercent":"5%"
+  },
+  {
+    "title": "非销售员工平均在岗人数",
+    "nums": "150亿",
+  "changeNum": "500",
+  "changePercent":"5%"
+  }
+],
+"moreList": [{
+  "title": "人均服务利润",
+  "nums": "0.2",
+"changeNum": "500",
+"changePercent":"5%"
+},
+{
+  "title": "总利润",
+  "nums": "10亿",
+"changeNum": "500",
+"changePercent":"5%"
+},
+{
+  "title": "非销售员工平均在岗人数",
+  "nums": "150亿",
+"changeNum": "500",
+"changePercent":"5%"
+}
+]
+}

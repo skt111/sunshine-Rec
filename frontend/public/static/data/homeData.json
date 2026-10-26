@@ -1,0 +1,82 @@
+{
+  "success": true,
+  "message": "success",
+ "groupList": [
+  {
+    "indexName": "重大声誉负面事件发生次数",
+    "status": "red",
+    "value": "20%",
+    "remark": "",
+    "$isEdit": false
+  },
+  {
+    "indexName": "风险综合评级",
+    "status": "yellow",
+    "value": "100",
+    "remark": "",
+    "$isEdit": false
+  },
+  {
+    "indexName": "SARMRA评分",
+    "status": "blue",
+    "value": "8",
+    "remark": "",
+    "$isEdit": false
+  }], 
+"groupKeyList": [
+  {
+    "indexName": "保险风险",
+    "red": "3",
+    "yellow": "4",
+    "blue": "5",
+    "value": "12",
+    "remark": "",
+    "$isEdit": false
+  },
+  {
+    "indexName": "风雨风险",
+    "red": "1",
+    "yellow": "2",
+    "blue": "3",
+    "value": "6",
+    "remark": "",
+    "$isEdit": false
+  },
+  {
+    "indexName": "资产负债匹配风险",
+    "red": "5",
+    "yellow": "6",
+    "blue": "7",
+    "value": "18",
+    "remark": "",
+    "$isEdit": false
+  }],
+ "details": [
+  {
+    "part": "集团",
+    "indexName": "集团测试",
+    "riskType": "保险风险",
+    "value": "7",
+    "unit": "元",
+    "status": "红",
+    "department":"集团服务部"
+  },
+  {
+    "part": "产险",
+    "indexName": "产险测试",
+    "riskType": "产险风险",
+    "value": "8",
+    "unit": "元",
+    "status": "蓝",
+    "department":"产险部"
+  },
+  {
+    "part": "寿险",
+    "indexName": "寿险测试",
+    "riskType": "寿险风险",
+    "value": "71",
+    "unit": "元",
+    "status": "黄",
+    "department":"寿险服务部"
+  }]
+}

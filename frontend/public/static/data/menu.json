@@ -1,0 +1,260 @@
+{
+    "userInfo": {
+        "createTime": 1540137600000,
+        "currentPage": 1,
+        "flag": "1",
+        "pageSize": 20,
+        "userCode": "admin",
+        "userName": "hxj"
+    },
+    "station": [{
+        "createTime": 1536829853000,
+        "currentPage": 1,
+        "pageSize": 20,
+        "roleCode": "110",
+        "stationDetail": "string",
+        "stationLevel": "4",
+        "stationName": "检测员领导",
+        "updateTime": 1536829853000,
+        "updater": "string"
+    }],
+    "menu": [{
+        "id": "L01",
+        "pid": null,
+        "name": "首页",
+        "url": "/home",
+        "open": false,
+        "className": "firstA",
+        "isActive": false,
+        "iconLS": "<img class=\"list-img liImgShow\" src=\"/static/common/img/shape-1.png\">",
+        "iconLH": "<img class=\"list-img liImgHide\" src=\"/static/common/img/shape-1-2.png\">",
+        "nodes": []
+    }, {
+        "id": "L02",
+        "pid": null,
+        "name": "指标管理",
+        "open": false,
+        "className": "firstA",
+        "isActive": false,
+        "iconLS": "<img class=\"list-img liImgShow\" src=\"/static/common/img/shape-2.png\">",
+        "iconLH": "<img class=\"list-img liImgHide\" src=\"/static/common/img/shape-2-2.png\">",
+        "nodes": [{
+            "id": "L0201",
+            "pid": "L02",
+            "name": "集团风险指标管理",
+            "url": "/groupIndex/GHQ",
+            "open": false,
+            "isThree": false,
+            "isActive": false,
+            "icon": "<img src=\"/static/common/img/diamonds.png\">"
+        }, {
+            "id": "L0202",
+            "pid": "L02",
+            "name": "寿险风险指标管理",
+            "url": "/groupIndex/LHQ",
+            "open": false,
+            "isThree": false,
+            "isActive": false,
+            "icon": "<img src=\"/static/common/img/diamonds.png\">"
+        }, {
+            "id": "L0203",
+            "pid": "L02",
+            "name": "产险风险指标管理",
+            "url": "/groupIndex/PHQ",
+            "open": false,
+            "isThree": false,
+            "isActive": false,
+            "icon": "<img src=\"/static/common/img/diamonds.png\">"
+        }]
+    }, {
+        "id": "L03",
+        "pid": null,
+        "name": "指标下发",
+        "open": false,
+        "className": "firstA",
+        "isActive": false,
+        "iconLS": "<img class=\"list-img liImgShow\" src=\"/static/common/img/shape-3.png\">",
+        "iconLH": "<img class=\"list-img liImgHide\" src=\"/static/common/img/shape-3-2.png\">",
+        "nodes": [{
+            "id": "L0301",
+            "pid": "L03",
+            "name": "指标未下发列表",
+            "url": "/notDistribute\"",
+            "open": false,
+            "nodes": [],
+            "isThree": true,
+            "isActive": false,
+            "icon": ""
+        }, {
+            "id": "L0302",
+            "pid": "L03",
+            "name": "指标已下发列表",
+            "url": "/alrDistribute",
+            "open": false,
+            "nodes": [],
+            "isThree": true,
+            "isActive": false,
+            "icon": ""
+        }, {
+            "id": "L0303",
+            "pid": "L03",
+            "name": "标准配置",
+            "url": "/standardConfig",
+            "open": false,
+            "isThree": false,
+            "isActive": false,
+            "icon": "<img src=\"/static/common/img/diamonds.png\">"
+        }, {
+            "id": "L0304",
+            "pid": "L03",
+            "name": "特殊配置",
+            "url": "/specialConfig",
+            "open": false,
+            "isThree": false,
+            "isActive": false,
+            "icon": "<img src=\"/static/common/img/diamonds.png\">"
+        }]
+    }, {
+        "id": "L04",
+        "pid": null,
+        "name": "指标上报",
+        "open": false,
+        "className": "firstA",
+        "isActive": false,
+        "iconLS": "<img class=\"list-img liImgShow\" src=\"/static/common/img/shape-4.png\">",
+        "iconLH": "<img class=\"list-img liImgHide\" src=\"/static/common/img/shape-4-2.png\">",
+        "nodes": [{
+            "id": "L0401",
+            "pid": "L04",
+            "name": "我的代办",
+            "url": "/reportMyTodo",
+            "open": false,
+            "nodes": [],
+            "isThree": true,
+            "isActive": false,
+            "icon": ""
+        }, {
+            "id": "L0402",
+            "pid": "L04",
+            "name": "我的已办",
+            "url": "/reportMyDone",
+            "open": false,
+            "nodes": [],
+            "isThree": true,
+            "isActive": false,
+            "icon": ""
+        }]
+    }, {
+        "id": "L05",
+        "pid": null,
+        "name": "指标监测",
+        "open": false,
+        "className": "firstA",
+        "isActive": false,
+        "iconLS": "<img class=\"list-img liImgShow\" src=\"/static/common/img/shape-5.png\">",
+        "iconLH": "<img class=\"list-img liImgHide\" src=\"/static/common/img/shape-5-2.png\">",
+        "nodes": [{
+            "id": "L0501",
+            "pid": "L05",
+            "name": "集团指标监测",
+            "url": "/survey/GHQ",
+            "open": false,
+            "isThree": false,
+            "isActive": false,
+            "icon": "<img src=\"/static/common/img/diamonds.png\">"
+        }, {
+            "id": "L0502",
+            "pid": "L05",
+            "name": "产险指标监测",
+            "url": "/survey/PHQ",
+            "open": false,
+            "isThree": false,
+            "isActive": false,
+            "icon": "<img src=\"/static/common/img/diamonds.png\">"
+        }, {
+            "id": "L0503",
+            "pid": "L05",
+            "name": "寿险指标监测",
+            "url": "/survey/LHQ",
+            "open": false,
+            "isThree": false,
+            "isActive": false,
+            "icon": "<img src=\"/static/common/img/diamonds.png\">"
+        }]
+    }, {
+        "id": "L06",
+        "pid": null,
+        "name": "风险预警及处置",
+        "open": false,
+        "className": "firstA",
+        "isActive": false,
+        "iconLS": "<img class=\"list-img liImgShow\" src=\"/static/common/img/shape-6.png\">",
+        "iconLH": "<img class=\"list-img liImgHide\" src=\"/static/common/img/shape-6-2.png\">",
+        "nodes": [{
+            "id": "L0601",
+            "pid": "L06",
+            "name": "异常指标",
+            "url": "/indexDiff",
+            "open": false,
+            "nodes": [],
+            "isThree": true,
+            "isActive": false,
+            "icon": ""
+        }, {
+            "id": "L0602",
+            "pid": "L06",
+            "name": "风险预警查询",
+            "open": false,
+            "nodes": [{
+                "id": "L060201",
+                "pid": "L0602",
+                "name": "已下发",
+                "url": "/indexRiskDone",
+                "open": false,
+                "isThree": false,
+                "isActive": false,
+                "icon": ""
+            }, {
+                "id": "L060202",
+                "pid": "L0602",
+                "name": "我的代办",
+                "url": "/indexRiskTodo",
+                "open": false,
+                "isThree": false,
+                "isActive": false,
+                "icon": ""
+            }, {
+                "id": "L060203",
+                "pid": "L0602",
+                "name": "我的已办",
+                "url": "/indexRiskMyDone",
+                "open": false,
+                "isThree": false,
+                "isActive": false,
+                "icon": ""
+            }],
+            "isThree": true,
+            "isActive": false,
+            "icon": ""
+        }, {
+            "id": "L0603",
+            "pid": "L06",
+            "name": "整改执行追踪与反馈",
+            "open": false,
+            "nodes": [{
+                "id": "L060301",
+                "pid": "L0603",
+                "name": "已下发",
+                "url": "/indexChangeDone",
+                "open": false,
+                "isThree": false,
+                "isActive": false,
+                "icon": ""
+            }],
+            "isThree": true,
+            "isActive": false,
+            "icon": ""
+        }]
+    }],
+    "menuList": ["/", "/groupIndex1", "/home1", "/home", "/groupIndex/GHQ", "/groupIndex/LHQ", "/groupIndex/PHQ", "/notDistribute\"", "/alrDistribute", "/standardConfig", "/specialConfig", "/reportMyTodo", "/reportMyDone", "/survey/GHQ", "/survey/PHQ", "/survey/LHQ", "/indexDiff", "/indexRiskDone", "/indexRiskTodo", "/indexRiskMyDone", "/indexChangeDone"]
+}

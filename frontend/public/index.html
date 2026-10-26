@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="icon" href="<%= BASE_URL %>favicon.ico" type="image/x-icon">
+    <title></title>
+    <script src="/static/threeD/three.min.js"></script>
+	<script src="/static/threeD/tween.min.js"></script>
+	<script src="/static/threeD/TrackballControls.js"></script>
+	<script src="/static/threeD/CSS3DRenderer.js"></script>
+    <!-- sm加密 -->
+    <script src="/static/smjs/utils/hex.js"></script>
+    <script src="/static/smjs/utils/byteUtil.js"></script>
+    <script src="/static/smjs/crypto/sm4-1.0.js"></script>
+    <script src="/static/smjs/ext/jsbn.js"></script>
+    <script src="/static/smjs/ext/jsbn2.js"></script>
+    <script src="/static/smjs/ext/prng4.js"></script>
+    <script src="/static/smjs/ext/rng.js"></script>
+</head>
+
+<body>
+    <div id="app" v-cloak>
+        <div style="width: 100%;float: left;">
+            <img src="/static/img/loading.gif" style="display: block;margin: 20px auto;" />
+        </div>
+    </div>
+    <!-- built files will be auto injected -->
+</body>
+<style lang="scss">
+    body {
+        background: #eeeeee;
+    }
+
+    [v-cloak] {
+        display: none;
+    }
+
+</style>
+
+</html>

@@ -1,0 +1,6 @@
+[defaults]
+url=http://10.7.137.160:9000/    
+org=hr-sun               
+project=test    
+[auth]
+token=7f6a895b51824950a5fa8b35fd77d4982b666e12622048e792500b6e6becc2b0

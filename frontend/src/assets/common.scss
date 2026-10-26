@@ -1,0 +1,543 @@
+@mixin mb($val) {
+  margin-bottom: #{$val}px;
+}
+
+@mixin deleteBtn {
+  float: right;
+  width: 104px;
+  height: 26px;
+  background: #999999;
+  color: #fff;
+  line-height: 26px;
+  border-radius: 4px;
+  margin-right: 25px;
+
+  .ivu-icon {
+    margin-left: 11px;
+    margin-right: 6px;
+    font-size: 15px;
+    position: relative;
+    top: -1px;
+  }
+}
+
+@mixin titleTip {
+  float: left;
+  width: 100%;
+  font-size: 14px;
+  line-height: 38px;
+  padding-top: 18px;
+  padding-bottom: 0px;
+
+  .title {
+    margin-left: 15px;
+    padding-left: 10px;
+    border-left: 4px solid #5684fe;
+    background: transparent;
+    font-weight: normal;
+  }
+
+  a {
+    @include deleteBtn;
+  }
+}
+
+.content {
+  padding: 20px;
+  width: 100%;
+  float: left;
+  background: #ecedf1;
+
+  .row {
+    display: block;
+    margin: 40px auto;
+    overflow: hidden;
+  }
+
+  .nevNo {
+    width: 1075px;
+  }
+
+  h1 {
+    text-align: center;
+    margin-top: 20px;
+    color: #666;
+  }
+
+  .fuzzyDiv {
+    padding: 20px;
+    float: left;
+    width: 100%;
+
+    input {
+      display: block;
+      float: left;
+      border: 1px solid #ccc;
+      height: 53px;
+      line-height: 53px;
+      width: 626px;
+      padding-left: 14px;
+      border-radius: 6px 0 0 6px;
+    }
+
+    input::-webkit-input-placeholder {
+      /* placeholder颜色  */
+      color: #b6b6b6;
+    }
+
+    span {
+      display: block;
+      float: left;
+      height: 53px;
+      line-height: 53px;
+      margin-left: 40px;
+      margin-right: 12px;
+    }
+
+    a {
+      display: block;
+      float: left;
+      width: 90px;
+      height: 53px;
+      border-radius: 0px 6px 6px 0;
+      background: url('/static/img/searchIcon.jpg') no-repeat;
+    }
+  }
+
+  .queryDiv {
+    border-top: 1px solid #ccc;
+    float: left;
+    width: 100%;
+
+    .queryTitle {
+      @include titleTip;
+    }
+
+    .querySection {
+      float: left;
+      width: 1035px;
+      background: #fff;
+      margin-left: 15px;
+      padding: 20px 0px 12px 30px;
+      border-radius: 6px;
+    }
+
+    .queryItem {
+      font-size: 14px;
+      height: 50px;
+      line-height: 50px;
+      float: left;
+      width: 100%;
+
+      span {
+        width: 10%;
+        float: left;
+      }
+
+      ul {
+        width: 89%;
+        float: left;
+
+        li {
+          list-style: none;
+          float: left;
+          width: 15%;
+          cursor: pointer;
+
+          a {
+            width: 95px;
+            height: 27px;
+            line-height: 27px;
+            border-radius: 4px;
+            border: 1px solid #5684fe;
+            color: #000;
+            text-align: center;
+            display: block;
+            margin-top: 10px;
+
+            &:hover {
+              color: #fff;
+              background: #5684fe;
+            }
+
+            &.active {
+              color: #fff;
+              background: #5684fe;
+            }
+          }
+        }
+      }
+    }
+
+    .titleDiv {
+      float: left;
+      width: 1035px;
+      margin-right: 20px;
+      height: 38px;
+      line-height: 38px;
+      background: #5684fe;
+      color: #fff;
+      border-radius: 6px;
+      padding-left: 16px;
+      padding-right: 16px;
+
+      a {
+        float: right;
+        color: #fff;
+      }
+    }
+  }
+
+  .mb8 {
+    @include mb(8)
+  }
+}
+
+.resultTable {
+  float: left;
+  width: 100%;
+  padding-left: 15px;
+  padding-right: 25px;
+
+  thead tr {
+    background: #f7f8fc;
+
+    th {
+      height: 36px;
+      background-color: #f7f8fc;
+      font-weight: normal;
+    }
+  }
+
+  tbody tr {
+    border-bottom: 1px solid #e2e7f4;
+
+    td {
+      height: 36px;
+      text-align: center;
+      border-right: 1px solid #e2e7f4;
+      padding-left: 0;
+    }
+  }
+}
+
+.infoTable thead tr {
+  background: #f7f8fc;
+
+  th {
+    height: 36px;
+    background-color: #f7f8fc;
+    font-weight: normal;
+  }
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity .5s;
+}
+
+.fade-enter,
+.fade-leave-to
+
+/* .fade-leave-active below version 2.1.8 */
+  {
+  opacity: 0;
+}
+
+.sectionDiv {
+  float: left;
+  background: #fff;
+  width: 1035px;
+  margin-left: 15px;
+  border-radius: 6px;
+  margin-bottom: 13px;
+
+  .careerInfo {
+    float: left;
+    width: 100%;
+    padding-top: 20px;
+    padding-bottom: 20px;
+
+    .oneDiv {
+      width: 33.3%;
+      float: left;
+      height: 38px;
+      line-height: 38px;
+      margin: 8px 0;
+
+      .leftSpan {
+        width: 120px;
+        text-align: right;
+        display: block;
+        float: left;
+      }
+
+      .twos {
+        width: 224px;
+        float: left;
+
+        &.input {
+          height: 32px;
+          border: 1px solid #dcdee2;
+          border-radius: 2px;
+          transition: border .2s ease-in-out, background .2s ease-in-out, box-shadow .2s ease-in-out;
+        }
+
+        .twoDiv {
+          width: 105px;
+
+          &.input {
+            height: 32px;
+            border: 1px solid #dcdee2;
+            border-radius: 2px;
+            transition: border .2s ease-in-out, background .2s ease-in-out, box-shadow .2s ease-in-out;
+          }
+
+          .ivu-input {
+            border-radius: 2px;
+          }
+        }
+
+        .lineMiddle {
+          width: 5px;
+          margin: 0 2px;
+        }
+      }
+    }
+  }
+
+  .baseInfo {
+    float: left;
+    width: 100%;
+    padding-top: 20px;
+    padding-bottom: 20px;
+
+    .oneDiv {
+      width: 33.3%;
+      float: left;
+      height: 38px;
+      line-height: 38px;
+      margin: 8px 0;
+
+      .leftSpan {
+        width: 87px;
+        text-align: right;
+        display: block;
+        float: left;
+      }
+
+      .twoDiv {
+        width: 105px;
+
+        &.input {
+          height: 32px;
+          border: 1px solid #dcdee2;
+          border-radius: 2px;
+          transition: border .2s ease-in-out, background .2s ease-in-out, box-shadow .2s ease-in-out;
+        }
+
+        .ivu-input {
+          border-radius: 2px;
+        }
+      }
+
+      .twos {
+        width: 176px;
+        float: left;
+
+        &.input {
+          height: 32px;
+          border: 1px solid #dcdee2;
+          border-radius: 2px;
+          transition: border .2s ease-in-out, background .2s ease-in-out, box-shadow .2s ease-in-out;
+        }
+      }
+
+      .lineMiddle {
+        width: 5px;
+        margin: 0 2px;
+      }
+    }
+
+  }
+}
+
+.resultTable tbody tr td.checkSelect,
+.ivu-table-border th.checkSelect {
+  border-right: none;
+}
+
+.checkType,
+.instrP {
+  .ivu-radio-inner {
+    width: 20px;
+    height: 20px;
+    margin-right: 11px;
+    box-shadow: inset 1px 2px 6px 0px rgba(0, 0, 0, 0.2);
+  }
+
+  .ivu-radio-checked .ivu-radio-inner {
+    box-shadow: 0px 8px 14px 0px #f16c00;
+    border: 1px solid #f16c00;
+  }
+
+  .ivu-radio-checked .ivu-radio-inner:after {
+    width: 10px;
+    height: 10px;
+    top: 4px;
+    left: 4px;
+    background-color: #f16c00 !important;
+  }
+
+  .ivu-radio-wrapper {
+    font-size: 14px;
+    margin-right: 46px;
+    color: #333;
+    font-weight: bold;
+  }
+}
+.groupRadio{
+  width:160px;
+  margin-right:0px !important;
+}
+
+.anaSubTitle{
+  margin-left: 15px; 
+  margin-top: 10px;
+  font-weight:bold;
+  img {
+    width: 16px;
+    height: 16px;
+    vertical-align: middle;
+    margin-right: 10px;
+   }
+}
+.instrPLine {
+  .ivu-radio-checked .ivu-radio-inner {
+    box-shadow: 0px 8px 14px 0px rgba(102, 168, 255, 0.5);
+    border: 1px solid #2d8cf0;
+  }
+
+  .ivu-radio-checked .ivu-radio-inner:after {
+    background-color: #2d8cf0 !important;
+  }
+
+}
+
+.radioSe {
+  .ivu-tooltip-inner {
+    min-width: 200px;
+  }
+}
+
+.tipInfo {
+  margin: 0 auto;
+  font-size: 24px;
+  text-align: center;
+  position: relative;
+
+  img {
+    display: block;
+    margin: 0 auto;
+  }
+
+  span {
+    position: absolute;
+    top: 250px;
+    left: 400px;
+  }
+}
+
+.moreTip {
+  .ivu-tooltip-popper {
+    min-width: 200px;
+  }
+}
+
+.ivu-progress-show-info .ivu-progress-outer {
+  overflow: hidden;
+  margin-right: 0;
+  padding-right: 0;
+}
+
+.progressSe {
+  padding-right: 10px;
+}
+
+.lineData {
+  padding: 0 20px 20px 20px;
+
+  .ivu-table th {
+    height: 32px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    background-color: #59a4f6;
+    color: #fff;
+  }
+
+  .ivu-table-wrapper {
+    overflow: hidden;
+  }
+
+  .ivu-table td {
+    height: 32px;
+  }
+
+  .ivu-table-cell {
+    padding-left: 5px;
+    padding-right: 5px;
+  }
+
+  .ivu-table-row-highlight td.rowSpan,
+  .ivu-table-stripe .ivu-table-body tr.ivu-table-row-highlight:nth-child(2n) td.rowSpan,
+  .ivu-table-stripe .ivu-table-fixed-body tr.ivu-table-row-highlight:nth-child(2n) td.rowSpan,
+  tr.ivu-table-row-highlight.ivu-table-row-hover td.rowSpan {
+    background-color: #fff;
+  }
+
+  .ivu-table-stripe .ivu-table-body tr.ivu-table-row-hover td.rowSpan,
+  .ivu-table-stripe .ivu-table-fixed-body tr.ivu-table-row-hover td.rowSpan {
+    background-color: #fff;
+  }
+}
+
+.colSum,
+.allLine {
+  font-weight: bold;
+}
+
+/* -------备注提示------ */
+.tipShow {
+  vertical-align: middle;
+}
+
+/* ----iview升级4.0以上---- */
+.ivu-table {
+  font-size: 12px;
+}
+
+.ivu-table-header thead tr th {
+  padding: 8px 0;
+}
+
+.ivu-form-item-content {
+  font-size: 12px;
+}
+
+.ivu-checkbox-wrapper {
+  font-size: 12px;
+
+  .ivu-checkbox-inner {
+    width: 14px;
+    height: 14px;
+  }
+}
+/* ----tab页签样式----- */
+.titLabel{
+  a{
+    color:red;
+    padding-left: 3px;
+    padding-right: 3px;
+
+  }
+}

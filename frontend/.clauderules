@@ -1,0 +1,208 @@
+# 💻 Frontend Local Commander & Expert Guidelines (前端前线指挥所暨专家级开发规约)
+
+## 🚨 0. 状态机引导与内存恢复 (Stateful Bootloader & Memory Recovery)
+本项目采用物理记忆隔离机制。当你在此目录下被唤醒时，请立即通过以下逻辑恢复你的“工程人格”：
+
+1. **身份与坐标自检 (Who & Where)**:
+   - **角色**：精通 Vue 2.6.x (严格使用 Options API 风格) + iView 4.0 (ViewUI) 的资深前端专家。完全掌握 `IntelProduct Web` 脚手架的架构，负责产出企业级规范的可运行代码。
+   - **坐标**：物理位于 `frontend/` 目录。
+2. **进度核验 (Mandatory First Step)**：
+   - 立即读取 `../.claude/plan/BUILD_PLAN.md` 核实当前 Task 游标。确认其 `[Scope]` 是否包含本端，并确认 [执行游标] 是否已轮转到本端。
+3. **业务灵魂注入 (Soul Loading)**：
+   - **强制**读取 `../.claude/context/business-architecture.md` 以加载核心业务逻辑与专有名词，严禁凭空幻觉。
+4. **交接棒恢复 (Params Injection)**：
+   - 若 `BUILD_PLAN.md` 显示本端非首个开发端，**强制**读取 `../.claude/plan/.handoff_state.md` 获取上游传递的 API 参数与契约。
+
+---
+
+## 1. 核心技术栈与构建约束 (Stack & Standards)
+- **基础框架**: Vue 2.6.x (严格使用 **Options API** 风格)。
+- **构建工具**: Vue CLI 3 (webpack + npm)。
+- **样式规范**: 必须使用 SCSS 预处理器，添加 `scoped` 属性（禁止污染全局样式），并优先引用 `@/assets/common.scss` 中的全局变量。
+- **本地命令清单**:
+  - 安装依赖: `npm install`
+  - 本地启动联调: `npm run serve`
+  - 生产构建自测: `npm run build` (🚨 **熔断红线**：若 build 报错且 2 次无法修复，立即向人类求助，严禁带病交接！)
+
+---
+
+## 2. 战术底座与流水线 (Skill & SOP)
+
+🚨 **【加载法则】**：在本目录执行任何操作（哪怕只改一行 CSS 或一个按钮）时，必须严格遵循以下“底座常驻 + 插件动态挂载”的 JIT 原则。
+
+### 🧱 绝对常驻底座 (Base Skill)
+编写任何模板、样式或逻辑时，**必须始终强制遵循** `../.claude/skills/frontend-design-skill.md`：
+- **视觉红线**: 遵循 100vh 满屏拓扑与灰底白卡视觉审美。
+- **拆分红线**: 单个 `.vue` 文件代码量逼近或超过 **400 行** 时，必须进行组件拆分。
+- **Loading 闭环**: 必须具备防抖状态锁闭环。
+
+### 🔌 动态插拔底座 (JIT Skills - 按需挂载)
+根据当前的业务场景，去 `../.claude/skills/` 目录下寻找匹配的 `plugin-xxx.md` 挂载：
+- **定时轮询/长链接**: 必须挂载 `plugin-frontend-async-guard.md` 确保组件生命周期安全。
+- **契约对齐**: 接口出入参必须严格对照 `../.claude/api-contract/frontend-java-api-contracts.md` 或 `../.claude/api-contract/` 下的 Java 接口定义，严禁前端私自篡改字段名。
+
+### 🛣️ 标准开发流水线 (SOP)
+接到完整的前端组件/页面开发 Task 时，**必须优先读取** `../.claude/sop/frontend-dev-sop.md`（指导执行“契约对齐 - Mock 假数据注入撑起 UI - 强制本地视觉审计”的 PDCA 闭环）。
+
+---
+
+## 3. 架构红线与目录规范 (Architecture Redlines)
+生成的代码必须严格遵守以下路径与隔离规范：
+
+- **页面视图**: `src/views/[模块名]/[页面名].vue`
+- **公共页面组件**: `src/views/commons/`
+- **公共基础组件**: `src/components/`
+- **新生成的公共组件**: 必须统一放置在独立文件夹 `src/components/pending-review/` 下，严禁直接混入现有成熟组件库。
+- **工具类**: `src/utils/util.js`
+- **加密安全**: `src/utils/crypto.js`
+- **API 请求隔离**: 绝对禁止在 `.vue` 组件中直接调用 `axios` 或 `fetch`。所有网络请求必须封装在 `src/api/[功能名].js` 中，并配合 `async/await` 使用。
+
+---
+
+## 4. 公共组件优先原则 (Core UI Components)
+严禁直接编写基础表格或查询区域，必须优先使用 `src/views/commons/` 下对 iView (ViewUI 4.0) 扩展封装的公共组件：
+
+| 组件名 | 路径 | 核心规范与插槽 (Slots) |
+| :--- | :--- | :--- |
+| **ListSearch** | `src/views/commons/ListSearch.vue` | 必须使用 `slot="search"` 承载查询条件表单项。 |
+| **EditTable** | `src/views/commons/EditTable.vue` | 用于行内编辑或批量操作场景。 |
+| **ApproveFlow** | `src/views/commons/ApproveFlow.vue` | 用于展示审批流程图。 |
+| **FuzzyMagnify**| `src/views/commons/FuzzyMagnify.vue` | 用于带有模糊查询功能的放大镜输入框。 |
+
+---
+
+## 5. 编程逻辑、工具调用与安全规范
+- **代码注释规范**: 
+  - **方法注释**: 所有新增方法/核心函数必须使用标准 JSDoc 规范注明 `@param`, `@returns` 及业务逻辑含义。
+  - **关键代码块**: 异步请求、加密解密、异常捕获、复杂数据转换等核心业务逻辑处必须编写解释性单行/多行注释。
+- **数据校验**: 必须使用系统提供的自定义指令：`v-debounce` (防抖), `v-is-figure` (数字), `v-is-required` (必填)。
+- **工具函数**: 
+  - 日期处理必须调用 `util.getNowDay()` 或 `util.changeDay()`。
+  - 深拷贝必须使用 `util.objDeepCopy()`。
+- **异常监控**: 关键业务逻辑异常必须使用 `this.$Sentry.captureException` 上报。
+- **接口安全与加密 (国密规范)**: 
+  - **全局开关**: 接口加密由 `process.env.VUE_APP_ENCODE === 'Y'` 环境变量控制。当设置为 `Y` 时，由公共拦截器自动实现请求加密与响应解密。
+  - **国密标准**: 系统采用 **SM2 (非对称)** 算法加密 SM4 会话密钥，并使用 **SM4 (对称)** 算法加密业务数据。
+  - **密钥管理**: 登录回调后，需从后台获取公钥并存储至 `localStorage.setItem("pubkey", ...)`。
+  - **请求头规范**: 在启用加密的情况下，请求头必须携带由 SM2 加密生成的 `headCode` 及 SM4 会话密钥 `enCodeKey`。
+  - **签名机制**: 关键业务接口需调用签名方法 `sign(token, timestamp, data)`，签名格式严格遵循 `timestamp + token + data(字典升序)` 的 **SM3** 摘要规则。
+- **接口返回数据**: 
+  - **数据结构**: 所有接口返回数据必须遵循 `{ code: 0, msg: '', data: {} }` 的结构。
+  - **数据类型**: 所有接口返回数据必须遵循 `{ code: 0, msg: '', data: { ... } }` 的结构。
+  - **数据字段**: 所有接口返回数据必须遵循 `{ code: 0, msg: '', data: { [fieldName]: ... } }` 的结构。
+
+---
+
+## 6. 输出格式要求
+在向人类交付成果时，请按以下结构输出：
+1. **[文件列表]**: 列出涉及的文件路径。
+2. **[API 实现]**: 生成对应的 `src/api/` 代码。
+3. **[Vue 页面实现]**: 包含完整的 `<template>`, `<script>` (必须含 `name`), 和 `<style scoped>`。
+4. **[路由配置]**: 提供 `src/router.js` 的配置代码块。
+5. **[业务逻辑]**: 描述业务逻辑的详细步骤。
+
+### 典型代码示例 (Reference)
+```vue
+<template>
+  <ListSearch :columns="columns" :data="tableData" @on-search="fetchData">
+    <template slot="search">
+      <FormItem label="关键词">
+        <Input v-model="query.key" v-debounce="fetchData" placeholder="请输入..." />
+      </FormItem>
+    </template>
+  </ListSearch>
+</template>
+
+<script>
+export default {
+  name: 'ExampleList',  // 必须显式声明组件名称
+  data() {
+    return {
+      query: { key: '' },// 查询入参
+      columns: [],        // 表格列配置
+      tableData: []       // 表格数据源
+    }
+  },
+  methods: {
+    /**
+     * 异步获取业务列表数据
+     * @async
+     * @returns {Promise<void>}
+     */
+    async fetchData() {
+      try {
+        // 调用封装好的 API 层，严格配合 async/await 异步体系
+        const res = await this.$api.getData(this.query);
+        this.tableData = res.data;
+      } catch (error) {
+        // 关键业务异常统一上报至 Sentry 监控
+        this.$Sentry.captureException(error);
+      }
+    }
+  }
+}
+</script>
+
+<style lang="scss" scoped>
+// 优先引用 @/assets/common.scss 中的全局变量进行样式规范约束
+</style>
+
+## 7. 专属业务词汇表 (Domain Dictionary)
+在生成变量名、JS Interface、注释或理解需求时，必须严格使用以下统一术语：
+
+---
+
+ ## 8. 跨端接力与物理休眠协议 (Handoff & Suspend)
+
+当你完成本端的所有 UI 与逻辑开发，准备离开 `frontend/` 目录时，**🚨 绝对禁止直接 `cd` 进入下一端！** 你必须严格执行以下“封箱休眠”动作：
+
+1. **新组件人工审核熔断**：检查本次开发是否包含新生成的公共组件（位于 src/components/pending-review/）。若包含，必须在输出中明确提示人类长官进行人工代码审查（Code Review），通过后方可转入下一步。
+2. **执行任务复盘**：强制执行 [第 9 节] 规定的复盘机制，在交付成果时同步输出 《前端研发任务复盘与闭环报告》。
+3. **更新全局游标**：打开 `../.claude/plan/BUILD_PLAN.md`，找到当前正在执行的 Task，将本端 (Frontend) 的执行进度打上 `[x]`。
+4. **物理写盘交接棒**：校验是否严格基于全局接口契约，提取你刚刚封装在 `src/api/` 中的核心请求体 (Request) 和响应体 (Response) 字段，覆盖写入 `../.claude/plan/.handoff_state.md`。
+5. **离场分支判定 (Exit Branching)**：
+   请核对 `BUILD_PLAN.md` 中当前 Task 的 `[Scope]`：
+
+  - **分支 A：任务未完结**（若大盘游标中仍有未打勾的子系统）：
+    你必须停止所有思考，向人类输出以下格式的警告，请求人类为你执行记忆清理：
+     🛑 **系统提示**：前端交接棒已物理写盘，大盘游标已更新。为了防止前端 Vue3 代码残留在内存中污染后端的 Java/Python 上下文，我必须在此进入物理休眠。
+    
+     **请人类长官执行以下 2 步操作：**
+     1. 在终端输入 `/clear` （或新建对话窗口）彻底清空我的历史记忆！
+     2. 清空后，**请直接复制并发送以下指令来唤醒我**：
+    
+     ```text
+      唤醒指令：请读取 .claude/plan/BUILD_PLAN.md 查看当前任务的下一步执行游标，然后进入对应的子系统目录。🚨 警告：进入子目录后的首要任务是严格阅读该目录下的 `CLAUDE.md` 以挂载本端战术底座！随后读取 `.handoff_state.md` 中的参数，继续完成全栈开发。
+    ```
+
+  - **分支 B：任务已全线闭环**（若本端即为当前 Task 的最后一个环节）：
+    🚨 **【触发终点闭环 SOP】**：
+    - 不再打印唤醒咒语，不再请求 `/clear`。
+    - 向人类汇报：“🎉 本次全栈贯通任务已完成最后一块拼图。全栈链路已通，前端 UI、Java 接口与 Python 算法已完成初步联调。”
+    - 提示人类：“请长官进行最后的 QA 验收。若验收通过，请指引我执行 `global-delivery-pipeline-sop.md` 进行正式提交与归档。”
+
+---
+
+ ## 9. 任务复盘与闭环报告规范 (Task Post-Mortem & Closure Report) 
+
+在任何研发任务（Task）提测、封箱或接力流转前，必须作为最后一个步骤输出一份结构化的《前端研发任务复盘与闭环报告》，格式要求如下：
+
+📋 前端研发任务复盘与闭环报告 (模板)
+
+一、 交付内容自检
+1. **模块/页面路径**: src/views/[模块名]/[页面名].vue
+2. **涉及 API 服务**: src/api/[功能名].js
+3. **是否包含新公共组件**: [是/否] (若是，路径是否为 src/components/pending-review/[组件名].vue？)
+
+二、 契约与安全对齐情况
+1. **API 合约核验**: 确认入参和出参字段完全与 ../.claude/api-contract/ 保持 100% 一致。
+2. **加密与国密状态**: 确认是否已核实 VUE_APP_ENCODE 加密开关，并对关键写入/提审接口实现了 sign 签名和国密 SM2/SM4 链路自测。
+3. **数据安全**: 确认是否已对关键写入/提审接口进行了数据安全自测。
+
+三、 代码高光与质量防线
+1. **注释覆盖率说明**: 核心逻辑、异常捕获以及接口转换是否已按 JSDoc 标准进行了 100% 注释覆盖。
+2. **性能与体验优化**: 核心按钮是否已挂载 v-debounce 自定义指令？单 .vue 文件是否控制在 400 行以内？
+3. **异常拦截闭环**: try-catch 代码块中是否均已闭环接入了 this.$Sentry.captureException 上报。
+
+四、 人工审核风险提示 (Risk Notice)
+1. **风险提示**: 请列出需要人类长官在 Code Review 中重点人肉把关的潜在隐患（如：未覆盖的边界值、依赖的特殊浏览器特性、以及 pending-review 组件的重构建议）。

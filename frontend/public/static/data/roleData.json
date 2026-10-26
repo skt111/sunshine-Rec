@@ -1,0 +1,15 @@
+{
+    "success": true,
+    "message": "success",
+    "statusList": [{
+        "code": "A",
+        "content": "禁用",
+        "type": "STATUS"
+      },
+      {
+        "code": "I",
+        "content": "启用",
+        "type": "STATUS"
+      }
+    ]
+  }
