@@ -1,6 +1,8 @@
 # IntelProduct Web - Vue2 + JS 项目
 
-> 本文件为精简索引，详细规范已封装为 Project Skill `intelproduct-web-dev`，CodeBuddy 会按需自动加载。
+> ⚠️ **本文件为兼容镜像**（供 Claude/CodeBuddy 读取）。Qoder 主体系以 `AGENTS.md` + `.qoder/rules/` 为唯一权威；两边不一致时以 Qoder 侧为准。
+>
+> 详细规范已封装为 Project Skill，位于 `.qoder/skills/`，Qoder 会按需自动加载。
 
 
 ## 项目概述
@@ -34,10 +36,10 @@
 
 | 资源 | 类型 | 用途 |
 |------|------|------|
-| `intelproduct-web-dev` Project Skill | 项目知识库 | 组件/API/加密/Sentry/工具函数详细规范（`.codebuddy/skills/`） |
-| `taste-skill` Project Skill | UI 审美规范 | 视觉层次、配色、字体、间距、对齐、留白等审美判断（`.codebuddy/skills/`） |
-| `.clauderules` | 开发流程规约 | 红线、SOP、跨端接力、复盘机制 |
-| `frontend-code-style` User Skill | 通用编码风格 | HTML/CSS/SCSS/JS 通用规范（`~/.codebuddy/skills/`） |
+| `intelproduct-web-dev` Project Skill | 项目知识库 | 组件/API/加密/Sentry/工具函数详细规范（`.qoder/skills/`） |
+| `taste-skill` Project Skill | UI 审美规范 | 视觉层次、配色、字体、间距、对齐、留白等审美判断（`.qoder/skills/`） |
+| `.qoder/rules/11-frontend.md` | 端级规则（Qoder 权威） | 技术栈/命令清单/架构红线/业务词汇表，替代旧 `.clauderules` 流程规约 |
+| `frontend-code-style` User Skill | 通用编码风格 | HTML/CSS/SCSS/JS 通用规范（`~/.qoder/skills/`） |
 | [开发规范.md](./开发规范.md) | 源文件 | 通用前端编码规范原文，供团队成员查阅 |
 
 ## 冲突优先级
@@ -45,7 +47,7 @@
 当多处规范冲突时，按以下优先级处理：
 
 1. 本文件 `核心红线`（最高）
-2. `.clauderules`（流程规约）
+2. `AGENTS.md` + `.qoder/rules/`（Qoder 主体系）
 3. `intelproduct-web-dev` skill（项目知识库）
 4. `taste-skill` skill（UI 审美规范）
 5. `frontend-code-style` skill（通用风格）

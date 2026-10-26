@@ -1,0 +1,32 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: java-bff
+
+  # Spring AI - OpenAI 兼容配置
+  ai:
+    openai:
+      api-key: sk-YvKsxBmIeqt3MMEg8l2QqEmYhBrXlyOHqrR2fXsnlWF1Amc7
+      base-url: https://llmpaas.sinosig.com/ai/ability/gpt/v2
+      chat:
+        options:
+          model: deepseek-v4-1-flash-com
+      embedding:
+        options:
+          model: deepseek-v4-1-flash-com
+
+    # 向量存储（RAG）- Redis
+    vectorstore:
+      redis:
+        host: localhost
+        port: 6379
+        index: sunshine-rec-index
+
+# 大模型配置（保留，供自定义服务使用）
+llm:
+  chat-url: https://llmpaas.sinosig.com/ai/ability/gpt/v2/chat/completions
+  api-key: sk-YvKsxBmIeqt3MMEg8l2QqEmYhBrXlyOHqrR2fXsnlWF1Amc7
+  model: deepseek-v4-1-flash-com
+  timeout: 60

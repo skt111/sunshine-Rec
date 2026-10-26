@@ -3,9 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve --mode development",
-    "int": "vue-cli-service build --mode test",
-    "build": "vue-cli-service build --mode production",
+    "serve": "cross-env NODE_OPTIONS=--openssl-legacy-provider vue-cli-service serve --mode development",
+    "int": "cross-env NODE_OPTIONS=--openssl-legacy-provider vue-cli-service build --mode test",
+    "build": "cross-env NODE_OPTIONS=--openssl-legacy-provider vue-cli-service build --mode production",
     "lint": "vue-cli-service lint",
     "fix-memory-limit": "cross-env LIMIT=4096 increase-memory-limit"
   },
@@ -51,6 +51,7 @@
     "mini-css-extract-plugin": "1.6.2",
     "node-sass": "4.13.0",
     "px2rem-loader": "^0.1.9",
+    "sass": "~1.32.0",
     "sass-loader": "7.0.1",
     "vue-cli-plugin-axios": "0.0.4",
     "vue-cli-plugin-iview": "1.0.6",

@@ -1,17 +1,19 @@
 # 💻 Frontend Local Commander & Expert Guidelines (前端前线指挥所暨专家级开发规约)
 
+> ⚠️ **本文件为兼容镜像**（供 Claude/CodeBuddy 读取）。Qoder 主体系已将这些规约收归：技术栈/命令/架构红线/词汇表见 `.qoder/rules/11-frontend.md`（仓库根 `.qoder/`），执行协议见 `.qoder/rules/00/01/20`，规划源见 `.qoder/plans/plans.json`。两边不一致时以 Qoder 侧为准。
+
 ## 🚨 0. 状态机引导与内存恢复 (Stateful Bootloader & Memory Recovery)
 本项目采用物理记忆隔离机制。当你在此目录下被唤醒时，请立即通过以下逻辑恢复你的“工程人格”：
 
 1. **身份与坐标自检 (Who & Where)**:
    - **角色**：精通 Vue 2.6.x (严格使用 Options API 风格) + iView 4.0 (ViewUI) 的资深前端专家。完全掌握 `IntelProduct Web` 脚手架的架构，负责产出企业级规范的可运行代码。
-   - **坐标**：物理位于 `frontend/` 目录。
-2. **进度核验 (Mandatory First Step)**：
-   - 立即读取 `../.claude/plan/BUILD_PLAN.md` 核实当前 Task 游标。确认其 `[Scope]` 是否包含本端，并确认 [执行游标] 是否已轮转到本端。
-3. **业务灵魂注入 (Soul Loading)**：
-   - **强制**读取 `../.claude/context/business-architecture.md` 以加载核心业务逻辑与专有名词，严禁凭空幻觉。
-4. **交接棒恢复 (Params Injection)**：
-   - 若 `BUILD_PLAN.md` 显示本端非首个开发端，**强制**读取 `../.claude/plan/.handoff_state.md` 获取上游传递的 API 参数与契约。
+   - **坐标**：物理位于 `frontend/` 目录（Qoder 项目根，root-single 单端）。
+2. **进度核验 (Mandatory First Step)**:
+   - 立即读取 `.qoder/plans/plans.json`（唯一规划源）核实当前 plan 游标与 `status`；plan 详情（`{id}-{slug}.md`）记录任务正文与“当前游标”。
+3. **业务灵魂注入 (Soul Loading)**:
+   - **强制**读取 `.qoder/context/business-architecture.md`（若存在；不存在则以 `.qoder/skills/intelproduct-web-dev/references/` 为准）加载核心业务逻辑与专有名词，严禁凭空幻觉。
+4. **交接棒恢复 (Params Injection)**:
+   - 跨端/接力场景：读取当前 plan 详情文件的**“跨端交接”章节**获取上游 API 参数与契约（`.handoff_state.md` 已退役，禁止写入）；跨端路由见 `.qoder/rules/20-cross-end.md`。
 
 ---
 
@@ -31,18 +33,18 @@
 🚨 **【加载法则】**：在本目录执行任何操作（哪怕只改一行 CSS 或一个按钮）时，必须严格遵循以下“底座常驻 + 插件动态挂载”的 JIT 原则。
 
 ### 🧱 绝对常驻底座 (Base Skill)
-编写任何模板、样式或逻辑时，**必须始终强制遵循** `../.claude/skills/frontend-design-skill.md`：
-- **视觉红线**: 遵循 100vh 满屏拓扑与灰底白卡视觉审美。
+编写任何模板、样式或逻辑时，**必须始终强制遵循** `.qoder/rules/10-root.md`（架构红线与命令清单）与 `.qoder/skills/frontend-code-style/SKILL.md`（通用编码风格）：
+- **视觉红线**: 遵循 100vh 满屏拓扑与灰底白卡视觉审美（细则见 `.qoder/skills/taste-skill/references/visual-system.md`）。
 - **拆分红线**: 单个 `.vue` 文件代码量逼近或超过 **400 行** 时，必须进行组件拆分。
 - **Loading 闭环**: 必须具备防抖状态锁闭环。
 
 ### 🔌 动态插拔底座 (JIT Skills - 按需挂载)
-根据当前的业务场景，去 `../.claude/skills/` 目录下寻找匹配的 `plugin-xxx.md` 挂载：
-- **定时轮询/长链接**: 必须挂载 `plugin-frontend-async-guard.md` 确保组件生命周期安全。
-- **契约对齐**: 接口出入参必须严格对照 `../.claude/api-contract/frontend-java-api-contracts.md` 或 `../.claude/api-contract/` 下的 Java 接口定义，严禁前端私自篡改字段名。
+根据当前的业务场景，从 `.qoder/skills/` 下按需加载对应技能的 `references/`：
+- **定时轮询/长链接**: 挂载 `intelproduct-web-dev`（组件生命周期安全与异步守卫细则）。
+- **契约对齐**: 接口出入参以 `src/api/` 实际封装为唯一真相，并与仓库外 `../java_bff/` 定义对照（契约目录 `.qoder/api-contract/` 若存在则以其为准），严禁前端私自篡改字段名。
 
 ### 🛣️ 标准开发流水线 (SOP)
-接到完整的前端组件/页面开发 Task 时，**必须优先读取** `../.claude/sop/frontend-dev-sop.md`（指导执行“契约对齐 - Mock 假数据注入撑起 UI - 强制本地视觉审计”的 PDCA 闭环）。
+接到完整的前端组件/页面开发 Task 时，**必须优先**执行 Qoder 五阶段流水线：重需求先走 `/requirement-converger`，再 `/architect`（规划）→ `/sandbox`（沙盘推演）→ `/god`（实现）→ `/audit`（审计），形成“契约对齐 - Mock 假数据撑起 UI - 强制本地视觉审计”的 PDCA 闭环。
 
 ---
 
@@ -158,10 +160,10 @@ export default {
 
 1. **新组件人工审核熔断**：检查本次开发是否包含新生成的公共组件（位于 src/components/pending-review/）。若包含，必须在输出中明确提示人类长官进行人工代码审查（Code Review），通过后方可转入下一步。
 2. **执行任务复盘**：强制执行 [第 9 节] 规定的复盘机制，在交付成果时同步输出 《前端研发任务复盘与闭环报告》。
-3. **更新全局游标**：打开 `../.claude/plan/BUILD_PLAN.md`，找到当前正在执行的 Task，将本端 (Frontend) 的执行进度打上 `[x]`。
-4. **物理写盘交接棒**：校验是否严格基于全局接口契约，提取你刚刚封装在 `src/api/` 中的核心请求体 (Request) 和响应体 (Response) 字段，覆盖写入 `../.claude/plan/.handoff_state.md`。
+3. **更新全局游标**：更新 `.qoder/plans/plans.json` 中当前 plan 的 `status`/`updated`（进度描述同步到 plan 详情正文“当前游标”章节）。
+4. **物理写盘交接棒**：校验是否严格基于契约，提取你刚刚封装在 `src/api/` 中的核心请求体 (Request) 和响应体 (Response) 字段，增量写入当前 plan 详情文件的“跨端交接”章节（`.handoff_state.md` 已退役，禁止写入）。
 5. **离场分支判定 (Exit Branching)**：
-   请核对 `BUILD_PLAN.md` 中当前 Task 的 `[Scope]`：
+   请核对 `.qoder/plans/plans.json` 中当前 plan 的状态与范围（跨端计划见 plan 详情 `[Scope]`）：
 
   - **分支 A：任务未完结**（若大盘游标中仍有未打勾的子系统）：
     你必须停止所有思考，向人类输出以下格式的警告，请求人类为你执行记忆清理：
@@ -172,14 +174,14 @@ export default {
      2. 清空后，**请直接复制并发送以下指令来唤醒我**：
     
      ```text
-      唤醒指令：请读取 .claude/plan/BUILD_PLAN.md 查看当前任务的下一步执行游标，然后进入对应的子系统目录。🚨 警告：进入子目录后的首要任务是严格阅读该目录下的 `CLAUDE.md` 以挂载本端战术底座！随后读取 `.handoff_state.md` 中的参数，继续完成全栈开发。
+      唤醒指令：请读取 `.qoder/plans/plans.json` 与对应 plan 详情查看下一步执行游标，然后进入目标端目录。🚨 警告：进入目录后的首要任务是阅读该目录下的 `AGENTS.md` 与 `.qoder/rules/` 挂载本端战术底座！随后读取 plan 详情中的“跨端交接”章节参数，继续完成全栈开发。
     ```
 
   - **分支 B：任务已全线闭环**（若本端即为当前 Task 的最后一个环节）：
     🚨 **【触发终点闭环 SOP】**：
     - 不再打印唤醒咒语，不再请求 `/clear`。
     - 向人类汇报：“🎉 本次全栈贯通任务已完成最后一块拼图。全栈链路已通，前端 UI、Java 接口与 Python 算法已完成初步联调。”
-    - 提示人类：“请长官进行最后的 QA 验收。若验收通过，请指引我执行 `global-delivery-pipeline-sop.md` 进行正式提交与归档。”
+    - 提示人类：“请长官进行最后的 QA 验收。若验收通过，将 `.qoder/plans/plans.json` 对应 plan 置 `archived` 终态并提交代码（无外部交付 SOP 文件）。”
 
 ---
 
@@ -195,7 +197,7 @@ export default {
 3. **是否包含新公共组件**: [是/否] (若是，路径是否为 src/components/pending-review/[组件名].vue？)
 
 二、 契约与安全对齐情况
-1. **API 合约核验**: 确认入参和出参字段完全与 ../.claude/api-contract/ 保持 100% 一致。
+1. **API 合约核验**: 确认入参和出参字段完全与 `src/api/` 封装及仓库外 `../java_bff/` 定义保持 100% 一致（`.qoder/api-contract/` 若存在以其为准）。
 2. **加密与国密状态**: 确认是否已核实 VUE_APP_ENCODE 加密开关，并对关键写入/提审接口实现了 sign 签名和国密 SM2/SM4 链路自测。
 3. **数据安全**: 确认是否已对关键写入/提审接口进行了数据安全自测。
 
