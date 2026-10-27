@@ -1,0 +1,41 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npm run *)",
+      "Bash(npx *)",
+      "Bash(npm view *)",
+      "Bash(npm cache *)",
+      "Bash(npm install:*)",
+      "Bash(py *)",
+      "Bash(uv run *)",
+      "Bash(uv --version)",
+      "Bash(uv pip:*)",
+      "Bash(where uv:*)",
+      "Bash(python:*)",
+      "Bash(python3 -m pytest tests/ -v --tb=short)",
+      "Bash(pip install:*)",
+      "Bash(pip show:*)",
+      "Bash(pip list:*)",
+      "Bash(pip --version)",
+      "Bash(netstat -ano)",
+      "Bash(tasklist:*)",
+      "Bash(docker build:*)",
+      "Bash(docker save:*)",
+      "Bash(mkdir -p .claude/audit)",
+      "Bash(touch .claude/audit/*)"
+    ]
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|SearchReplace|edit_file",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node .claude/scripts/smart-build.mjs"
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -6,8 +6,8 @@ const path = require('path')
 const webpack = require('webpack')
 //打包去除console和debugger调试
 const TerserPlugin = require('terser-webpack-plugin');
-//构建速度
-const HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
+//构建速度（hard-source 在新版 Node 下易卡死，已禁用）
+// const HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
 //抽离 css 支持按需加载
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 //gzip压缩代码
@@ -31,8 +31,8 @@ module.exports = {
                 "windows.jQuery": "jquery"
             })
         );
-        //构建速度
-        config.plugins.push(new HardSourceWebpackPlugin()); // <- 直接加入这行代码就行
+        //构建速度（hard-source 已禁用，见上方注释）
+        // config.plugins.push(new HardSourceWebpackPlugin()); // <- 直接加入这行代码就行
         //非开发才有的
         if (process.env.NODE_ENV != 'development') {
             //打包去除console和debugger调试
@@ -99,6 +99,11 @@ module.exports = {
                 pathRewrite: {
                     '^/ehr': '/'
                 }
+            },
+            // 供给端雷达后端（本地 java_bff）
+            '/api': {
+                target: 'http://localhost:8080',
+                changeOrigin: true
             }
         },
         // Various Dev Server settings

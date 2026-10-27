@@ -1,0 +1,29 @@
+{
+  "updated": "2026-10-27",
+  "activePlan": null,
+  "plans": [
+    {
+      "id": "task-001",
+      "title": "供给端雷达：高校招聘活动采集与展示",
+      "status": "done",
+      "priority": "P0",
+      "complexity": 9,
+      "qualityScore": 23,
+      "file": "task-001-supply-radar.md",
+      "parent": null,
+      "children": [],
+      "sandboxRef": {
+        "report": "2026-10-26-task-001-supply-radar-沙盘审计.md",
+        "level": "full",
+        "passedAt": "2026-10-26"
+      },
+      "intent": "supply-radar-university-recruitment-crawl.md",
+      "exploration": null,
+      "contracts": [
+        ".qoder/api-contract/supply-radar-api.md"
+      ],
+      "created": "2026-10-26",
+      "updated": "2026-10-27"
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "version": "1.0.0",
+  "project": {
+    "name": "sunshine-Rec",
+    "architecture": "mono-repo (frontend + java_bff)"
+  },
+  "stacks": {
+    "java": {
+      "enabled": true,
+      "dir": "java_bff"
+    },
+    "python": {
+      "enabled": false,
+      "dir": "python-ai"
+    },
+    "frontend": {
+      "enabled": true,
+      "dir": "frontend"
+    }
+  },
+  "directories": {
+    "java": "java_bff",
+    "python": "python-ai",
+    "frontend": "frontend"
+  },
+  "lastEnds": [
+    "frontend",
+    "java_bff"
+  ]
+}

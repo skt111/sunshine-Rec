@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>供给端雷达 · 需求原型总览（v1.0）</title>
+<link rel="stylesheet" href="assets/app.css">
+<style>
+  .hero { background: linear-gradient(135deg,#FFF3E6,#FFFFFF); border:1px solid var(--line); border-radius:12px; padding:26px 28px; margin-bottom:22px; }
+  .hero h1 { margin:0 0 8px; font-size:26px; }
+  .hero p { margin:6px 0; color:var(--text-2); font-size:14px; }
+  .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:16px; }
+  .pcard { padding:20px; transition:.15s; }
+  .pcard:hover { box-shadow:var(--shadow-lg); }
+  .pcard .no { display:inline-block; background:var(--brand-weak); color:var(--brand); font-weight:700; border-radius:6px; padding:2px 10px; font-size:12px; }
+  .pcard h3 { margin:12px 0 8px; font-size:17px; }
+  .pcard p { color:var(--text-2); font-size:13px; margin:0 0 14px; }
+  .redline { padding:20px 24px; margin-top:24px; }
+  .redline h2 { margin:0 0 14px; font-size:18px; }
+  .redline ol { margin:0; padding-left:20px; }
+  .redline li { margin:10px 0; color:var(--text); font-size:14px; }
+  .redline li b { color:var(--brand); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="hero">
+    <h1>供给端雷达 · 需求原型（to-be）</h1>
+    <p><b>定位</b>：to-be 目标态原型，<b>非需求权威</b>。需求唯一权威 = 《供给端雷达需求文档》v1.0。</p>
+    <p><b>依据</b>：主文档 §4.1（页面七要素）/ §3.7（枚举与状态机）/ 附录A（数据口径）/ 附录C（视觉基线）。</p>
+    <p><b>交互原则</b>：筛选/页签/视图切换/抽屉开合可点击演示；「立即更新」为状态演示，不与真实后端交互。</p>
+    <p><b>打开方式</b>：直接双击本文件（file://）即可浏览，无构建依赖、无外链资源。</p>
+    <p><b>版本</b>：与需求包同步 <b>v1.0</b>（2026-10-26）。</p>
+  </div>
+
+  <h2 style="font-size:18px;margin:0 0 14px">页面导航</h2>
+  <div class="grid">
+    <a class="card pcard" href="p1-supply-radar.html" style="display:block;color:inherit">
+      <span class="no">P1</span>
+      <h3>供给端雷达主页面</h3>
+      <p>7 层结构：页头状态区 · 5 张统计卡片 · 筛选区 · 6 分类页签 · 视图切换 · 活动列表 · 详情抽屉 · 分组视图 · 分页；含采集任务面板。</p>
+      <span class="btn sm">打开原型 →</span>
+    </a>
+  </div>
+
+  <div class="card redline">
+    <h2>🚨 三红线声明（使用与维护）</h2>
+    <ol>
+      <li><b>单源化</b>——原型不取代文档：需求权威 = 需求包；原型与文档冲突时<b>以文档为准</b>（反向改原型须先回写文档）。</li>
+      <li><b>防失真</b>——结构来自需求（禁发明新功能/新交互）；原系统缺陷不呈现；样式统一走目标设计令牌（禁自由发挥）。</li>
+      <li><b>版本绑定</b>——原型与需求包<b>同版本号交付</b>；需求包升版须同步重生成受影响页面。</li>
+    </ol>
+  </div>
+
+  <div class="prototype-note">
+    本原型为静态 HTML/CSS/JS，零构建依赖。数据均为<b>示意</b>（含 <span class="badge-demo">示意</span> 标记），不代表真实采集结果；空态、缺失字段统一按文档显示「暂无公开信息」。
+  </div>
+
+</div>
+</body>
+</html>

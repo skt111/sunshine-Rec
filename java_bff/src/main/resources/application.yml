@@ -5,26 +5,86 @@ spring:
   application:
     name: java-bff
 
-  # Spring AI - OpenAI 兼容配置
+  # ===== 数据源（供给端雷达）=====
+  datasource:
+    url: jdbc:mysql://localhost:3306/sunshine?useUnicode=true&characterEncoding=UTF-8&connectionCollation=utf8mb4_general_ci&serverTimezone=Asia/Shanghai
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: ${SPRING_DATASOURCE_USERNAME:root}
+    password: ${SPRING_DATASOURCE_PASSWORD:123456}
+    # 使用 plain datasource，关闭 dynamic-datasource 自动切换
+    dynamic:
+      enabled: false
+
+  # ===== 本地关闭 Nacos（避免 Boot 2.4+ import-check 报错）=====
+  cloud:
+    # Boot 3.5.3 与 Spring Cloud 2024.0.0 版本校验不兼容（Nacos 已关闭，运行时不依赖）
+    compatibility-verifier:
+      enabled: false
+    nacos:
+      config:
+        enabled: false
+        import-check:
+          enabled: false
+      discovery:
+        enabled: false
+
+  # ===== Spring AI（密钥保留明文，后续需调用该模型）=====
   ai:
     openai:
       api-key: sk-YvKsxBmIeqt3MMEg8l2QqEmYhBrXlyOHqrR2fXsnlWF1Amc7
       base-url: https://llmpaas.sinosig.com/ai/ability/gpt/v2
       chat:
+        enabled: true
         options:
           model: deepseek-v4-1-flash-com
       embedding:
+        enabled: false
         options:
           model: deepseek-v4-1-flash-com
-
-    # 向量存储（RAG）- Redis
     vectorstore:
       redis:
-        host: localhost
-        port: 6379
-        index: sunshine-rec-index
+        enabled: false
 
-# 大模型配置（保留，供自定义服务使用）
+# ===== MyBatis-Plus（需求 §9.1 冻结键）=====
+mybatis-plus:
+  configuration:
+    map-underscore-to-camel-case: true
+  global-config:
+    banner: false
+
+# ===== 供给端雷达采集配置（8 个 crawl 键）=====
+supply-radar:
+  # 默认开启登录校验（安全基线）；本地联调通过启动参数覆盖：
+  #   --supply-radar.auth.enabled=false
+  auth:
+    enabled: true
+  crawl:
+    enabled: true
+    cron: "0 0 8,18 * * ?"
+    request-interval-ms: 2000
+    timeout-ms: 30000
+    max-retry: 2
+    max-schools-per-task: 60
+    playwright-enabled: true
+    user-agent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 SunshineRec/1.0"
+
+# ===== 雇主品牌雷达（重点企业公开笔记 · 阶段一人工录入）=====
+# 阶段一不发任何自动采集任务；授权来源接入前保持 auth-source-enabled=false
+social-brand:
+  platform: XIAOHONGSHU
+  auth-source-enabled: false
+  composite-score:
+    like: 1
+    favorite: 2
+    comment: 3
+  high-interaction-percentile: 0.8
+  min-sample-size: 10
+  # 大模型数据清洗（标题去噪 / 归属判定 / 主题标签）；失败自动降级规则清洗
+  clean:
+    llm-enabled: true
+    max-batch: 20
+
+# ===== 大模型配置（保留，供自定义服务使用；密钥保留明文）=====
 llm:
   chat-url: https://llmpaas.sinosig.com/ai/ability/gpt/v2/chat/completions
   api-key: sk-YvKsxBmIeqt3MMEg8l2QqEmYhBrXlyOHqrR2fXsnlWF1Amc7

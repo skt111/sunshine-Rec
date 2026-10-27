@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>供给端雷达 — 原型（v1.0）</title>
+<link rel="stylesheet" href="assets/app.css">
+</head>
+<body>
+
+<!-- 模拟现有系统顶部导航 -->
+<nav class="topnav">
+  <span class="logo">阳光校招情报</span>
+  <span class="tab">首页</span>
+  <span class="tab">需求端雷达</span>
+  <span class="tab active">供给端雷达</span>
+  <span class="tab">人才战略</span>
+</nav>
+
+<div class="wrap">
+
+  <!-- 第1层：页头 -->
+  <div class="page-head">
+    <div>
+      <h1>供给端雷达</h1>
+      <div class="sub">高校招聘活动实时追踪 · 宣讲会 · 双选会 · 就业活动</div>
+    </div>
+    <div class="head-status">
+      <div class="kv"><div class="k">最近采集时间</div><div class="v">2026-10-26 08:00</div></div>
+      <div class="kv"><div class="k">监测高校</div><div class="v">54 所</div></div>
+      <div class="kv"><div class="k">最近采集状态</div><div class="v" id="crawlState">部分成功</div></div>
+      <button class="btn" onclick="demoCrawl(this)">立即更新</button>
+      <button class="btn ghost" onclick="openDrawer('taskDrawer')">采集任务</button>
+    </div>
+  </div>
+
+  <!-- 第2层：统计卡片 -->
+  <div class="stats">
+    <div class="card stat"><div class="label">监测高校数</div><div class="num">54</div></div>
+    <div class="card stat"><div class="label">累计活动数</div><div class="num">12,860</div></div>
+    <div class="card stat"><div class="label">近期宣讲会</div><div class="num brand">1,204</div></div>
+    <div class="card stat"><div class="label">近期双选会</div><div class="num brand">386</div></div>
+    <div class="card stat"><div class="label">待核验活动</div><div class="num warn">72</div></div>
+  </div>
+
+  <!-- 第3层：筛选区 -->
+  <div class="card filters">
+    <div class="row">
+      <div class="field wide"><label>高校搜索</label><input type="text" placeholder="输入高校名称"></div>
+      <div class="field"><label>高校（可多选）</label><input type="text" placeholder="全部高校 ▾"></div>
+      <div class="field"><label>城市</label>
+        <select><option>全部城市</option><option>北京</option><option>上海</option><option>天津</option><option>武汉</option><option>成都</option></select>
+      </div>
+      <div class="field"><label>活动分类</label>
+        <select><option>全部活动</option><option>校内宣讲会</option><option>校外宣讲会</option><option>校内双选会</option><option>校外双选会</option><option>其他就业活动</option><option>待人工核验</option></select>
+      </div>
+    </div>
+    <div class="row">
+      <div class="field"><label>时间范围</label>
+        <div class="quick">
+          <button>今日</button><button>未来 7 天</button><button class="on">未来 30 天</button><button>自定义</button>
+        </div>
+      </div>
+      <div class="field"><label>活动状态</label>
+        <select><option>全部状态</option><option>未开始</option><option>进行中</option><option>已结束</option><option>已取消</option><option>已延期</option></select>
+      </div>
+      <div class="field"><label>形式</label>
+        <select><option>全部</option><option>校内</option><option>校外</option><option>线上</option><option>混合</option></select>
+      </div>
+      <div class="field"><label>核验状态</label>
+        <select><option>全部</option><option>待核验</option><option>已核验</option><option>已驳回</option><option>需复核</option></select>
+      </div>
+      <button class="btn plain" onclick="resetFilters()">重置筛选</button>
+    </div>
+  </div>
+
+  <!-- 第4层：分类页签（数量来自后端 · 示意） -->
+  <div class="tabs">
+    <button class="tab active" data-group="cat" data-tab="all">全部活动 <span class="cnt">12860</span></button>
+    <button class="tab" data-group="cat" data-tab="on-talk">校内宣讲会 <span class="cnt">982</span></button>
+    <button class="tab" data-group="cat" data-tab="off-talk">校外宣讲会 <span class="cnt">222</span></button>
+    <button class="tab" data-group="cat" data-tab="on-fair">校内双选会 <span class="cnt">301</span></button>
+    <button class="tab" data-group="cat" data-tab="off-fair">校外双选会 <span class="cnt">85</span></button>
+    <button class="tab" data-group="cat" data-tab="other">其他活动 <span class="cnt">72</span></button>
+  </div>
+
+  <!-- 第5层：视图切换 + 排序 -->
+  <div class="toolbar">
+    <div class="seg" data-group="view">
+      <button class="on" data-tab="list">活动列表视图</button>
+      <button data-tab="group">高校分组视图</button>
+    </div>
+    <div class="right">
+      <label class="field" style="flex-direction:row;align-items:center;gap:6px;">
+        <span style="font-size:12px;color:var(--text-2)">排序</span>
+        <select><option>活动日期 ↑</option><option>活动日期 ↓</option><option>最近采集时间</option><option>发布时间</option></select>
+      </label>
+      <label class="field" style="flex-direction:row;align-items:center;gap:6px;">
+        <span style="font-size:12px;color:var(--text-2)">每页</span>
+        <select><option>20</option><option>10</option><option>50</option><option>100</option></select>
+      </label>
+    </div>
+  </div>
+
+  <!-- 第6层：活动列表视图 -->
+  <div data-panel="view-list" data-panel-group="view">
+    <div class="event-list">
+
+      <div class="card event">
+        <div class="date"><div class="d">27</div><div class="m">10月</div></div>
+        <div class="body">
+          <div class="tags">
+            <span class="tag orange">校内宣讲会</span>
+            <span class="tag blue">线下</span>
+            <span class="tag green">未开始</span>
+          </div>
+          <h3 class="title">北京大学 2027 届校园招聘宣讲会 <span class="badge-demo">示意</span></h3>
+          <div class="meta">
+            <span>发布高校：<b>北京大学</b></span>
+            <span>城市：<b>北京</b></span>
+            <span>时间：<b>14:00—16:00</b></span>
+            <span>地点：<b>校内某教学楼（以来源页面为准）</b></span>
+            <span>来源：<b>北京大学就业信息网</b></span>
+            <span>最近采集：<b>2026-10-26 08:00</b></span>
+          </div>
+        </div>
+        <div class="actions">
+          <button class="btn sm" onclick="openDrawer('detailDrawer')">查看详情</button>
+          <button class="btn sm plain" onclick="alert('将在新标签页打开原始来源')">打开原始来源</button>
+          <button class="btn sm plain" onclick="alert('已标记为待核验')">标记待核验</button>
+        </div>
+      </div>
+
+      <div class="card event">
+        <div class="date"><div class="d">29</div><div class="m">10月</div></div>
+        <div class="body">
+          <div class="tags">
+            <span class="tag green">校内双选会</span>
+            <span class="tag blue">线下</span>
+            <span class="tag green">未开始</span>
+          </div>
+          <h3 class="title">郑州大学 2026 秋季大型双选会 <span class="badge-demo">示意</span></h3>
+          <div class="meta">
+            <span>发布高校：<b>郑州大学</b></span>
+            <span>城市：<b>郑州</b></span>
+            <span>时间：<b>09:00—12:00</b></span>
+            <span>地点：<b>中心体育馆</b></span>
+            <span>来源：<b>郑州大学就业创业服务网</b></span>
+            <span>最近采集：<b>2026-10-26 08:00</b></span>
+          </div>
+        </div>
+        <div class="actions">
+          <button class="btn sm" onclick="openDrawer('detailDrawer')">查看详情</button>
+          <button class="btn sm plain" onclick="alert('将在新标签页打开原始来源')">打开原始来源</button>
+          <button class="btn sm plain" onclick="alert('已标记为待核验')">标记待核验</button>
+        </div>
+      </div>
+
+      <div class="card event">
+        <div class="date"><div class="d">30</div><div class="m">10月</div></div>
+        <div class="body">
+          <div class="tags">
+            <span class="tag red">待人工核验</span>
+            <span class="tag gray">形式未知</span>
+          </div>
+          <h3 class="title">南开大学 2027 届毕业生就业双选会（地点待核） <span class="badge-demo">示意</span></h3>
+          <div class="meta">
+            <span>发布高校：<b>南开大学</b></span>
+            <span>城市：<b>天津</b></span>
+            <span>时间：<b>暂无公开信息</b></span>
+            <span>地点：<b>暂无公开信息</b></span>
+            <span>来源：<b>南开大学学生就业指导中心</b></span>
+            <span>最近采集：<b>2026-10-26 08:00</b></span>
+          </div>
+        </div>
+        <div class="actions">
+          <button class="btn sm" onclick="openDrawer('detailDrawer')">查看详情</button>
+          <button class="btn sm plain" onclick="alert('将在新标签页打开原始来源')">打开原始来源</button>
+          <button class="btn sm plain" onclick="alert('已标记为待核验')">标记待核验</button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- 第7层：分页 -->
+    <div class="pager">
+      <span>共 12,860 条</span>
+      <button>‹</button>
+      <button class="on">1</button>
+      <button>2</button>
+      <button>3</button>
+      <button>…</button>
+      <button>643</button>
+      <button>›</button>
+    </div>
+  </div>
+
+  <!-- 高校分组视图（默认隐藏） -->
+  <div data-panel="view-group" data-panel-group="view" style="display:none">
+    <div class="groups">
+
+      <div class="card group open">
+        <div class="ghead">
+          <div>
+            <div class="gname">北京大学</div>
+            <div class="gsub">北京 · 最近采集 2026-10-26 08:00 · 状态：成功</div>
+          </div>
+          <div style="text-align:right">
+            <div class="gcnt">128</div>
+            <button class="btn sm plain" data-group-toggle>收起</button>
+          </div>
+        </div>
+        <div class="gbody">
+          <div class="gitem"><span>2027 届校园招聘宣讲会</span><span>2026-10-27</span></div>
+          <div class="gitem"><span>某科技集团专场宣讲会</span><span>2026-10-28</span></div>
+          <div class="gitem"><span>秋季综合双选会</span><span>2026-11-02</span></div>
+        </div>
+      </div>
+
+      <div class="card group">
+        <div class="ghead">
+          <div>
+            <div class="gname">郑州大学</div>
+            <div class="gsub">郑州 · 最近采集 2026-10-26 08:00 · 状态：成功</div>
+          </div>
+          <div style="text-align:right">
+            <div class="gcnt">96</div>
+            <button class="btn sm plain" data-group-toggle>展开</button>
+          </div>
+        </div>
+        <div class="gbody">
+          <div class="gitem"><span>2026 秋季大型双选会</span><span>2026-10-29</span></div>
+          <div class="gitem"><span>某制造企业宣讲会</span><span>2026-10-31</span></div>
+        </div>
+      </div>
+
+      <div class="card group">
+        <div class="ghead">
+          <div>
+            <div class="gname">南开大学</div>
+            <div class="gsub">天津 · 最近采集 2026-10-26 08:00 · 状态：部分成功</div>
+          </div>
+          <div style="text-align:right">
+            <div class="gcnt">54</div>
+            <button class="btn sm plain" data-group-toggle>展开</button>
+          </div>
+        </div>
+        <div class="gbody">
+          <div class="gitem"><span>2027 届毕业生就业双选会（地点待核）</span><span>2026-10-30</span></div>
+        </div>
+      </div>
+
+      <div class="card group">
+        <div class="ghead">
+          <div>
+            <div class="gname">太原理工大学</div>
+            <div class="gsub">太原 · 最近采集 2026-10-26 08:00 · 状态：成功</div>
+          </div>
+          <div style="text-align:right">
+            <div class="gcnt">41</div>
+            <button class="btn sm plain" data-group-toggle>展开</button>
+          </div>
+        </div>
+        <div class="gbody">
+          <div class="gitem"><span>秋季校园招聘会</span><span>2026-11-01</span></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 原型标注块 -->
+  <div class="prototype-note">
+    本页依据《供给端雷达需求文档》v1.0 <b>§4.1</b>（7 层结构、筛选/分类/列表/分组/分页）与 <b>§3.7</b>（枚举与状态）。数据为 <b>示意</b>，字段与触发逻辑忠于文档；不含任何已实现的真实采集数据。
+  </div>
+</div>
+
+<!-- 遮罩 -->
+<div class="drawer-mask" id="mask" onclick="closeDrawer()"></div>
+
+<!-- 活动详情抽屉（11 项） -->
+<div class="drawer" id="detailDrawer">
+  <div class="dhead">
+    <h3>活动详情</h3>
+    <button class="close" onclick="closeDrawer()">×</button>
+  </div>
+  <div class="dbody">
+    <div class="section-title">基本信息</div>
+    <dl class="kv-list">
+      <dt>活动名称</dt><dd>北京大学 2027 届校园招聘宣讲会 <span class="badge-demo">示意</span></dd>
+      <dt>来源高校</dt><dd>北京大学（北京）</dd>
+      <dt>活动类型</dt><dd>宣讲会（TALK）</dd>
+      <dt>地点属性</dt><dd>校内（ON_CAMPUS）</dd>
+      <dt>标准分类</dt><dd>校内宣讲会（ON_CAMPUS_TALK）</dd>
+    </dl>
+
+    <div class="section-title">时间地点</div>
+    <dl class="kv-list">
+      <dt>活动日期</dt><dd>2026-10-27</dd>
+      <dt>起止时间</dt><dd>14:00 — 16:00</dd>
+      <dt>举办场馆</dt><dd>校内某教学楼（以来源页面为准）</dd>
+      <dt>详细地址</dt><dd>暂无公开信息</dd>
+    </dl>
+
+    <div class="section-title">主办与企业</div>
+    <dl class="kv-list">
+      <dt>主办单位</dt><dd>北京大学学生就业指导服务中心</dd>
+      <dt>相关企业</dt><dd>暂无公开信息</dd>
+    </dl>
+
+    <div class="section-title">报名信息</div>
+    <dl class="kv-list">
+      <dt>报名截止</dt><dd>暂无公开信息</dd>
+      <dt>报名方式</dt><dd>暂无公开信息</dd>
+    </dl>
+
+    <div class="section-title">活动说明</div>
+    <p style="font-size:13px;color:var(--text);margin:0">暂无公开信息</p>
+
+    <div class="section-title">来源与采集</div>
+    <dl class="kv-list">
+      <dt>来源列表页</dt><dd>北京大学就业信息网</dd>
+      <dt>原始详情链接</dt><dd><a href="#" onclick="return false">打开原始来源 ↗</a></dd>
+      <dt>最近采集</dt><dd>2026-10-26 08:00</dd>
+      <dt>核验状态</dt><dd>待核验（PENDING）</dd>
+    </dl>
+
+    <div class="section-title">最近一次变更</div>
+    <dl class="kv-list">
+      <dt>变更字段</dt><dd>event_date</dd>
+      <dt>旧值 → 新值</dt><dd>2026-10-26 → 2026-10-27</dd>
+      <dt>变更时间</dt><dd>2026-10-26 08:00</dd>
+    </dl>
+  </div>
+  <div class="dfoot">
+    <button class="btn plain" onclick="closeDrawer()">关闭</button>
+    <button class="btn" onclick="alert('将在新标签页打开原始来源')">打开原始来源</button>
+  </div>
+</div>
+
+<!-- 采集任务面板抽屉 -->
+<div class="drawer" id="taskDrawer">
+  <div class="dhead">
+    <h3>采集任务 · 高校状态</h3>
+    <button class="close" onclick="closeDrawer()">×</button>
+  </div>
+  <div class="dbody">
+    <div class="section-title">最近任务</div>
+    <dl class="kv-list">
+      <dt>任务 ID</dt><dd>#1024</dd>
+      <dt>状态</dt><dd>部分成功（PARTIAL）</dd>
+      <dt>开始</dt><dd>2026-10-26 08:00</dd>
+      <dt>结束</dt><dd>2026-10-26 08:14</dd>
+      <dt>成功 / 失败</dt><dd>51 / 3</dd>
+    </dl>
+
+    <div class="section-title">高校采集状态</div>
+    <table class="table">
+      <thead>
+        <tr><th>高校</th><th>城市</th><th>最近采集</th><th>状态</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>北京大学</td><td>北京</td><td>10-26 08:00</td><td><span class="tag green">成功</span></td></tr>
+        <tr><td>郑州大学</td><td>郑州</td><td>10-26 08:00</td><td><span class="tag green">成功</span></td></tr>
+        <tr><td>南开大学</td><td>天津</td><td>10-26 08:00</td><td><span class="tag orange">部分成功</span></td></tr>
+        <tr><td>中山大学</td><td>广州</td><td>10-26 08:00</td><td><span class="tag red">失败</span></td></tr>
+        <tr><td>外交学院</td><td>北京</td><td>—</td><td><span class="tag gray">从未采集</span></td></tr>
+      </tbody>
+    </table>
+    <p style="font-size:12px;color:var(--text-2);margin-top:10px">失败原因示例：中山大学 403（访问受限，已停止自动尝试，未绕过）。</p>
+  </div>
+  <div class="dfoot">
+    <button class="btn plain" onclick="closeDrawer()">关闭</button>
+  </div>
+</div>
+
+<script src="assets/app.js"></script>
+</body>
+</html>

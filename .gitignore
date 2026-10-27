@@ -1,0 +1,24 @@
+# ===== 依赖与构建产物 =====
+node_modules/
+frontend/dist/
+java_bff/target/
+*.class
+
+# ===== 日志与崩溃转储 =====
+*.log
+hs_err_pid*.log
+replay_pid*.log
+
+# ===== IDE =====
+.idea/
+*.iml
+.vscode/
+
+# ===== 本地备份 / 临时产物 =====
+.upgrade-backup-*/
+.qoder/tmp/
+.qoder/*.png
+
+# ===== 系统文件 =====
+.DS_Store
+Thumbs.db

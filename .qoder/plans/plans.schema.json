@@ -1,0 +1,130 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://agent-system.local/plans.schema.json",
+  "title": "Plan Index Schema",
+  "description": "P 阶段重构：plan 生命周期唯一数据源 schema。状态枚举与字段校验，供 AI 编辑时校验及外部工具消费。阈值与规则集中定义于 x-rules（唯一权威源），各 Skill 引用本文件，禁止在 Skill 中重复定义阈值。",
+  "x-rules": {
+    "complexityThreshold": {
+      "0-3": "简单 → 单 plan 简化路径",
+      "4-6": "中等 → 单 plan + 强制沙盘",
+      "7-10": "复杂 → 强制拆分（或用户显式批准不拆）"
+    },
+    "qualityGate": {
+      "green": 19,
+      "yellow": [12, 18],
+      "red": "<12 或适用域任一单项 0 分一票否决",
+      "notApplicable": "A 域（表设计）不涉及建表时按满分计（N/A=6 分），须在方案中声明无新建表依据"
+    },
+    "dependencyLimit": 2,
+    "repairLoop": {
+      "maxRounds": 3,
+      "maxRoundsParallel": 2,
+      "countSemantics": "同一 plan 生命周期统一计数（sandbox 修订 + audit 修复合并，含预审计打回）",
+      "escalation": "达上限→输出裁决清单（Ruling 三要素）+置 blocked+升级人工（不自动收敛）",
+      "carveOut": "存量 plan（created ≤ 2026-09-22）不追溯",
+      "examples": [
+        "第 3 轮打回后修订 → 复验 pass：计数保持 R3（上限已用满）——后续若再打回即超限 escalation",
+        "第 3 轮打回且修订后复验仍 fail（P0>0）→ 超限：输裁决清单 + 置 blocked + 升级人工（不再进入第 4 轮）",
+        "存量 plan（created ≤ 2026-09-22）首次打回：R1 起计——carveOut 仅免除历史轮次追溯，不豁免自本轮起的新轮次"
+      ]
+    },
+    "stateMachine": {
+      "description": "draft → active → in-progress → done；revised(修订中) → 经 sandbox 绿灯回迁 active（唯一回迁）；blocked 可逆（含修复回路超限型——人工裁决解阻）；archived 终态不可逆",
+      "owners": {
+        "draft_to_active": "architect：新 plan 落盘 status=draft 且不设 activePlan；方案评分≥19 且用户批准后置 active 并设 activePlan",
+        "active_to_in-progress": "god：签名验证通过后、编码前置 in-progress",
+        "in-progress_to_done": "audit：P0=0 且 P1=0 最终审计通过后由审计执行方写入（唯一）；activePlan 联动：若 activePlan 指向该 plan，须同步改指其他 active/in-progress plan（validate #1 强制——task-109 终验实证）",
+        "to_revised": "sandbox：P0>0 打回时置 revised，并要求 architect 重评 qualityScore 后再复验",
+        "revised_to_active": "sandbox：修订后复验 P0=0 绿灯时置回 active（唯一回迁）",
+        "to_blocked": "god/recovery：发现依赖未满足或外部阻塞时由执行 AI 置 blocked 并在 plan 详情记录原因；sandbox/audit：修复回路达 repairLoop 上限（escalation）时置 blocked 并输出裁决清单（落盘座标：plan 详情「修复轮次记录」节超限行 + 裁决清单全文——唯一权威；检查点「裁决记录」节为引用镜像）并在 plan 详情记录原因",
+        "blocked_to_in-progress": "recovery/god：依赖 plan done 后解阻置回；或修复回路超限经人工裁决批准继续后置回（blockedResolve 两分支）",
+        "to_archived": "归档 SOP：交付闭环后由归档流程置 archived（终态，禁止回迁）"
+      },
+      "revised": "sandbox P0>0 打回时置为 revised；architect 必须重评 qualityScore（修订后旧分失真）；修订完成且 sandbox P0=0 绿灯后由 sandbox 执行方将 status 置回 active（唯一回迁路径）",
+      "blockedResolve": "①依赖型：依赖 plan status=done 后，由 AI 在恢复/会话进入时检查并置回 in-progress；②超限型（escalation）：人工裁决驱动——recovery 读取超限裁决清单（Ruling）提示裁决，批准继续→置回 in-progress（计数按裁决重置），批准终止→按裁决处置（见 repairLoop / owners.to_blocked）"
+    }
+  },
+  "type": "object",
+  "required": ["updated", "activePlan", "plans"],
+  "properties": {
+    "updated": {
+      "type": "string",
+      "description": "索引最后更新时间（ISO 日期），任一 plan 更新时必须同步更新"
+    },
+    "activePlan": {
+      "type": ["string", "null"],
+      "description": "当前活跃 plan ID（recovery/god 定位游标）。约束：必须指向 status ∈ {active, in-progress} 的 plan（若指向 revised → 报告待修订；指向 blocked → 检查 plan 详情失败原因：依赖未满足→解阻 / 熔断→人工介入；指向 archived/done → 异常报告并要求改指其他 plan，禁止将终态/完成态置回 active）",
+      "examples": ["task-93"]
+    },
+    "plans": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/plan" }
+    }
+  },
+  "definitions": {
+    "plan": {
+      "type": "object",
+      "required": ["id", "title", "status", "priority", "file"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9][a-zA-Z0-9-_]*$",
+          "description": "plan 唯一 ID，格式 task-{n}（如 task-89）或 task-{n}{后缀}（如 task-90-1、task-93a）"
+        },
+        "title": { "type": "string", "description": "plan 标题" },
+        "status": {
+          "type": "string",
+          "enum": ["draft", "active", "in-progress", "done", "blocked", "revised", "archived"],
+                    "description": "状态机(见 x-rules.stateMachine): draft → active → in-progress → done；revised(修订中) → 经 sandbox 绿灯回迁 active（唯一回迁）；blocked 可逆；archived 终态不可逆"
+        },
+        "priority": {
+          "type": "string",
+          "enum": ["P0", "P1", "P2", "P3"],
+          "description": "优先级"
+        },
+        "complexity": {
+          "type": ["integer", "null"],
+          "minimum": 0,
+          "maximum": 10,
+          "description": "复杂度评分（5 维 × 0-2 分），0-3 简单 / 4-6 中等 / 7-10 复杂；null = 未评估（父 plan 总览行/待评——V2 放宽，task-103 W1）"
+        },
+        "qualityScore": {
+          "type": ["integer", "null"],
+          "minimum": 0,
+          "maximum": 24,
+          "description": "方案质量评分卡总分（4 域 × 3 项 × 0-2 分），≥19 绿灯 / 12-18 黄灯 / <12 红灯。null = 未评分（draft 草稿/历史产物归档豁免），归档前应完成质量门禁"
+        },
+        "file": {
+          "type": "string",
+          "description": "plan 详情文件路径（相对 .qoder/plans/）"
+        },
+        "parent": {
+          "type": ["string", "null"],
+          "description": "父 plan ID。唯一权威 = 本文件；plan 详情文件 frontmatter 不维护 parent/children（避免双写漂移）"
+        },
+        "children": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "子 plan ID 列表。唯一权威 = 本文件；plan 详情文件 frontmatter 不维护 parent/children（避免双写漂移）"
+        },
+        "sandboxRef": { "type": ["object", "null"], "description": "激活前置沙盘凭证（P1-5，2026-09-07）：{report, level, passedAt}——complexity≥4 或跨端 plan 置 active 前必填", "properties": { "report": { "type": "string" }, "level": { "type": "string" }, "passedAt": { "type": "string" } } },
+        "intent": {
+          "type": ["string", "null"],
+          "description": "关联 intent 文档（值 = 相对 .qoder/intents/ 的文件名，V-Intent 2026-09-09 task-103 W1）；拆分场景多子 plan 可引用同一 intent（1:N，intent.plan 集合校验）"
+        },
+    "exploration": {
+          "type": ["string", "null"],
+          "description": "探索文档路径引用（.qoder/plans/explorations/ 下）"
+        },
+        "contracts": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "关联 API 契约文件路径，基准为仓库根（如 .claude/api-contract/java-bff/xxx-api.md）"
+        },
+        "created": { "type": "string", "description": "创建日期" },
+        "updated": { "type": "string", "description": "最后更新日期" }
+      },
+      "additionalProperties": false
+    }
+  }
+}

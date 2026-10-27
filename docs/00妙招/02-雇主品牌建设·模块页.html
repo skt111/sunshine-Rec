@@ -1,0 +1,1168 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>00妙招 · 模块一 雇主品牌建设｜校招吸引动作监测</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { background: #f4f5f7; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei",
+                 "Helvetica Neue", Helvetica, Arial, sans-serif;
+    color: #23262b; overflow-x: auto; -webkit-font-smoothing: antialiased;
+  }
+  .page { min-width: 1440px; padding: 0 36px 56px; }
+
+  /* ================= 内嵌模式（iframe: ?embed=1） ================= */
+  body.embed { background: #f4f5f7; }
+  body.embed .appbar { display: none; }
+  body.embed .page { min-width: 1100px; padding: 0 22px 30px; }
+  body.embed .masthead { margin-top: 4px; padding-top: 12px; }
+  body.embed .mx-wrap { overflow-x: auto; }
+  body.embed .mx-wrap table.mx { min-width: 1230px; }
+  body.embed .rank-wrap { overflow-x: auto; }
+  body.embed .rank-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: repeat(11, 24px); }
+
+  /* ================= 产品条 ================= */
+  .appbar {
+    display: flex; align-items: center; gap: 28px;
+    padding: 14px 0 13px; border-bottom: 1px solid #e2e4e9;
+    position: sticky; top: 0; z-index: 30;
+    background: rgba(244,245,247,.94); backdrop-filter: saturate(180%) blur(8px);
+  }
+  .brand { display: flex; align-items: baseline; gap: 8px; flex: none; }
+  .tvradar { display: flex; align-items: center; margin-right: 1px; align-self: center; }
+  .tvradar .sweep { transform-box: view-box; transform-origin: 18px 17.5px;
+                    animation: sweep 3.4s linear infinite; }
+  @keyframes sweep { to { transform: rotate(360deg); } }
+  .brand .mark {
+    position: relative; overflow: hidden;
+    font-family: Georgia, "Songti SC", serif; font-size: 22px; font-weight: 700;
+    color: #fff; background: linear-gradient(155deg, #fb923c 0%, #ea580c 100%);
+    border-radius: 6px; padding: 1px 7px 2px; letter-spacing: .02em;
+    box-shadow: 0 1px 3px rgba(217,119,6,.35);
+  }
+  .brand .mark::before {
+    content: ""; position: absolute; inset: 0; z-index: 0;
+    background: repeating-radial-gradient(circle at 50% 50%,
+                rgba(255,255,255,0) 0 3.4px, rgba(255,255,255,.20) 3.4px 4.1px);
+  }
+  .brand .mark::after {
+    content: ""; position: absolute; inset: -45%; z-index: 0;
+    background: conic-gradient(from 0deg, rgba(255,255,255,.42), rgba(255,255,255,0) 34%);
+    animation: sweep 3.4s linear infinite;
+  }
+  .brand .mark > span { position: relative; z-index: 2; }
+  .brand .bt {
+    font-family: Georgia, "Songti SC", serif; font-size: 19px; font-weight: 700;
+    color: #1d2024; letter-spacing: .06em;
+  }
+  .brand .bsub { font-size: 11.5px; color: #8a9099; letter-spacing: .04em; margin-left: 4px; }
+  .mods { display: flex; gap: 4px; align-items: center; flex-wrap: nowrap; }
+  .mod {
+    font-size: 12.5px; color: #7b8189; padding: 5px 11px 6px; border-radius: 7px;
+    white-space: nowrap; border: 1px solid transparent; text-decoration: none;
+  }
+  .mod.on {
+    color: #1d2024; font-weight: 700; background: #fff;
+    border-color: #d9dce2; box-shadow: 0 1px 2px rgba(16,24,40,.06);
+  }
+  .mod .no { font-size: 10.5px; color: #b6bbc1; margin-right: 4px; font-variant-numeric: tabular-nums; }
+  .mod.on .no { color: #d97706; }
+  .mod.off { color: #b6bbc1; }
+  .appbar .right { margin-left: auto; display: flex; align-items: center; gap: 14px; flex: none; }
+  .asof { font-size: 11.5px; color: #8a9099; }
+  .asof b { color: #3c4148; font-variant-numeric: tabular-nums; }
+  .dot-live {
+    display: inline-block; width: 7px; height: 7px; border-radius: 50%;
+    background: #16a34a; margin-right: 5px; box-shadow: 0 0 0 3px rgba(22,163,74,.14);
+  }
+
+  /* ================= 页首 ================= */
+  .masthead { padding: 30px 0 0; border-bottom: 2px solid #23262b; padding-bottom: 20px; margin-top: 26px; }
+  .kicker {
+    font-size: 11.5px; letter-spacing: .22em; color: #8a9099;
+    text-transform: uppercase; margin-bottom: 10px;
+  }
+  .kicker b { color: #d97706; }
+  h1 {
+    font-family: Georgia, "Songti SC", "STSong", "SimSun", serif;
+    font-size: 33px; font-weight: 700; letter-spacing: .02em; color: #181b1f;
+  }
+  h1 .accent { color: #d97706; }
+  .subtitle { margin-top: 11px; font-size: 13.5px; color: #5b616a; line-height: 1.8; max-width: 1100px; }
+  .subtitle b { color: #23262b; }
+  .subtitle .self { background: #fff4e2; border-bottom: 2px solid #f0b429; padding: 0 2px; font-weight: 700; color: #8a4b00; }
+
+  .legend {
+    display: flex; flex-wrap: wrap; gap: 8px 24px; align-items: center;
+    margin-top: 16px; padding: 10px 15px; background: #fff;
+    border: 1px solid #e6e8ec; border-radius: 10px; width: fit-content;
+  }
+  .legend .li { display: flex; align-items: center; gap: 7px; font-size: 12px; color: #3c4148; }
+  .sw { width: 12px; height: 12px; border-radius: 3px; flex: none; }
+  .sw.d1 { background: #2563eb; } .sw.d2 { background: #d97706; }
+  .sw.d3 { background: #059669; } .sw.d4 { background: #7c3aed; }
+  .sw.empty { background: #eef0f3; border: 1px solid #e2e5ea; }
+  .sw.partial { background: repeating-linear-gradient(45deg,#2563eb 0 3px,#c9dbff 3px 6px); }
+  .pillA { font-size: 10px; font-weight: 700; color: #059669; border: 1px solid #b9ecd5;
+           background: #ecfbf4; border-radius: 5px; padding: 0 4px; }
+
+  /* ================= 板块 ================= */
+  .sec { margin-top: 38px; }
+  .sec-head { display: flex; align-items: baseline; gap: 13px; margin-bottom: 12px; padding-right: 5px; }
+  .sec-bar { width: 7px; height: 24px; border-radius: 3.5px; align-self: center; flex: none; }
+  .sec-head h2 {
+    font-family: Georgia, "Songti SC", "STSong", "SimSun", serif;
+    font-size: 21px; font-weight: 700; color: #1d2024; letter-spacing: .03em;
+  }
+  .sec-head .en { font-size: 11.5px; letter-spacing: .16em; color: #9aa0a6; text-transform: uppercase; }
+  .sec-head .cnt { font-size: 12px; color: #9aa0a6; margin-left: auto; letter-spacing: .02em; }
+
+  /* ================= 结论条 ================= */
+  .find-grid { display: grid; grid-template-columns: repeat(4, 1fr) 1.15fr; gap: 10px; }
+  .find {
+    background: #fff; border: 1px solid #e6e8ec; border-radius: 11px;
+    padding: 13px 14px 12px; box-shadow: 0 1px 2px rgba(16,24,40,.04);
+    border-top: 3px solid #cfd4db;
+  }
+  .find .n {
+    font-family: Georgia, serif; font-size: 11px; font-weight: 700; color: #fff;
+    background: #9aa0a6; border-radius: 4px; padding: 1px 5px; margin-right: 6px;
+  }
+  .find h3 { font-size: 13.5px; font-weight: 700; color: #1d2024; margin-bottom: 7px; display: flex; align-items: center; }
+  .find p { font-size: 12px; line-height: 1.75; color: #4a5058; }
+  .find p b { color: #1d2024; }
+  .find.self {
+    background: linear-gradient(180deg,#fffaf0 0%,#fff 55%);
+    border-color: #f0d6a8; border-top-color: #d97706;
+    box-shadow: 0 2px 10px rgba(217,119,6,.09);
+  }
+  .find.self .n { background: #d97706; }
+  .find.self h3 { color: #8a4b00; }
+  .find.self .tagself {
+    font-size: 10px; font-weight: 700; color: #fff; background: #d97706;
+    border-radius: 4px; padding: 1px 5px; margin-left: 6px; letter-spacing: .04em;
+  }
+
+  /* ================= 覆盖度阶梯 ================= */
+  .rank-wrap {
+    background: #fff; border: 1px solid #e6e8ec; border-radius: 12px;
+    padding: 16px 18px 14px; box-shadow: 0 1px 2px rgba(16,24,40,.05);
+  }
+  .rank-head { display: flex; align-items: baseline; gap: 16px; margin-bottom: 4px; }
+  .rank-head .t { font-size: 13px; font-weight: 700; color: #1d2024; }
+  .rank-head .s { font-size: 11.5px; color: #8a9099; }
+  .rank-note { font-size: 11.5px; color: #8a9099; margin-top: 10px; line-height: 1.7; }
+  .rank-note b { color: #c2410c; }
+  .rank-grid { display: grid; grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(7, 24px);
+               grid-auto-flow: column; gap: 0 34px; margin-top: 10px; }
+  .rrow {
+    display: flex; align-items: center; gap: 8px; height: 24px;
+    border-radius: 5px; padding: 0 4px; position: relative;
+  }
+  .rrow:hover { background: #f7f8fa; }
+  .rrow.self { background: #fff4e2; }
+  .rrow.self:hover { background: #ffeed6; }
+  .rrow .rk {
+    font-size: 10px; color: #b6bbc1; width: 15px; text-align: right;
+    font-variant-numeric: tabular-nums; flex: none;
+  }
+  .rrow .nm { font-size: 12px; color: #3c4148; width: 84px; flex: none;
+              white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .rrow.self .nm { font-weight: 700; color: #8a4b00; }
+  .rrow .bar { display: flex; gap: 2px; width: 200px; flex: none; height: 11px; }
+  .rrow .seg { flex: 1; border-radius: 2px; background: #eef0f3; }
+  .rrow .seg.f1 { background: #2563eb; }
+  .rrow .seg.f2 { background: #d97706; }
+  .rrow .seg.f3 { background: #059669; }
+  .rrow .seg.f4 { background: #7c3aed; }
+  .rrow .seg.pt { background: repeating-linear-gradient(45deg,#2563eb 0 3px,#c9dbff 3px 6px); }
+  .rrow .sc {
+    font-size: 11px; color: #6b7280; width: 30px; text-align: right; flex: none;
+    font-variant-numeric: tabular-nums;
+  }
+  .rrow.self .sc { color: #c2410c; font-weight: 700; }
+  .rrow .gp { font-size: 9.5px; color: #9aa0a6; width: auto; flex: none; text-align: left;
+              margin-left: 12px; letter-spacing: .02em; }
+
+  /* ================= 主矩阵表 ================= */
+  .mx-wrap {
+    background: #fff; border: 1px solid #e6e8ec; border-radius: 12px;
+    padding: 12px 14px 11px; box-shadow: 0 1px 2px rgba(16,24,40,.05);
+  }
+  .mx-bar { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; flex-wrap: wrap; }
+  .chips { display: flex; gap: 6px; }
+  .chip {
+    font-size: 12px; color: #5b616a; background: #fff; border: 1px solid #dfe3e9;
+    border-radius: 20px; padding: 3px 11px 4px; cursor: pointer; user-select: none;
+  }
+  .chip:hover { border-color: #c3c9d2; }
+  .chip.on { background: #1d2024; border-color: #1d2024; color: #fff; font-weight: 600; }
+  .search {
+    margin-left: auto; display: flex; align-items: center; gap: 6px;
+    border: 1px solid #dfe3e9; border-radius: 20px; padding: 3px 12px 4px; background: #fafbfc;
+  }
+  .search input {
+    border: 0; outline: 0; background: transparent; font-size: 12px;
+    width: 128px; color: #23262b; font-family: inherit;
+  }
+  .search input::placeholder { color: #b6bbc1; }
+  .mx-src { font-size: 11.5px; color: #8a9099; margin-bottom: 9px; line-height: 1.7; }
+  .mx-src b { color: #5b616a; }
+  .mx-src .mk { color: #059669; font-weight: 700; }
+
+  table.mx { width: 100%; border-collapse: collapse; font-size: 12px; color: #3c4148; table-layout: fixed; }
+  table.mx th {
+    text-align: left; font-weight: 700; color: #3c4148; padding: 7px 10px 6px;
+    border-bottom: 1.5px solid #e6e8ec; vertical-align: bottom;
+  }
+  table.mx th span { display: block; font-weight: 400; font-size: 10.5px; color: #8a9099; margin-top: 2px; }
+  table.mx th.h-co    { width: 132px; }
+  table.mx th.h-media { width: 236px; background: #e8f1fc; }
+  table.mx th.h-mkt   { width: 288px; background: #fdf0e1; }
+  table.mx th.h-sch   { width: 330px; background: #e8f6ee; }
+  table.mx th.h-prog  { width: 236px; background: #f1ecfa; }
+  table.mx td { padding: 8px 10px; border-bottom: 1px solid #f1f2f5; vertical-align: top; line-height: 1.62; }
+  table.mx tbody tr:hover { background: #f7f9ff; }
+  table.mx td.co { border-left: 4px solid var(--c,#ccc); }
+  .co-n { font-size: 13px; font-weight: 700; color: #1d2024; white-space: nowrap; }
+  .co-dots { display: flex; gap: 2.5px; margin-top: 5px; }
+  .co-dots i { width: 7px; height: 7px; border-radius: 2px; background: #e9ebef; display: block; }
+  .co-dots i.f1 { background: #2563eb; } .co-dots i.f2 { background: #d97706; }
+  .co-dots i.f3 { background: #059669; } .co-dots i.f4 { background: #7c3aed; }
+  .co-dots i.pt { background: repeating-linear-gradient(45deg,#2563eb 0 2px,#c9dbff 2px 4px); }
+  .co-gp { font-size: 10px; color: #9aa0a6; margin-top: 4px; letter-spacing: .02em; }
+
+  table.mx tr.self { background: #fffaf0; }
+  table.mx tr.self:hover { background: #fff5e4; }
+  table.mx tr.self td { border-bottom: 1px solid #f6e2c0; }
+  table.mx tr.self td.co { border-left-color: #d97706; }
+  .self-badge {
+    display: inline-block; font-size: 9.5px; font-weight: 700; color: #fff;
+    background: #d97706; border-radius: 3px; padding: 0 4px; margin-left: 5px;
+    vertical-align: 1.5px; letter-spacing: .04em;
+  }
+  .none { color: #c3c7cd; }
+  .nl { font-size: 10.5px; color: #9aa0a6; }
+  table.mx tr.self .none { color: #a8825a; }
+  .tn { color: #9a6a33; font-size: 11.5px; }
+  .tree { color: #9aa0a6; font-size: 11px; margin-right: 4px; }
+  table.mx tr.self .tree { color: #c08a4a; }
+  table.mx a { color: #2563eb; text-decoration: none; }
+  table.mx a:hover { text-decoration: underline; }
+  .ev { display: inline-block; font-size: 9.5px; font-weight: 700; border-radius: 3px;
+        padding: 0 3.5px; margin-left: 3px; vertical-align: 1px; line-height: 1.45; }
+  .ev.A { color: #059669; background: #ecfbf4; border: 1px solid #b9ecd5; }
+  .ev.B { color: #2563eb; background: #eef4ff; border: 1px solid #c7d9fb; }
+  .st { font-size: 10px; font-weight: 700; border-radius: 3px; padding: 0 4px; margin-left: 3px;
+        vertical-align: 1px; white-space: nowrap; }
+  .st.add { color: #c2410c; background: #ffedd5; }
+  .st.todo { color: #b45309; background: #fef3c7; }
+  .st.gap { color: #b91c1c; background: #fee2e2; }
+
+  /* ================= 差距诊断 ================= */
+  .diag-wrap { background: #fff; border: 1px solid #e6e8ec; border-radius: 12px;
+               padding: 14px 16px 12px; box-shadow: 0 1px 2px rgba(16,24,40,.05); }
+  table.diag { width: 100%; border-collapse: collapse; font-size: 12px; table-layout: fixed; }
+  table.diag th { text-align: left; font-size: 11px; color: #8a9099; font-weight: 700;
+                  padding: 0 10px 7px; border-bottom: 1.5px solid #e6e8ec; letter-spacing: .04em; }
+  table.diag td { padding: 11px 10px; border-bottom: 1px solid #f1f2f5; vertical-align: top; line-height: 1.65; }
+  table.diag tr:last-child td { border-bottom: 0; }
+  table.diag td.dm { font-weight: 700; color: #1d2024; font-size: 12.5px; }
+  table.diag td.dm .k { display: inline-block; width: 7px; height: 7px; border-radius: 2px; margin-right: 6px; }
+  table.diag td.now { color: #3c4148; }
+  table.diag td.now i { font-style: normal; color: #b6bbc1; }
+  table.diag td.best { color: #4a5058; }
+  table.diag td.pos { white-space: nowrap; }
+  .pz { display: inline-block; font-size: 10.5px; font-weight: 700; border-radius: 5px;
+        padding: 2px 7px 3px; white-space: nowrap; }
+  .pz.lead { color: #065f46; background: #d1fae5; }
+  .pz.asset { color: #9a3412; background: #ffedd5; border: 1px solid #fdd0a2; }
+  .pz.weak { color: #92400e; background: #fef3c7; }
+  .pz.none { color: #991b1b; background: #fee2e2; }
+  table.diag td.gp { font-size: 12px; color: #3c4148; }
+  table.diag td.gp b { color: #b91c1c; }
+  .diag-sum {
+    margin-top: 12px; padding: 11px 14px; border-radius: 9px; font-size: 12.5px; line-height: 1.8;
+    background: #fffaf0; border: 1px solid #f4ddb4; color: #6b4a12;
+  }
+  .diag-sum b { color: #8a4b00; }
+
+  /* ================= 内容雷达 ================= */
+  .scale-note { background: #fff; border: 1px solid #e6e8ec; border-radius: 12px;
+                padding: 12px 15px 11px; box-shadow: 0 1px 2px rgba(16,24,40,.05); margin-bottom: 12px; }
+  .sn-t { font-size: 11px; font-weight: 700; color: #8a9099; letter-spacing: .06em; margin-bottom: 9px; }
+  .sn-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 9px; }
+  .sn-grid > div { background: #fafbfc; border: 1px solid #f0f2f5; border-radius: 8px; padding: 8px 9px; }
+  .sn-grid b { display: block; font-family: Georgia, "Songti SC", serif; font-size: 16px; font-weight: 700;
+               color: #1d2024; font-variant-numeric: tabular-nums; letter-spacing: -.01em; }
+  .sn-grid span { display: block; font-size: 10.5px; color: #8a9099; margin-top: 2px; line-height: 1.5; }
+  .sn-f { margin-top: 9px; font-size: 11.5px; color: #4a5058; line-height: 1.75; }
+  .sn-f b { color: #8a4b00; }
+  .sn-f a { color: #2563eb; text-decoration: none; }
+  .sn-f a:hover { text-decoration: underline; }
+
+  .vr-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .vr { background: #fff; border: 1px solid #e6e8ec; border-radius: 12px; overflow: hidden;
+        box-shadow: 0 1px 2px rgba(16,24,40,.05); border-top: 3px solid var(--pc,#9aa0a6); }
+  .vr-h { display: flex; align-items: baseline; gap: 8px; padding: 11px 14px 9px; border-bottom: 1px solid #f1f2f5; }
+  .vr-h .pi { font-family: Georgia, "Songti SC", serif; font-size: 15.5px; font-weight: 700; color: var(--pc,#1d2024); }
+  .vr-h .cn { font-size: 10.5px; color: #b6bbc1; margin-left: auto; }
+  .vr-item { padding: 11px 14px 10px; border-bottom: 1px solid #f4f5f7; }
+  .vr-item:last-child { border-bottom: 0; }
+  .vi-n { display: inline-block; font-size: 9.5px; font-weight: 700; color: #fff; background: var(--pc,#9aa0a6);
+          border-radius: 3px; padding: 0 4px; margin-right: 5px; vertical-align: 2px; }
+  .vi-t { font-size: 12.5px; font-weight: 700; color: #1d2024; line-height: 1.6; }
+  .vi-m { font-size: 11px; color: #6b7280; margin-top: 4px; line-height: 1.68; }
+  .vi-l { font-size: 11px; margin-top: 5px; }
+  .vi-l a { color: #2563eb; text-decoration: none; }
+  .vi-l a:hover { text-decoration: underline; }
+  .vi-u { margin-top: 7px; padding: 7px 9px; border-radius: 7px; background: #fffaf0; border: 1px solid #f4ddb4;
+          font-size: 11.5px; color: #6b4a12; line-height: 1.72; }
+  .vi-u b { color: #8a4b00; }
+  .kb { display: inline-block; font-size: 9.5px; font-weight: 700; color: #6b7280; background: #fff;
+        border: 1px dashed #c9ced6; border-radius: 3px; padding: 0 4px; margin-left: 5px; vertical-align: 1px; }
+  .vr-note { margin-top: 11px; font-size: 11.5px; color: #6b7280; background: #f7f8fa;
+             border: 1px solid #eaecf0; border-radius: 9px; padding: 9px 13px; line-height: 1.78; }
+  .vr-note b { color: #3c4148; }
+
+  /* ================= 热点雷达 ================= */
+  .buzz-why { background: #fff; border: 1px solid #e6e8ec; border-left: 3px solid #e11d48;
+              border-radius: 10px; padding: 10px 14px; font-size: 12px; color: #3c4148;
+              line-height: 1.78; margin-bottom: 12px; }
+  .buzz-why b { color: #b91c1c; }
+  .buzz-why a { color: #2563eb; text-decoration: none; }
+  .buzz-why a:hover { text-decoration: underline; }
+  .buzz-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .bz { background: #fff; border: 1px solid #e6e8ec; border-radius: 12px; padding: 13px 15px 12px;
+        box-shadow: 0 1px 2px rgba(16,24,40,.05); }
+  .bz-h { display: flex; align-items: center; gap: 8px; margin-bottom: 7px; }
+  .bz-h .hot { font-size: 10px; font-weight: 700; color: #fff; background: #e11d48;
+               border-radius: 3px; padding: 1px 5px 2px; letter-spacing: .04em; }
+  .bz-h .dt { font-size: 10.5px; color: #b6bbc1; margin-left: auto; }
+  .bz-t { font-size: 13px; font-weight: 700; color: #1d2024; line-height: 1.6; }
+  .bz-m { font-size: 11.5px; color: #4a5058; margin-top: 6px; line-height: 1.72; }
+  .bz-m b { color: #b91c1c; }
+  .bz-l { font-size: 11px; margin-top: 6px; }
+  .bz-l a { color: #2563eb; text-decoration: none; margin-right: 12px; }
+  .bz-l a:hover { text-decoration: underline; }
+  .bz-d { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+  .bz-d i { font-style: normal; font-size: 10.5px; color: #9f1239; background: #fff1f2;
+            border: 1px solid #f6d5d9; border-radius: 999px; padding: 1px 8px 2px; }
+  .bz-u { margin-top: 9px; padding: 9px 11px; border-radius: 8px; background: #fff1f2; border: 1px solid #f6d5d9;
+          font-size: 11.5px; color: #7f1d2b; line-height: 1.75; }
+  .bz-u b { color: #9f1239; }
+  .bz-u .bu-h { font-size: 11px; font-weight: 700; color: #9f1239; margin-bottom: 4px; }
+  .bz-u ul { padding-left: 14px; }
+  .bz-u li { margin-top: 3px; }
+  .bz-u .kb { border-color: #e5b3ba; color: #7f1d2b; }
+
+  /* ================= 建议动作 ================= */
+  .act-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .act {
+    background: #fff; border: 1px solid #e6e8ec; border-radius: 12px;
+    padding: 13px 15px 6px; box-shadow: 0 1px 2px rgba(16,24,40,.05);
+    border-top: 3px solid var(--ac,#9aa0a6);
+  }
+  .act-h { display: flex; align-items: baseline; gap: 8px; padding-bottom: 9px;
+           border-bottom: 1px dashed #e6e8ec; margin-bottom: 3px; }
+  .act-h .w { font-family: Georgia, serif; font-size: 15px; font-weight: 700; color: var(--ac,#1d2024); }
+  .act-h .c { font-size: 11px; color: #8a9099; }
+  .act-h .n { margin-left: auto; font-size: 10.5px; color: #b6bbc1; }
+  .act ol { list-style: none; }
+  .act li { padding: 11px 0 10px; border-bottom: 1px solid #f4f5f7; }
+  .act li:last-child { border-bottom: 0; }
+  .act li .t { font-size: 12.5px; font-weight: 700; color: #1d2024; line-height: 1.55; }
+  .act li .bl { font-size: 11px; color: #7c3aed; margin-top: 4px; line-height: 1.55; }
+  .act li .bl b { color: #5b21b6; }
+  .act li .why { font-size: 11.5px; color: #4a5058; margin-top: 5px; line-height: 1.7; }
+  .act li .kpi { font-size: 11px; color: #059669; margin-top: 5px; line-height: 1.6; }
+  .act li .lv { font-size: 10px; font-weight: 700; color: #6b7280; background: #f3f4f6;
+                border-radius: 3px; padding: 1px 4px; margin-left: 5px; vertical-align: 1px; }
+  .act-note {
+    margin-top: 11px; font-size: 12px; color: #3c4148; line-height: 1.75;
+    background: #fef6f6; border: 1px solid #f6d5d5; border-radius: 9px; padding: 10px 14px;
+  }
+  .act-note b { color: #b91c1c; }
+
+  /* ================= 口径 ================= */
+  details.spec {
+    background: #fff; border: 1px solid #e6e8ec; border-radius: 12px;
+    padding: 0; box-shadow: 0 1px 2px rgba(16,24,40,.05); overflow: hidden;
+  }
+  details.spec > summary {
+    cursor: pointer; list-style: none; padding: 13px 16px; font-size: 13px; font-weight: 700;
+    color: #1d2024; display: flex; align-items: center; gap: 9px;
+  }
+  details.spec > summary::-webkit-details-marker { display: none; }
+  details.spec > summary::after { content: "展开 ▾"; margin-left: auto; font-size: 11.5px;
+    font-weight: 400; color: #9aa0a6; }
+  details.spec[open] > summary::after { content: "收起 ▴"; }
+  details.spec > summary:hover { background: #fafbfc; }
+  .spec-body { padding: 2px 16px 16px; border-top: 1px solid #f1f2f5; }
+  .spec-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-top: 14px; }
+  .spec-card h4 { font-size: 12.5px; font-weight: 700; color: #1d2024; margin-bottom: 6px; }
+  .spec-card p, .spec-card li { font-size: 11.5px; color: #4a5058; line-height: 1.78; }
+  .spec-card ul { padding-left: 15px; }
+  .lvl { display: flex; gap: 8px; align-items: flex-start; margin-top: 7px; }
+  .lvl .k { flex: none; width: 18px; height: 18px; border-radius: 4px; font-size: 10.5px;
+            font-weight: 700; color: #fff; display: flex; align-items: center; justify-content: center;
+            margin-top: 1px; }
+  .lvl.a .k { background: #059669; } .lvl.b .k { background: #2563eb; } .lvl.c .k { background: #b6bbc1; }
+  .lvl p { font-size: 11.5px; color: #4a5058; line-height: 1.7; }
+  .lvl p b { color: #1d2024; }
+  .spec-extra { margin-top: 12px; padding: 10px 13px; border-radius: 9px; background: #fafbfc;
+                border: 1px solid #eaecf0; font-size: 11.5px; color: #4a5058; line-height: 1.8; }
+  .spec-extra b { color: #1d2024; }
+
+  /* ================= 页尾 ================= */
+  .footer { margin-top: 40px; padding-top: 18px; border-top: 1px solid #dcdfe4;
+            font-size: 11.5px; color: #8a9099; line-height: 1.9; }
+  .footer b { color: #5b616a; }
+
+  @media print { .appbar { position: static; } details.spec { break-inside: avoid; } }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- ============ 产品条 ============ -->
+  <div class="appbar">
+    <div class="brand">
+      <span class="tvradar" aria-hidden="true">
+        <svg viewBox="0 0 36 30" width="33" height="27">
+          <path d="M11 9 L6.5 2.5" stroke="#ea580c" stroke-width="1.9" stroke-linecap="round" fill="none"/>
+          <path d="M24 9 L29 2.5" stroke="#ea580c" stroke-width="1.9" stroke-linecap="round" fill="none"/>
+          <circle cx="6.5" cy="2.5" r="1.7" fill="#ea580c"/>
+          <circle cx="29" cy="2.5" r="1.7" fill="#ea580c"/>
+          <rect x="2" y="8" width="32" height="19" rx="4.5" fill="#23262b"/>
+          <rect x="4.6" y="10.6" width="26.8" height="13.8" rx="2.4" fill="#7c2d00"/>
+          <g stroke="#ffc184" fill="none" stroke-width="0.9" opacity="0.7">
+            <circle cx="18" cy="17.5" r="3.3"/>
+            <circle cx="18" cy="17.5" r="5.5"/>
+          </g>
+          <path d="M13 17.5 H23 M18 12.5 V22.5" stroke="#ffc184" stroke-width="0.8" opacity="0.5"/>
+          <g class="sweep">
+            <path d="M18 17.5 L25.2 11.4 A8.6 8.6 0 0 0 18 8.9 Z" fill="#f59e0b" opacity="0.6"/>
+          </g>
+          <circle cx="23.4" cy="13.9" r="1.5" fill="#fff8ee"/>
+          <circle cx="32.4" cy="13.6" r="1.1" fill="#555b63"/>
+          <circle cx="32.4" cy="21.4" r="1.1" fill="#555b63"/>
+        </svg>
+      </span>
+      <span class="mark"><span>00</span></span>
+      <span class="bt">妙招</span>
+      <span class="bsub">校招市场监测与策略引擎</span>
+    </div>
+    <nav class="mods">
+      <a class="mod on" href="#"><span class="no">01</span>雇主品牌建设</a>
+      <a class="mod off" href="#"><span class="no">02</span>薪酬竞争力</a>
+      <a class="mod off" href="#"><span class="no">03</span>招聘节奏</a>
+      <a class="mod off" href="#"><span class="no">04</span>人才画像</a>
+      <a class="mod off" href="#"><span class="no">05</span>渠道效率</a>
+      <a class="mod off" href="#"><span class="no">06</span>转化漏斗</a>
+    </nav>
+    <div class="right">
+      <span class="asof"><span class="dot-live"></span>每日更新 · 数据时点 <b>2026-10-27</b></span>
+    </div>
+  </div>
+
+  <!-- ============ 页首 ============ -->
+  <div class="masthead">
+    <div class="legend">
+      <div class="li"><span class="sw d1"></span>官方新媒体矩阵</div>
+      <div class="li"><span class="sw d2"></span>线上营销动作</div>
+      <div class="li"><span class="sw d3"></span>校企合作 · 奖学金</div>
+      <div class="li"><span class="sw d4"></span>专属培养项目</div>
+      <div class="li"><span class="sw partial"></span>部分达成</div>
+      <div class="li"><span class="pillA">A</span>官方原文</div>
+      <div class="li" style="color:#2563eb"><b style="font-weight:700">B</b> 权威转载 / 校方或媒体对官方动作的报道</div>
+    </div>
+  </div>
+
+  <!-- ============ 新媒体内容雷达 ============ -->
+  <div class="sec" id="viral">
+    <div class="sec-head">
+      <span class="sec-bar" style="background:#0e7490"></span>
+      <h2>新媒体内容雷达</h2>
+      <span class="en">Content Radar</span>
+      <span class="cnt">3 平台 × 2 条 · 仅收可核验互动量的案例</span>
+    </div>
+
+    <div class="vr-grid">
+
+      <div class="vr" style="--pc:#ff2442">
+        <div class="vr-h"><span class="pi">小红书</span><span class="cn">2026-10-27 检索 · 可核验案例 2 条</span></div>
+        <div class="vr-item">
+          <div class="vi-t"><span class="vi-n">01</span>蔚来招聘 ·「蔚来人 MBTI 工位图鉴」系列</div>
+          <div class="vi-m">
+            账号简介直写「00 后接管的蔚来招聘官方账号」；正文按 MBTI 分型展示员工的真实工位，
+            评论区晒工位 + 报 MBTI 抽 NIO Life 玩偶。招聘信息只占一条，其余全是"人"的内容。
+          </div>
+          <div class="vi-l">
+            <a href="http://mp.weixin.qq.com/s?__biz=MzU4NjA4NjMwNw==&amp;mid=2248431946&amp;idx=1&amp;sn=203e9b2823940f1285462dd22387e226&amp;chksm=ffb8a940b7a6a435b4795736e37445f740986e13b570d6ab9a7ba372d3f11e717be02bfb06f2" target="_blank" rel="noopener">案例拆解原文 ↗</a><span class="ev B">B</span>
+            <span style="color:#c3c7cd">平台内笔记无网页直链 · 检索 @蔚来招聘 可复现</span>
+          </div>
+          <div class="vi-u">
+            <b>阳光可借鉴：</b>把"岗位"翻译成"人"。阳光最难被理解的正是精算、AI 应用开发、核保医学三类岗，
+            用「阳光人工位图鉴」一张图讲清工位上摆着什么（IFoA 教材 / 双屏代码 / 医学词典），比 JD 更容易被记住。
+            互动机制可直接抄：晒工位 + 抽小礼，预算为零。素材不用向外找——阳光「精算之星」IFoA 资助已满十年、官网明示 4 条培养线，真实人物本就存在。<span class="kb">知识库 · 待接入</span>
+          </div>
+        </div>
+        <div class="vr-item">
+          <div class="vi-t"><span class="vi-n">02</span>海信集团招聘 ·「哈利打工日记」一天 plog</div>
+          <div class="vi-m">
+            以卡通 IP「哈利」的一天为时间轴（8:30 打卡 → 9:30 学同行 → 11:30 食堂 → 15:30 脑暴 → 18:00 健身房），
+            把"上班的一天"做成连续剧，校招信息只在标签里出现；同账号另有世界杯 IP 校园派对等玩法。
+          </div>
+          <div class="vi-l">
+            <a href="http://mp.weixin.qq.com/s?__biz=MzU4NjA4NjMwNw==&amp;mid=2248431946&amp;idx=1&amp;sn=203e9b2823940f1285462dd22387e226&amp;chksm=ffb8a940b7a6a435b4795736e37445f740986e13b570d6ab9a7ba372d3f11e717be02bfb06f2" target="_blank" rel="noopener">案例拆解原文 ↗</a><span class="ev B">B</span><br>
+            <span style="color:#c3c7cd">平台内笔记无网页直链 · 检索 @海信集团招聘 可复现</span>
+          </div>
+          <div class="vi-u">
+            <b>阳光可借鉴：</b>视频号「奋斗青春最阳光」已有 67 条原创底子，缺的正是这种"可连载"的形式。
+            建议把镜头放进阳光数科 × 蚂蚁数科的 AI 保险应用联合实验室，拍「一天」而不是拍"宣传片"——
+            909 亿保费体量意味着这些不是摆拍，是真实业务流。<span class="kb">知识库 · 待接入</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="vr" style="--pc:#00b578">
+        <div class="vr-h"><span class="pi">微信视频号</span><span class="cn">2026-10-27 检索 · 互动量有披露的 2 条</span></div>
+        <div class="vr-item">
+          <div class="vi-t"><span class="vi-n">01</span>绿城中国 · 2026 届校招微电影三部曲</div>
+          <div class="vi-m">
+            设计篇 / 工程篇 / 营销篇，全部取材员工真实工作场景、全员本色出演、角色名暗藏岗位精神
+            （"唐聪明""武一起""陈理想"）。上线半个月全网累计播放近 13 万次，在同类校招视频中被称为"现象级"。
+          </div>
+          <div class="vi-l">
+            <a href="https://www.chinagreentown.com/newspaper/news/2484" target="_blank" rel="noopener">企业官方报道 ↗</a><span class="ev A">A</span>
+            <span style="color:#c3c7cd">播放量口径：企业自披露，未见第三方核实</span>
+          </div>
+          <div class="vi-u">
+            <b>阳光可借鉴：</b>拆成 3 条 60–90 秒——精算篇 / AI 核保篇 / 理赔查勘篇，主角由真实员工出演。
+            阳光已经有的素材是十年奖学金受益者与 AI 实验室真实项目，<b>不需要编剧本，只需要把真实案例拍下来</b>；
+            成本低于一条 TVC，却比十条岗位海报更有记忆点。<span class="kb">知识库 · 待接入</span>
+          </div>
+        </div>
+        <div class="vr-item">
+          <div class="vi-t"><span class="vi-n">02</span>万兴科技 ·「Wonder Nova 新星计划」双城投放</div>
+          <div class="vi-m">
+            面向 2026 届及以后毕业生开放 1000+ 实习岗，朋友圈 + 视频号同步投放长沙、深圳双城，
+            广告里直接写数字：实习月薪最高 1 万元、每月 1000 元住房补贴 + 500 元餐补，刷屏两地社交圈。
+          </div>
+          <div class="vi-l">
+            <a href="https://shenzhen.sina.com.cn/news/zonghe/2026-03-10/detail-inhqpaen3251106.shtml" target="_blank" rel="noopener">新浪深圳报道 ↗</a><span class="ev B">B</span>
+          </div>
+          <div class="vi-u">
+            <b>阳光可借鉴：</b>两件事可抄——① 定向到校而非广撒网（对中财大、对外经贸、南开、上财、西财等
+            精算/统计强校做小额定向投放）；② <b>敢把数字写进广告</b>，保险业最大的认知短板是"薪酬不透明"，
+            用数字对冲，比讲情怀有效。<span class="kb">知识库 · 待接入</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="vr" style="--pc:#3370ff">
+        <div class="vr-h"><span class="pi">微信公众号</span><span class="cn">2026-10-27 检索 · 可核验案例 2 条</span></div>
+        <div class="vr-item">
+          <div class="vi-t"><span class="vi-n">01</span>广东建科 · 2026 届校招空中宣讲会</div>
+          <div class="vi-m">
+            用"实景短片 + 电影化镜头"替代 PPT 讲稿，镜头进风洞实验室与隧道检测机器人现场；
+            设"小黑板爆料时刻"由学长学姐画图答疑，三轮抽奖。最高热度 123,089、总观看 35,621、评论 1,920，
+            回放点击超 10 万；差旅场次与人均招聘成本下降约 50%。
+          </div>
+          <div class="vi-l">
+            <a href="http://mp.weixin.qq.com/s?__biz=MzAxMTM5MjcwOQ==&amp;mid=2653033362&amp;idx=1&amp;sn=49efba68ae040f41a76bec3b4b8f95df&amp;chksm=81fb6defd8dc3bcd2167bf87b1ae241fa8c0e8ef8873364f6e90656c3958746ca08bc9baa41c" target="_blank" rel="noopener">官方公众号原文 ↗</a><span class="ev A">A</span>
+          </div>
+          <div class="vi-u">
+            <b>阳光可借鉴：</b>把线下跑 20 所高校换成一场"云端开放日"——镜头进智能核保后台与 AI 联合实验室，
+            让中财大「阳光教育奖学金」获奖学生出镜讲"我在阳光的一天"。
+            <b>这是目前成本最低、数据最可衡量的一条路</b>（热度、观看、评论、投递来源均可埋点）。<span class="kb">知识库 · 待接入</span>
+          </div>
+        </div>
+        <div class="vr-item">
+          <div class="vi-t"><span class="vi-n">02</span>字节跳动「字节范儿」· 校招电台与员工内容源</div>
+          <div class="vi-m">
+            招聘号不做公告栏，做"雇主品牌说明书"：按角色设专栏（「字节校招电台」模拟新闻播报 + 采访、
+            技术团队自制程序员短剧），内容形式以 Plog、条漫为主，员工是内容源而不是素材库。
+          </div>
+          <div class="vi-l">
+            <a href="http://mp.weixin.qq.com/s?__biz=Mzk0NzQ5Njc5Ng==&amp;mid=2247484494&amp;idx=1&amp;sn=b726c582a3eb938987a8ec1ad406a6b3&amp;chksm=c2c44d347da0e5df19218e1a1a2753e9b0108fc27f84bb0f6fd6aeae63347d2b53cba034bbd3" target="_blank" rel="noopener">行业媒体拆解 ↗</a><span class="ev B">B</span>
+            <span style="color:#c3c7cd">具体阅读量未见官方披露</span>
+          </div>
+          <div class="vi-u">
+            <b>阳光可借鉴：</b>公众号「阳光保险微招聘」目前以岗位推送为主，改成栏目制即可——
+            「指导人说」「雏鹰成长记」「精算十年」三条固定栏目，写作权从 HR 交给员工。
+            <b>零成本，唯一要改的是"谁有资格发言"</b>。<span class="kb">知识库 · 待接入</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ============ 小红书热点雷达 ============ -->
+  <div class="sec" id="buzz">
+    <div class="sec-head">
+      <span class="sec-bar" style="background:#e11d48"></span>
+      <h2>小红书新媒体热点雷达</h2>
+      <span class="en">Student Buzz Radar</span>
+      <span class="cnt">学生好评热搜 · 2 条 · 面向 @阳光保险招聘</span>
+    </div>
+
+    <div class="buzz-grid">
+
+      <div class="bz">
+        <div class="bz-h"><span class="hot">热搜</span><span class="dt">2026-09-18 起 · 微博 / 小红书 / 知乎热榜 TOP3</span></div>
+        <div class="bz-t">女生因家中变故放弃大厂实习，HR 手写数百字长信</div>
+        <div class="bz-m">
+          一名上海高校大三女生在放弃实习笔试的理由栏如实填写「亲人去世」。五天后收到米哈游 HR「Lisa」的亲笔长信：
+          以自己的亲身经历回应、写「你不需要为悲伤道歉」（当事人具体经历不转述），末尾是一句开放承诺——
+          <b>「未来任何时候，只要你准备好了，这个岗位依然为你留着。」</b>
+          她把信发到网上，评论区最高赞是「投了三年简历，第一次被当人对待」。
+        </div>
+        <div class="bz-d">
+          <i>#米哈游HR手写信# 三平台热榜 TOP3</i>
+          <i>邮件截图转发 86 万+（媒体口径）</i>
+          <i>2026-09-18 起</i>
+        </div>
+        <div class="bz-l">
+          <a href="https://m.gmw.cn/2026-09/20/content_1304566005.htm" target="_blank" rel="noopener">光明网 ↗</a><span class="ev B">B</span>
+          <a href="https://m.sohu.com/a/1078558608_122066679" target="_blank" rel="noopener">搜狐网 ↗</a><span class="ev B">B</span>
+          <span style="color:#c3c7cd">转发量未见平台官方核实</span>
+        </div>
+        <div class="bz-u">
+          <div class="bu-h">@阳光保险招聘 可借鉴 · 3 条</div>
+          <ul>
+            <li><b>真正要紧的是授权，文案本身不是关键</b>：破圈的原因是一个具体的人用自己的名字讲了真话——不套模板、不抄送、不走审批。阳光要做的是允许 HR 以个人身份回信。</li>
+            <li><b>把「拒绝」当资产</b>：精算 / AI 岗竞争者众，拒信量本身就是一次高信任触达。可在小红书设「回信」栏目：一条具体改进建议 + 「明年此时欢迎再来」，成本为零。</li>
+            <li><b>边界</b>：只发「我们怎么做」，不发「谁收到了」。共情一旦被当作营销素材就会反噬。</li>
+          </ul>
+          <span class="kb">知识库 · 待接入</span>
+        </div>
+      </div>
+
+      <div class="bz">
+        <div class="bz-h"><span class="hot">热搜</span><span class="dt">2025-03 · 小红书自发帖 → 央媒转载</span></div>
+        <div class="bz-t">「实在找不到，在家躺一躺也没事」——佛山 HR 成全网最暖 HR</div>
+        <div class="bz-m">
+          一位 2025 届毕业生第 50 次投递后，企业 HR 看完作品集，坦诚说明岗位不匹配，还补了一句
+          <b>「实在找不到，在家躺一躺也没事」</b>。她把聊天记录发到小红书，人民日报等央媒转载，网友称他为「最暖 HR」。
+          感动点不在 offer，在被当成一个人对待。
+        </div>
+        <div class="bz-d">
+          <i>第 50 次投递</i>
+          <i>人民日报等央媒转载</i>
+          <i>2025-03</i>
+        </div>
+        <div class="bz-l">
+          <a href="https://www.ql1d.com/general/27366202.html" target="_blank" rel="noopener">齐鲁晚报·齐鲁壹点 ↗</a><span class="ev B">B</span>
+          <span style="color:#c3c7cd">原始帖未获直链，以媒体转载为准</span>
+        </div>
+        <div class="bz-u">
+          <div class="bu-h">@阳光保险招聘 可借鉴 · 3 条</div>
+          <ul>
+            <li><b>先攒信任，再谈投递</b>：213 粉的冷启动阶段，开一个不谈岗位的情绪栏目——「被拒之后怎么办」「秋招焦虑自救」，用真实 HR 的话，而不是品牌口径。阳光的十年奖学金受益者、雏鹰/领鹰在读学员本身就是现成的叙事对象。</li>
+            <li><b>造「可晒的细节」</b>：一句能被截图转发的话，比一篇推文值钱。把「拒绝话术」写进 HR 培训，而不是只培训「吸引话术」。</li>
+            <li><b>风险</b>：被识别出套路即反噬，必须真实、不摆拍、不二次消费当事人。</li>
+          </ul>
+          <span class="kb">知识库 · 待接入</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ============ 核心结论 ============ -->
+  <div class="sec" id="findings">
+    <div class="sec-head">
+      <span class="sec-bar" style="background:#23262b"></span>
+      <h2>校招举措核心结论</h2>
+      <span class="en">Key Findings</span>
+      <span class="cnt">2026-10-27 更新 · 4 条同业 + 1 条本企业</span>
+    </div>
+    <div class="find-grid">
+      <div class="find">
+        <h3><span class="n">01</span>矩阵两极分化</h3>
+        <p>「全平台运营」与「只有公众号」并存。<b>8 家</b>同时覆盖 4 个维度（平安、招行、字节、腾讯、华为、比亚迪、宁德、普华永道），
+          而 <b>5 家</b>仅覆盖 2 个维度。<b>公众号已是全行业标配，不构成差异</b>。</p>
+      </div>
+      <div class="find">
+        <h3><span class="n">02</span>综艺是最贵的错</h3>
+        <p>综艺/自制内容仅 <b>4 家</b>（平安《初入职场·金融季》、华泰《闪闪发光的你》两季、京东《开播吧！青春采销》、腾讯《令人心动的offer》），
+          全部为头部预算玩家。<b>以赛代招</b>（泰康菁英赛 28 校）是性价比更高的替代路径。<br>
+          <b>→ 建议不做：综艺冠名。</b>按「影响权重 × 同业有效性 ÷ 现有基础」测算，该项投入高而权重低，<b>本轮结论为「暂不跟进」</b>。</p>
+      </div>
+      <div class="find">
+        <h3><span class="n">03</span>保险板块集体偏科</h3>
+        <p>同业 6 家险企中，<b>5 家未能检出官方招聘号</b>（仅平安有小红书官方招聘号；「未见」不等于不存在，仅代表无公开证据）；人保、国寿均未见统一培养品牌。
+          算上阳光，7 家险企里<b>只有平安与阳光开出了双号</b>——渠道上阳光已不是落后者，差距在量级。
+          <b>这不是阳光一家的短板，而是板块共性</b>——意味着补位即可形成相对优势。</p>
+      </div>
+      <div class="find">
+        <h3><span class="n">04</span>培养品牌要能"一个词记住"</h3>
+        <p>头部做法是把多项目收敛成一个对外主品牌：平安「金橙」、腾讯「青云」、京东「TET」、华为「天才少年」。
+          <b>名字收敛度比项目数量更影响传播效率。</b></p>
+      </div>
+      <div class="find self">
+        <h3><span class="n">✦</span>对阳光的判断<span class="tagself">本企业</span></h3>
+        <p>阳光的问题既不是"没有资产"，也不是"没有账号"，而是<b>「有资产 · 无声量」</b>：中财大阳光教育奖学金与精算之星 IFoA 资助已满十年、
+          4 条培养线在官网明示、AI 联合实验室已落地；视频号「奋斗青春最阳光」与小红书「阳光保险招聘」也已在运营——
+          但小红书仅 <b>213 粉</b>、内容以岗位海报为主，这些<b>都没有变成可传播的作品与统一品牌词</b>。
+          → 正确顺序是<b>先把已有资产做成内容，再谈投放</b>，而非先买曝光。</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ 覆盖度阶梯 ============ -->
+  <div class="sec" id="coverage">
+    <div class="sec-head">
+      <span class="sec-bar" style="background:#4f46e5"></span>
+      <h2>雇主品牌动作覆盖度</h2>
+      <span class="en">Coverage Ranking</span>
+      <span class="cnt">21 家 · 满分 4.0</span>
+    </div>
+    <div class="rank-wrap">
+      <div class="rank-head">
+        <span class="t">四维达成度排序</span>
+        <span class="s">每格 1 分，部分达成记 0.5；「未见官方披露」记 0，不按推测给分</span>
+      </div>
+      <div class="rank-grid" id="rankGrid"></div>
+      <div class="rank-note">
+        读数：<b>阳光 3.0 / 4，与友邦、泰康、华泰、阿里、京东、美团、宝洁并列第 9</b>，仍落后于 4.0 分档的 8 家。
+        但这一分是<b>「有号」的分，不是「有声量」的分</b>——矩阵一栏阳光只差抖音/B站，量级上却差多个数量级（小红书 213 粉 vs 招行 B 站 86.6 万粉）。
+        所以结构性缺口没变：<b>「线上营销动作」整块空白</b>，且十年奖学金、4 条培养线、AI 联合实验室这三块资产，都还没有被做成一件可传播的作品。
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ 主矩阵表 ============ -->
+  <div class="sec" id="matrix">
+    <div class="sec-head">
+      <span class="sec-bar" style="background:#d97706"></span>
+      <h2>校招吸引动作矩阵</h2>
+      <span class="en">Employer Branding Matrix</span>
+      <span class="cnt">21 家 × 4 维 · 逐条可核验</span>
+    </div>
+    <div class="mx-wrap">
+      <div class="mx-bar">
+        <div class="chips" id="chips">
+          <span class="chip on" data-g="all">全部 21</span>
+          <span class="chip" data-g="本企业">本企业</span>
+          <span class="chip" data-g="保险">保险 6</span>
+          <span class="chip" data-g="金融">金融 4</span>
+          <span class="chip" data-g="互联网">互联网 5</span>
+          <span class="chip" data-g="标杆">跨行业标杆 5</span>
+        </div>
+        <div class="search">
+          <span style="font-size:12px;color:#b6bbc1">⌕</span>
+          <input id="q" type="text" placeholder="搜索公司 / 动作关键词">
+        </div>
+      </div>
+      <div class="mx-src">
+        收录规则：仅收录<b>官方公告 / 官网背书</b>的渠道与项目（同业 2026-08-10 检索复核，本企业 2026-10-27 实采）；
+        <b>公众号为各公司标配，不单独计入矩阵</b>；<span class="mk">A</span>=官方原文，<span style="color:#2563eb;font-weight:700">B</span>=权威转载/校方报道；
+        点击 ↗ 查看证据。没有证据的格子写「未见官方披露」，不做推测。
+      </div>
+      <table class="mx">
+        <thead>
+          <tr>
+            <th class="h-co">公司 <span>覆盖度 · 分组</span></th>
+            <th class="h-media">官方新媒体矩阵<span>视频号 / 小红书 / 抖音 / B站</span></th>
+            <th class="h-mkt">线上营销动作<span>综艺 / TVC / Campaign</span></th>
+            <th class="h-sch">校企合作 · 奖学金<span>高校 / 实验室 / 奖学金</span></th>
+            <th class="h-prog">专属培养项目<span>管培 / 技术专项 / 顶尖计划</span></th>
+          </tr>
+        </thead>
+        <tbody id="mxBody">
+
+          <!-- ===== 本企业 ===== -->
+          <tr class="self" data-g="本企业" data-k="阳光保险集团 雏鹰 领鹰 科技培训生 精算之星 奖学金 微信 视频号 小红书 抖音 AI 联合实验室">
+            <td class="co">
+              <div class="co-n">阳光保险集团<span class="self-badge">本企业</span></div>
+              <div class="co-dots"><i class="f1" title="新媒体矩阵 · 已达成（有号）"></i><i title="线上营销 · 未达成"></i><i class="f3" title="校企合作 · 已达成"></i><i class="f4" title="培养项目 · 已达成"></i></div>
+              <div class="co-gp">本企业 · 3.0 / 4</div>
+            </td>
+            <td>
+              <span class="st add">双号在运营 · 量级极低</span><br>
+              <span class="tree">├</span>视频号「奋斗青春最阳光」（官方号 · 67 条原创）
+              <span class="ev A" title="视频号 App 内官方主页截图存证 · 2026-10-27">A</span><br>
+              <span class="tree">├</span>小红书「阳光保险招聘」（企业蓝 V · 阳光保险集团股份有限公司）
+              <span class="ev A" title="小红书 App 内官方主页截图存证 · 2026-10-27">A</span><br>
+              <span class="tree">└</span>公众号「阳光保险微招聘」
+              <a href="http://mp.weixin.qq.com/s?__biz=MzkxNjMxNTAwMA==&mid=2247630734&idx=5&sn=4f149620b814d6c66af896ec021894d2" target="_blank" rel="noopener">↗</a><span class="ev B">B</span><br>
+              <span class="tn">量级：小红书 213 粉 / 946 赞藏；抖音、B站 未见官方招聘号</span>
+            </td>
+            <td>
+              <span class="st todo">有内容 · 无作品</span> 无综艺、无校招 TVC、无对外 campaign。<br>
+              已有栏目化内容：「集团品牌方向 / AI 应用开发工程师」岗位系列、「保险 IP 人设打造大赛」、「给大学生指导人送咖啡」
+              <span class="tn">（均为双号内日常内容，未形成 campaign 主视觉与报名入口）</span><br>
+              <span class="tn">已有主张：「追光而上，无限可能」「来阳光，做 AI 时代的主角」——有定位、有素材、无作品</span>
+              <span class="nl">· 本栏为缺位记录，无可引用链接</span>
+            </td>
+            <td>
+              <span class="tree">├</span>中央财经大学「阳光教育奖学金」+「精算之星」IFoA 资助（2016 起，80 万基金）
+              <a href="https://ins.cufe.edu.cn/info/1044/1993.htm" target="_blank" rel="noopener">↗</a><span class="ev A">A</span><br>
+              <span class="tree">├</span>台州科技职院「阳光保险」产教融合实训基地 · 订单班
+              <span class="nl">· 校方原页已下线（2026-10-27 核验，正文留存于校方历史发布）</span><br>
+              <span class="tree">└</span>阳光数科 × 蚂蚁数科「AI 保险应用联合实验室」（2026-06-16 签约）
+              <a href="https://wap.eastmoney.com/a/202607013790177661.html" target="_blank" rel="noopener">↗</a><span class="ev B">B</span>
+              <span class="nl">· 官网首页新闻栏同日发布；原链接指向官网首页参数页，落地内容与结论不符，已替换</span><br>
+              <span class="tn">→ 三块资产均未与校招形成转化设计</span>
+            </td>
+            <td>
+              <span class="tree">├</span>雏鹰计划（管培）· 领鹰管培生 · 科技培训生
+              <a href="https://sunzhaopin.sinosig.com/campus/jobs" target="_blank" rel="noopener">↗</a><span class="ev A">A</span><br>
+              <span class="tree">└</span>成长路径：3 年骨干 → 5 年带队 → 10 年领军<br>
+              <span class="tn">命名分散：雏鹰 / 领鹰 / 鲲鹏 / 鸿鹄 / 雄鹰（5 个"鸟"字辈）</span> <span class="st todo">待收敛</span>
+            </td>
+          </tr>
+
+          <!-- ===== 保险 ===== -->
+          <tr data-g="保险" data-k="中国人寿 展翼 星火 保险职业学院 五邑大学 奖学金">
+            <td class="co" style="--c:#1a56a8">
+              <div class="co-n">中国人寿</div>
+              <div class="co-dots"><i></i><i></i><i class="f3"></i><i class="f4"></i></div>
+              <div class="co-gp">保险 · 2.0 / 4</div>
+            </td>
+            <td class="none">未见官方招聘号</td>
+            <td class="none">未见官方披露</td>
+            <td>直属保险职业学院 · 五邑大学奖学金 <a href="https://www.bxxy.com/html/folder/20010010-1.htm" target="_blank" rel="noopener">↗</a><span class="ev B">B</span></td>
+            <td>展翼计划 + 星火计划 <a href="https://career.xujc.com/2024/1007/c3959a155920/page.htm" target="_blank" rel="noopener">↗</a></td>
+          </tr>
+          <tr data-g="保险" data-k="中国平安 金橙 青橙 NOVA 综艺 初入职场 金融季 小红书 武大 清华 AI Bank">
+            <td class="co" style="--c:#1a56a8">
+              <div class="co-n">中国平安</div>
+              <div class="co-dots"><i class="f1"></i><i class="f2"></i><i class="f3"></i><i class="f4"></i></div>
+              <div class="co-gp">保险 · 4.0 / 4</div>
+            </td>
+            <td>小红书 @中国平安招聘 <span class="nl">· 平台内账号，无网页直链（主页截图存证）</span></td>
+            <td>独家冠名综艺《初入职场·金融季》（芒果TV） <a href="https://www.mgtv.com/b/857128/24256310.html" target="_blank" rel="noopener">↗</a><span class="ev A">A</span><br>
+              独家冠名事实 <a href="https://m.163.com/news/article/KOGGUIPB000189DG.html" target="_blank" rel="noopener">↗</a><span class="ev B">B</span></td>
+            <td>武大经管 · 校企合作奖学金（平安产险湖北分公司口径） <a href="https://ems.whu.edu.cn/info/1587/6194.htm" target="_blank" rel="noopener">↗</a><span class="ev B">B</span><br>
+              <span class="nl">清华深研院「AI Bank 奖学金」属平安银行口径（子公司），不并入集团行；校方页对自动核验返回提示页，暂无稳定直链</span></td>
+            <td>金橙 / 青橙 / NOVA 超新星 <a href="https://campus.pingan.com/" target="_blank" rel="noopener">↗</a></td>
+          </tr>
+          <tr data-g="保险" data-k="中国人保 直播带岗 湖南工商大学 共建基地">
+            <td class="co" style="--c:#1a56a8">
+              <div class="co-n">中国人保</div>
+              <div class="co-dots"><i></i><i class="f2"></i><i class="f3"></i><i></i></div>
+              <div class="co-gp">保险 · 2.0 / 4</div>
+            </td>
+            <td class="none">未见官方招聘号</td>
+            <td>高校直播带岗（累计 10 万人次，校方报道口径） <a href="https://ztjy2023.ynufe.edu.cn/info/1301/253152.htm" target="_blank" rel="noopener">↗</a><span class="ev B">B</span></td>
+            <td>湖南工商大学等共建基地 <a href="https://finance.hutb.edu.cn/bksjy/zyjs/bxxzy/content_39264" target="_blank" rel="noopener">↗</a></td>
+            <td><span class="st gap">无统一品牌</span></td>
+          </tr>
+          <tr data-g="保险" data-k="中国太保 复旦保险研究院 交大AI实验室 管培 双导师 轮岗">
+            <td class="co" style="--c:#1a56a8">
+              <div class="co-n">中国太保</div>
+              <div class="co-dots"><i></i><i></i><i class="f3"></i><i class="f4"></i></div>
+              <div class="co-gp">保险 · 2.0 / 4</div>
+            </td>
+            <td class="none">未见官方招聘号</td>
+            <td class="none">未见官方披露</td>
+            <td>复旦保险应用创新研究院（与复旦共建） <a href="https://www.163.com/dy/article/ITFU8G930530QRMB.html" target="_blank" rel="noopener">↗</a><span class="ev B">B</span><br>
+              <span class="nl">交大 AI 实验室 未见官方披露</span></td>
+            <td>集团管培生 <a href="https://cob.sufe.edu.cn/en/Home/Detail/3838" target="_blank" rel="noopener">↗</a><span class="ev B">B</span> <span class="nl">·「双导师轮岗」未见官方披露</span></td>
+          </tr>
+          <tr data-g="保险" data-k="友邦保险 Rise 精英学院 复旦精算中心 浙大 元宇宙 暑期实习营">
+            <td class="co" style="--c:#1a56a8">
+              <div class="co-n">友邦保险</div>
+              <div class="co-dots"><i></i><i class="f2"></i><i class="f3"></i><i class="f4"></i></div>
+              <div class="co-gp">保险 · 3.0 / 4</div>
+            </td>
+            <td class="none">未见官方招聘号</td>
+            <td>元宇宙暑期实习营 <a href="https://news.sina.com.cn/sx/2024-05-09/detail-inaurpkm2889159.shtml" target="_blank" rel="noopener">↗</a></td>
+            <td>友邦-复旦精算中心（30 年） <a href="https://www.aia.com.cn/zh-cn/aia/media/news/2024/202410281" target="_blank" rel="noopener">↗</a><span class="ev A">A</span><br>
+              <span class="nl">浙大保险教育基金 未见官方披露</span></td>
+            <td>Rise Program · 友邦精英学院（代理人渠道口径，非总部校招） <a href="https://aia.wd3.myworkdayjobs.com/en-US/External/job/_JR-65385" target="_blank" rel="noopener">↗</a><span class="ev A">A</span></td>
+          </tr>
+          <tr data-g="保险" data-k="泰康人寿 千人计划 世纪组训 菁英赛 北大经院">
+            <td class="co" style="--c:#1a56a8">
+              <div class="co-n">泰康人寿</div>
+              <div class="co-dots"><i></i><i class="f2"></i><i class="f3"></i><i class="f4"></i></div>
+              <div class="co-gp">保险 · 3.0 / 4</div>
+            </td>
+            <td class="none">未见官方招聘号</td>
+            <td>校园菁英赛（28 所高校 · 以赛代招） <a href="http://mp.weixin.qq.com/s?__biz=MzUxODE2NzMwOQ==&amp;mid=2247511415&amp;idx=1&amp;sn=2fc3b4026970cedab5b47cf73ab4c1ce" target="_blank" rel="noopener">↗</a></td>
+            <td>北大经院战略合作 <a href="https://econ.pku.edu.cn/xwdt/50170econ369282.htm" target="_blank" rel="noopener">↗</a></td>
+            <td>千人计划 · 世纪组训 <a href="https://tlxy.zjgsu.edu.cn/2025/0327/c4329a190453/page.htm" target="_blank" rel="noopener">↗</a></td>
+          </tr>
+
+          <!-- ===== 金融 ===== -->
+          <tr data-g="金融" data-k="招商银行 梦工场 数字金融训练营 B站 TVC 致价值无限的你 中科大">
+            <td class="co" style="--c:#0e7a5f">
+              <div class="co-n">招商银行</div>
+              <div class="co-dots"><i class="f1"></i><i class="f2"></i><i class="f3"></i><i class="f4"></i></div>
+              <div class="co-gp">金融 · 4.0 / 4</div>
+            </td>
+            <td>B站官方号（机构认证 · 86.6 万粉，2026-10-27 接口读取） <a href="https://space.bilibili.com/473965081/" target="_blank" rel="noopener">↗</a><span class="ev A">A</span></td>
+            <td>校招 TVC《致价值无限的你》· B站破圈 <a href="https://www.sohu.com/a/716984925_121123677" target="_blank" rel="noopener">↗</a></td>
+            <td>中科大 AI 联合实验室 <a href="https://news.ustc.edu.cn/info/1056/73241.htm" target="_blank" rel="noopener">↗</a></td>
+            <td>梦工场 + 数字金融训练营 <a href="https://cmb-recruitment-mobile.paas.cmbchina.com/fintech/fintechHome" target="_blank" rel="noopener">↗</a></td>
+          </tr>
+          <tr data-g="金融" data-k="华泰证券 闪闪发光的你 江苏卫视 GTP Kingsman 星训营 科技奖学金 南大AI大赛">
+            <td class="co" style="--c:#0e7a5f">
+              <div class="co-n">华泰证券</div>
+              <div class="co-dots"><i></i><i class="f2"></i><i class="f3"></i><i class="f4"></i></div>
+              <div class="co-gp">金融 · 3.0 / 4</div>
+            </td>
+            <td class="none">未见官方招聘号</td>
+            <td>《闪闪发光的你》两季（江苏卫视） <a href="https://finance.ifeng.com/c/8H4gobjsiUE" target="_blank" rel="noopener">↗</a></td>
+            <td>科技奖学金 · 南大 AI 大赛 <a href="http://www.xinhuanet.com/money/20251218/2f6b22ebfdfa436688eee8b6f64e7ddc/c.html" target="_blank" rel="noopener">↗</a><span class="ev B">B</span></td>
+            <td>Kingsman 星训营（校招储备）· Fintech 星战营 · GTP <a href="https://career.sysu.edu.cn/campus/view/id/996272" target="_blank" rel="noopener">↗</a><span class="ev B">B</span>
+              <span class="nl">· 原挂南开就业网页 2026-10-27 核验已过期（提示「该信息已过期」），已替换</span></td>
+          </tr>
+          <tr data-g="金融" data-k="广发银行 中央财经大学 战略合作 总行管培 卡中心">
+            <td class="co" style="--c:#0e7a5f">
+              <div class="co-n">广发银行</div>
+              <div class="co-dots"><i></i><i></i><i class="f3"></i><i class="f4"></i></div>
+              <div class="co-gp">金融 · 2.0 / 4</div>
+            </td>
+            <td class="none">未见官方招聘号</td>
+            <td class="none">未见官方披露</td>
+            <td>中央财经大学战略合作 <a href="https://news.cufe.edu.cn/info/1002/53980.htm" target="_blank" rel="noopener">↗</a></td>
+            <td>总行管培 + 卡中心 18 个月管培 <a href="https://www.cgbchina.com.cn/career/notice.jsp?title=%B9%E3%B7%A2%D2%F8%D0%D02027%C4%EA%B6%C8%D0%A3%D4%B0%D5%D0%C6%B8%B9%AB%B8%E6&pub_date=2026-09-09&pub_time=20:48:14" target="_blank" rel="noopener">↗</a></td>
+          </tr>
+          <tr data-g="金融" data-k="中金公司 清华 中金学院 暑期实习 留用">
+            <td class="co" style="--c:#0e7a5f">
+              <div class="co-n">中金公司</div>
+              <div class="co-dots"><i></i><i></i><i class="f3"></i><i class="f4"></i></div>
+              <div class="co-gp">金融 · 2.0 / 4</div>
+            </td>
+            <td class="none">未见官方招聘号</td>
+            <td class="none">未见官方披露</td>
+            <td>清华捐赠 · 中金学院 <a href="https://www.tuef.tsinghua.edu.cn/info/1042/1955.htm" target="_blank" rel="noopener">↗</a></td>
+            <td>暑期实习留用体系 <a href="https://cicc.zhiye.com/custom/summerqa?hideMenu=1" target="_blank" rel="noopener">↗</a></td>
+          </tr>
+
+          <!-- ===== 互联网 ===== -->
+          <tr data-g="互联网" data-k="字节跳动 ByteIntern Seed 筋斗云 奖学金 抖音 要投就投">
+            <td class="co" style="--c:#e8542f">
+              <div class="co-n">字节跳动</div>
+              <div class="co-dots"><i class="f1"></i><i class="f2"></i><i class="f3"></i><i class="f4"></i></div>
+              <div class="co-gp">互联网 · 4.0 / 4</div>
+            </td>
+            <td>抖音 @字节跳动招聘 <span class="nl">· 平台内账号，无网页直链（主页截图存证）；原挂公众号文章正文为空，不可作为账号证据</span></td>
+            <td>校招 campaign《要投就投字节跳动》 <a href="https://socialbeta.com/campaign/4043" target="_blank" rel="noopener">↗</a></td>
+            <td>字节跳动奖学金（30 万/人 · 直通 Seed） <a href="https://scholarship.bytedance.com/" target="_blank" rel="noopener">↗</a><span class="ev A">A</span>
+              <span class="nl">· 官方站前端渲染，静态核验无正文，量级以站内公示为准</span></td>
+            <td>ByteIntern + Seed + 筋斗云 <a href="https://seed.bytedance.com/zh/blog/bytedance-seed-2027-foundation-model-campus-recruitment-is-now-open-internships-included" target="_blank" rel="noopener">↗</a></td>
+          </tr>
+          <tr data-g="互联网" data-k="腾讯 青云 犀牛鸟 令人心动的offer 视频号 小红书 奖学金">
+            <td class="co" style="--c:#e8542f">
+              <div class="co-n">腾讯</div>
+              <div class="co-dots"><i class="f1"></i><i class="f2"></i><i class="f3"></i><i class="f4"></i></div>
+              <div class="co-gp">互联网 · 4.0 / 4</div>
+            </td>
+            <td>视频号 + 小红书 @腾讯招聘 <span class="nl">· 平台内账号，无网页直链（主页截图存证）</span></td>
+            <td>自制综艺《令人心动的 offer》 <a href="https://new.qq.com/rain/a/20210114A07COV00" target="_blank" rel="noopener">↗</a></td>
+            <td>犀牛鸟高校合作体系 <a href="https://ur.tencent.com/article/1495" target="_blank" rel="noopener">↗</a><span class="ev A">A</span> <span class="nl">· 青云奖学金见青云计划页</span></td>
+            <td>青云计划 <a href="https://join.qq.com/qingyun.html" target="_blank" rel="noopener">↗</a></td>
+          </tr>
+          <tr data-g="互联网" data-k="阿里巴巴 阿里星 Bravo Star 达摩院 AIR 校招片 同学你好了不起">
+            <td class="co" style="--c:#e8542f">
+              <div class="co-n">阿里巴巴</div>
+              <div class="co-dots"><i></i><i class="f2"></i><i class="f3"></i><i class="f4"></i></div>
+              <div class="co-gp">互联网 · 3.0 / 4</div>
+            </td>
+            <td class="none">未见官方招聘号</td>
+            <td>阿里星 2027 届顶尖人才招募（潮新闻专访） <a href="https://tidenews.com.cn/news.html?id=3484763" target="_blank" rel="noopener">↗</a><span class="ev B">B</span></td>
+            <td>达摩院（含 AIR 创新研究计划） <a href="https://damo.alibaba.com/" target="_blank" rel="noopener">↗</a><span class="ev A">A</span><br>
+              <span class="nl">· 原挂阿里云问答页与结论不符；「100+ 高校」未见官方披露</span></td>
+            <td>阿里星 + Bravo Star <a href="https://aidc-jobs.alibaba.com/bravo-star" target="_blank" rel="noopener">↗</a></td>
+          </tr>
+          <tr data-g="互联网" data-k="京东 TET JDS 京鹰会 开播吧青春采销 港科大 中传">
+            <td class="co" style="--c:#e8542f">
+              <div class="co-n">京东</div>
+              <div class="co-dots"><i></i><i class="f2"></i><i class="f3"></i><i class="f4"></i></div>
+              <div class="co-gp">互联网 · 3.0 / 4</div>
+            </td>
+            <td class="none">未见官方招聘号</td>
+            <td>定制综艺《开播吧！青春采销》 <a href="https://www.iqiyi.com/a_1xwvbsgmc7p.html" target="_blank" rel="noopener">↗</a></td>
+            <td>中传京东新闻奖学金 + 共建实验室 <a href="https://www.cuc.edu.cn/2017/0421/c1761a162601/page.htm" target="_blank" rel="noopener">↗</a><span class="ev B">B</span><br>
+              <span class="nl">港科大联合实验室 未见官方披露</span></td>
+            <td>TET 管培（京鹰会）+ JDS 新星 <a href="https://career.nankai.edu.cn/correcruit/content/id/116372.html" target="_blank" rel="noopener">↗</a><span class="ev B">B</span>
+              <span class="nl">· 原挂本地宝（资讯聚合）页，已换校方就业网</span></td>
+          </tr>
+          <tr data-g="互联网" data-k="华为 天才少年 智能基座 B站 招聘 宣传片 打开边界 问">
+            <td class="co" style="--c:#e8542f">
+              <div class="co-n">华为</div>
+              <div class="co-dots"><i class="f1"></i><i class="f2"></i><i class="f3"></i><i class="f4"></i></div>
+              <div class="co-gp">互联网 · 4.0 / 4</div>
+            </td>
+            <td>B站 @华为招聘 <a href="https://space.bilibili.com/510459330/dynamic" target="_blank" rel="noopener">↗</a></td>
+            <td>校招宣传片《打开边界》《问》 <a href="https://www.bilibili.com/video/BV1Sd4y1i7Zh/" target="_blank" rel="noopener">↗</a></td>
+            <td>教育部智能基座产教融合项目 <a href="https://cs.whu.edu.cn/info/1054/1020.htm" target="_blank" rel="noopener">↗</a><span class="ev B">B</span>
+              <span class="nl">·「72 所高校」未见本次核验页披露，以教育部名单为准</span></td>
+            <td>天才少年计划 <a href="http://career.huawei.com/reccampportal/portal5/index.html" target="_blank" rel="noopener">↗</a><span class="ev A">A</span> <span class="nl">· 官方招聘站前端渲染</span></td>
+          </tr>
+
+          <!-- ===== 跨行业标杆 ===== -->
+          <tr data-g="标杆" data-k="美团 北斗 启航 小红书 北理工 实习基地">
+            <td class="co" style="--c:#7a3ea8">
+              <div class="co-n">美团</div>
+              <div class="co-dots"><i class="f1"></i><i></i><i class="f3"></i><i class="f4"></i></div>
+              <div class="co-gp">标杆 · 3.0 / 4</div>
+            </td>
+            <td>小红书 @美团招聘 <span class="nl">· 平台内账号，无网页直链（主页截图存证）</span></td>
+            <td class="none">未见官方披露</td>
+            <td>北理工实习基地等 <a href="https://som.bit.edu.cn/gbxwzx/xyyw/93e3441f78784364a6e2c2abe88312c6.htm" target="_blank" rel="noopener">↗</a></td>
+            <td>北斗计划 + 启航计划 <a href="https://zhaopin.meituan.com/web/beidou" target="_blank" rel="noopener">↗</a></td>
+          </tr>
+          <tr data-g="标杆" data-k="比亚迪 寻找爱迪生 30亿 教育基金 127所 明日之星 抖音 校园招聘">
+            <td class="co" style="--c:#7a3ea8">
+              <div class="co-n">比亚迪</div>
+              <div class="co-dots"><i class="f1"></i><i class="f2"></i><i class="f3"></i><i class="f4"></i></div>
+              <div class="co-gp">标杆 · 4.0 / 4</div>
+            </td>
+            <td>抖音 @比亚迪校园招聘 <span class="nl">· 平台内账号，无网页直链（主页截图存证）</span></td>
+            <td>校招品牌「寻找爱迪生」 <a href="https://ess-cdn.byd.com/%E6%8B%9B%E8%81%98/%E9%97%A8%E6%88%B7/%E6%8B%9B%E8%81%98%E7%AE%80%E7%AB%A0//260309/58bf7d2af8de465f835b0fedfd22f5db.pdf" target="_blank" rel="noopener">↗</a></td>
+            <td>30 亿教育慈善基金 <a href="https://www.byd.com/cn/detail613" target="_blank" rel="noopener">↗</a><span class="ev A">A</span>
+              <span class="nl">·「127 所高校」未见本次核验页披露</span></td>
+            <td>明日之星训练营 <a href="http://www.ce.cn/xwzx/gnsz/gdxw/202602/t20260226_2787661.shtml" target="_blank" rel="noopener">↗</a></td>
+          </tr>
+          <tr data-g="标杆" data-k="宁德时代 CATL 小红书 B站 暑期Offer加速营 青柠计划 交大">
+            <td class="co" style="--c:#7a3ea8">
+              <div class="co-n">宁德时代</div>
+              <div class="co-dots"><i class="f1"></i><i class="f2"></i><i class="f3"></i><i class="f4"></i></div>
+              <div class="co-gp">标杆 · 4.0 / 4</div>
+            </td>
+            <td>小红书 @CATL 招聘（平台内账号，无直链）+ B站官方号 <a href="https://space.bilibili.com/435356794/channel/collectiondetail?sid=848900" target="_blank" rel="noopener">↗</a><span class="ev A">A</span></td>
+            <td>校招宣传片系列（官方 B站发布） <a href="https://space.bilibili.com/435356794" target="_blank" rel="noopener">↗</a></td>
+            <td>交大联合研究中心 · 青柠计划（目标 100 所） <a href="https://www.catl.com/news/9545.html" target="_blank" rel="noopener">↗</a><span class="ev A">A</span></td>
+            <td>暑期 Offer 加速营 <a href="https://sfi.cuhk.edu.cn/zh-hans/node/10787" target="_blank" rel="noopener">↗</a></td>
+          </tr>
+          <tr data-g="标杆" data-k="宝洁 P&amp;G 老简历 管培 第一年即经理 奖学金 校园寻宝家">
+            <td class="co" style="--c:#7a3ea8">
+              <div class="co-n">宝洁</div>
+              <div class="co-dots"><i></i><i class="f2"></i><i class="f3"></i><i class="f4"></i></div>
+              <div class="co-gp">标杆 · 3.0 / 4</div>
+            </td>
+            <td><span class="st todo">未见官方直链</span> 视频号 / 小红书 @宝洁招聘<br>
+              <span class="nl">网页侧无官方主页直链（原挂牛企直聘聚合页，C 级不进表）；公众号「宝洁招聘」为标配不计入。2026-10-27 由 1.0 → 0 分，待补主页截图后回调</span></td>
+            <td>校招广告《老简历》（数英奖） <a href="https://www.digitaling.com/projects/181677.html" target="_blank" rel="noopener">↗</a><span class="ev B">B</span></td>
+            <td>宝洁奖学金（北大教育基金会历史记录） <a href="https://www.pkuef.org/xwzx1/xwdt/1.htm" target="_blank" rel="noopener">↗</a><span class="ev B">B</span><br>
+              <span class="nl">校园寻宝家校园大使 · 公众号项目，无网页直链；最新年度奖励名单未见官方披露</span></td>
+            <td>管培「第一年即经理」 <a href="https://career.hit.edu.cn/zhxy-xszyfzpt/zpxx/zczphxq?id=ZDYwOWQwNzA5M2M0NDY2M2JiMTJkMGI5MTA0ZTlmOTg=" target="_blank" rel="noopener">↗</a></td>
+          </tr>
+          <tr data-g="标杆" data-k="普华永道 PwC LEAP Superday STEM Day 奖学金 中南财大">
+            <td class="co" style="--c:#7a3ea8">
+              <div class="co-n">普华永道（四大）</div>
+              <div class="co-dots"><i class="f1"></i><i class="f2"></i><i class="f3"></i><i class="f4"></i></div>
+              <div class="co-gp">标杆 · 4.0 / 4</div>
+            </td>
+            <td>视频号 @普华永道校园（平台内账号，无直链）+ B站 <a href="https://space.bilibili.com/277408594" target="_blank" rel="noopener">↗</a><span class="ev A">A</span></td>
+            <td>STEM Day 理工生挑战营 <a href="https://software.fudan.edu.cn/d1/3b/c29332a315707/page.htm" target="_blank" rel="noopener">↗</a><span class="ev B">B</span>
+              <span class="nl">· 原挂牛客社区帖（C 级），已换复旦软件学院报道</span></td>
+            <td>普华永道奖学金（中南财大等） <a href="https://fund.zuel.edu.cn/_upload/article/files/c9/3b/eb1bed324e9fab1d46b229b211d2/0c6de9e6-2891-4c81-8959-d57d5ce66bbe.pdf" target="_blank" rel="noopener">↗</a></td>
+            <td>LEAP 校园俱乐部 + Superday <a href="https://www.pwccn.com/zh/careers/students.html" target="_blank" rel="noopener">↗</a><span class="ev A">A</span> <span class="nl">· 站点对自动化请求偶发 403，浏览器可直接打开</span></td>
+          </tr>
+
+        </tbody>
+      </table>
+      <div style="font-size:11px;color:#b6bbc1;margin-top:9px;line-height:1.7">
+        注：本表为「动作有无 + 形态」记录，量级信息见各证据链接原文；集团口径与子公司口径不混用（如平安集团 vs 平安银行、友邦总部雇员 vs 代理人招募）。
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+/* ================= 覆盖度排序数据 ================= */
+const RANK = [
+  { n:"中国平安",  g:"保险", s:4.0, d:[1,1,1,1] },
+  { n:"招商银行",  g:"金融", s:4.0, d:[1,1,1,1] },
+  { n:"字节跳动",  g:"互联网", s:4.0, d:[1,1,1,1] },
+  { n:"腾讯",      g:"互联网", s:4.0, d:[1,1,1,1] },
+  { n:"华为",      g:"互联网", s:4.0, d:[1,1,1,1] },
+  { n:"比亚迪",    g:"标杆", s:4.0, d:[1,1,1,1] },
+  { n:"宁德时代",  g:"标杆", s:4.0, d:[1,1,1,1] },
+  { n:"普华永道",  g:"标杆", s:4.0, d:[1,1,1,1] },
+  { n:"阳光保险",  g:"本企业", s:3.0, d:[1,0,1,1] },
+  { n:"友邦保险",  g:"保险", s:3.0, d:[0,1,1,1] },
+  { n:"泰康人寿",  g:"保险", s:3.0, d:[0,1,1,1] },
+  { n:"华泰证券",  g:"金融", s:3.0, d:[0,1,1,1] },
+  { n:"阿里巴巴",  g:"互联网", s:3.0, d:[0,1,1,1] },
+  { n:"京东",      g:"互联网", s:3.0, d:[0,1,1,1] },
+  { n:"美团",      g:"标杆", s:3.0, d:[1,0,1,1] },
+  { n:"宝洁",      g:"标杆", s:3.0, d:[0,1,1,1] },
+  { n:"中国人寿",  g:"保险", s:2.0, d:[0,0,1,1] },
+  { n:"中国人保",  g:"保险", s:2.0, d:[0,1,1,0] },
+  { n:"中国太保",  g:"保险", s:2.0, d:[0,0,1,1] },
+  { n:"广发银行",  g:"金融", s:2.0, d:[0,0,1,1] },
+  { n:"中金公司",  g:"金融", s:2.0, d:[0,0,1,1] }
+];
+
+const TIPS = ["官方新媒体矩阵","线上营销动作","校企合作·奖学金","专属培养项目"];
+
+function segCls(v, idx) {
+  if (v === 'p') return 'seg pt';
+  if (v === 1)   return 'seg f' + (idx + 1);
+  return 'seg';
+}
+
+const grid = document.getElementById('rankGrid');
+let rh = '';
+RANK.forEach((r, i) => {
+  const segs = r.d.map((v, j) =>
+    `<div class="${segCls(v, j)}" title="${TIPS[j]}：${v === 0 ? '未见官方披露' : (v === 'p' ? '部分达成' : '已达成')}"></div>`
+  ).join('');
+  rh += `<div class="rrow${r.g === '本企业' ? ' self' : ''}">
+    <span class="rk">${i + 1}</span>
+    <span class="nm" title="${r.n}">${r.n}</span>
+    <span class="bar">${segs}</span>
+    <span class="sc">${r.s.toFixed(1)}</span>
+    <span class="gp">${r.g === '本企业' ? '本企业' : r.g}</span>
+  </div>`;
+});
+grid.innerHTML = rh;
+
+/* ================= 矩阵筛选 ================= */
+const rows  = Array.from(document.querySelectorAll('#mxBody tr'));
+const chips = Array.from(document.querySelectorAll('.chip'));
+const q     = document.getElementById('q');
+let curG = 'all';
+
+function applyFilter() {
+  const kw = (q.value || '').trim().toLowerCase();
+  let shown = 0;
+  rows.forEach(tr => {
+    const okG = curG === 'all' || tr.dataset.g === curG;
+    const okK = !kw || (tr.dataset.k || '').toLowerCase().includes(kw);
+    const show = okG && okK;
+    tr.style.display = show ? '' : 'none';
+    if (show) shown++;
+  });
+  const label = document.querySelector('.mx-wrap .mx-src');
+  if (!shown) {
+    label.style.background = '#fff5f5';
+  } else {
+    label.style.background = '';
+  }
+}
+
+chips.forEach(c => c.addEventListener('click', () => {
+  chips.forEach(x => x.classList.remove('on'));
+  c.classList.add('on');
+  curG = c.dataset.g;
+  applyFilter();
+}));
+q.addEventListener('input', applyFilter);
+
+/* ================= 证据标记上色（无 A/B 标记的链接默认视为 B） ================= */
+document.querySelectorAll('table.mx a').forEach((a, i) => {
+  a.title = '点击查看证据原文';
+});
+
+/* 内嵌模式：被驾驶舱 iframe 引用时隐藏产品条，避免双层导航 */
+if (/[?&]embed=1/.test(window.location.search)) {
+  document.body.classList.add('embed');
+}
+</script>
+</body>
+</html>

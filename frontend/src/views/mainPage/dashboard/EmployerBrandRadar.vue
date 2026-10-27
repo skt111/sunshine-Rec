@@ -1,16 +1,253 @@
 <template>
   <section class="brand-radar-page">
-    <div class="radar-heading"><div><p class="eyebrow purple-eyebrow">EMPLOYER BRAND INTELLIGENCE · 演示数据</p><h1>雇主品牌雷达</h1><p>候选人关注点 · 雇主品牌舆情 · 招聘传播建议</p></div><div class="radar-heading-actions"><span class="demo-label">模拟样本 n=1,240</span><button class="ghost-btn" @click="$emit('toast', '已刷新本地演示情报')">↻ 刷新情报</button><button class="primary-btn" @click="$emit('brief')">✦ 生成品牌洞察简报</button></div></div>
-    <div class="brand-company-tabs"><button v-for="company in companies" :key="company.name" :class="{ selected: selectedCompany === company.name }" @click="selectedCompany = company.name"><span class="brand-company-avatar">{{ company.name.slice(0, 1) }}</span><span>{{ company.name }}</span><i v-if="company.newSignal"></i><small>{{ company.industry }}</small></button></div>
-    <div class="brand-stats"><article v-for="stat in activeCompany.stats" :key="stat.label" :class="['brand-stat', stat.tone]"><span class="brand-stat-icon">{{ stat.icon }}</span><div><small>{{ stat.label }}</small><strong>{{ stat.value }}</strong><p>{{ stat.delta }} · {{ stat.note }}</p></div></article></div>
-    <section class="panel brand-matrix-panel"><div class="panel-head compact"><div><div class="section-label"><span class="section-mark purple-mark"></span>雇主品牌情报矩阵</div><h2>{{ activeCompany.name }} · 官方信息、候选人声音与行动建议</h2><p>点击任意情报行打开 AI 分析详情，所有内容均为前端模拟分析。</p></div><span class="ai-chip">✦ AI 模拟分析</span></div><div class="brand-matrix"><div class="matrix-head"><span>企业</span><span>官方招聘信息</span><span>候选人关注点</span><span>新媒体热点与舆情</span><span>AI 分析与招聘建议</span></div><div class="matrix-row" @click="openSignal('official')"><div class="matrix-company"><span class="brand-company-avatar large">{{ activeCompany.name.slice(0, 1) }}</span><div><b>{{ activeCompany.name }}</b><small>{{ activeCompany.industry }} · 品牌健康度 {{ activeCompany.health }}</small></div></div><div><span class="matrix-label official-label">官方来源</span><p>{{ activeCompany.official.title }}</p><small>{{ activeCompany.official.meta }}</small></div><div><span class="matrix-label focus-label">关注焦点</span><p>{{ activeCompany.focus.title }}</p><small>{{ activeCompany.focus.meta }}</small></div><div><span class="matrix-label hot-label">热点讨论</span><p>{{ activeCompany.hotspot.title }}</p><small>{{ activeCompany.hotspot.meta }}</small></div><div><span class="matrix-label ai-label">AI 建议</span><p>{{ activeCompany.ai.title }}</p><small>{{ activeCompany.ai.meta }}</small></div><span class="matrix-arrow">›</span></div></div><div class="matrix-evidence"><span><i class="green-dot"></i>官方来源</span><span><i class="blue-dot"></i>权威媒体</span><span><i class="gray-dot"></i>其他公开渠道，待人工复核</span><span class="evidence-note-inline">更新时间：{{ activeCompany.updatedAt }}</span></div></section>
-    <div class="brand-lower-grid"><section class="panel brand-focus-panel"><div class="panel-head compact"><div><div class="section-label"><span class="section-mark blue-mark"></span>候选人正在关注什么</div><h2>高频关键词与情绪变化</h2></div><button class="more-btn" @click="openSignal('focus')">查看完整分析 →</button></div><div class="keyword-cloud"><button v-for="word in activeCompany.keywords" :key="word.label" :class="['keyword-pill', word.tone]" @click="openSignal('focus')">{{ word.label }} <b>{{ word.value }}</b></button></div><div class="sentiment-line"><span>正向</span><div><i :style="{ width: activeCompany.sentiment.positive + '%' }"></i></div><b>{{ activeCompany.sentiment.positive }}%</b><span>中性 {{ activeCompany.sentiment.neutral }}%</span><span class="negative">负向 {{ activeCompany.sentiment.negative }}%</span></div></section><section class="panel brand-risk-panel"><div class="panel-head compact"><div><div class="section-label"><span class="section-mark rose-mark"></span>雇主品牌风险</div><h2>需要进入行动清单的信号</h2></div><span class="priority p1">P1</span></div><div v-for="risk in activeCompany.risks" :key="risk.title" class="brand-risk-row" @click="openSignal('risk')"><span class="risk-dot"></span><div><b>{{ risk.title }}</b><p>{{ risk.note }}</p></div><span class="risk-confidence">{{ risk.confidence }}</span></div></section></div>
-    <div v-if="drawer.visible" class="drawer-layer" @click.self="drawer.visible = false"><aside class="detail-drawer brand-insight-drawer"><div class="drawer-head"><div><span class="modal-kicker">AI EMPLOYER BRAND INSIGHT</span><h2>品牌洞察详情</h2></div><button class="icon-btn" @click="drawer.visible = false">×</button></div><div class="drawer-body"><div class="evidence-note"><span>●</span> 模拟分析 · 置信度 {{ activeCompany.ai.confidence }}</div><div class="drawer-company"><span class="brand-company-avatar large">{{ activeCompany.name.slice(0, 1) }}</span><div><h3>{{ activeCompany.name }}</h3><span>{{ activeCompany.industry }} · {{ activeCompany.health }} 品牌健康度</span></div></div><div class="detail-block"><label>发现了什么</label><p>{{ activeCompany.official.title }}；候选人讨论集中在 {{ activeCompany.focus.title }}，热点为“{{ activeCompany.hotspot.title }}”。</p></div><div class="detail-block"><label>为什么爆火</label><p>{{ activeCompany.ai.reason }}</p></div><div class="detail-block"><label>对阳光校招意味着什么</label><p>{{ activeCompany.ai.impact }}</p></div><div class="detail-block action-block"><label>建议采取什么行动</label><p>{{ activeCompany.ai.action }}</p><div class="action-meta"><span>责任角色：校招内容组</span><span>建议完成：本周五前</span></div></div></div><div class="drawer-foot"><button class="ghost-btn" @click="drawer.visible = false">关闭</button><button class="primary-btn" @click="adoptSuggestion">采纳建议</button></div></aside></div>
+    <BrandFilter
+      :filter="filter"
+      :companies="companies"
+      @change="onFilterChange"
+      @reset="resetFilter"
+    />
+
+    <div v-if="loading" class="panel brand-loading">数据加载中…</div>
+    <div v-else-if="error" class="panel brand-error">
+      {{ error }}
+      <div style="margin-top:10px"><button class="ghost-btn" @click="reload">重试</button></div>
+    </div>
+
+    <div v-else class="brand-main-grid">
+      <BrandNoteList
+        :rows="pageData.list"
+        :total="pageData.total"
+        :page="pageData.page"
+        :size="pageData.size"
+        :total-pages="pageData.totalPages"
+        :sort-by="filter.sortBy"
+        :sort-direction="filter.sortDirection"
+        @page="changePage"
+        @sort="changeSort"
+        @detail="openDetail"
+        @create="manualVisible = true"
+      />
+      <BrandRankingPanel
+        :ranking="ranking"
+        :active-type="rankingType"
+        @change-type="changeRankingType"
+      />
+    </div>
+
+    <!-- 校招吸引动作矩阵（复用 02-雇主品牌建设·模块页，位于互动榜下方整行） -->
+    <EmployerBrandMatrix />
+
+    <!-- 图例（页面最下方） -->
+    <EmployerBrandLegend />
+
+    <ManualNoteDialog
+      v-if="manualVisible"
+      :companies="companies"
+      :accounts="accounts"
+      @close="manualVisible = false"
+      @saved="onSaved"
+    />
+
+    <BatchImportDialog
+      v-if="batchVisible"
+      :companies="companies"
+      @close="batchVisible = false"
+      @imported="onImported"
+    />
+
+    <SourceCheckDrawer
+      v-if="sourceVisible"
+      @close="sourceVisible = false"
+    />
+
+    <CleanNotesDialog
+      v-if="cleanVisible"
+      :companies="companies"
+      :default-company-id="filter.companyId"
+      @close="cleanVisible = false"
+      @cleaned="onCleaned"
+    />
+
+    <BrandNoteDetail
+      v-if="detailId"
+      :note-id="detailId"
+      @close="detailId = null"
+    />
   </section>
 </template>
+
 <script>
-export default { name: 'EmployerBrandRadar', data () { return { selectedCompany: '中国平安', drawer: { visible: false, kind: '' }, companies: [{ name: '中国平安', industry: '保险金融', health: '78%', newSignal: true, updatedAt: '10月26日 09:12', stats: [{ label: '品牌正向评价', value: '46%', delta: '+8.4%', note: '较上一周期', icon: '↗', tone: 'orange' }, { label: '候选人关注话题', value: '18', delta: '+5', note: '近 7 天新增', icon: '◎', tone: 'purple' }, { label: '新增舆情', value: '12', delta: '+3', note: '模拟社媒样本', icon: '◉', tone: 'blue' }, { label: '待核验风险', value: '2', delta: 'P1', note: '需要持续观察', icon: '!', tone: 'red' }], official: { title: '2027 校招培养计划更新，新增科技金融方向', meta: '官方校招网站 · 2 小时前' }, focus: { title: '培养机制、工作稳定、职业发展', meta: '候选人讨论 · 高相关' }, hotspot: { title: '新人培养计划真实体验分享', meta: '小红书 · 热度 +24%' }, ai: { title: '强化成长路径与真实员工案例', meta: '建议优先级 P1', confidence: '78%', reason: '真实员工经历比概念性宣传更容易建立信任，候选人正在主动比较培养机制的可预期性。', impact: '如果岗位页面缺少成长路径，可能降低重点院校候选人的投递转化。', action: '在校招官网和宣讲材料中补充培养阶段、岗位发展路径、真实员工案例，并在宣讲问答环节主动回应稳定性问题。' }, keywords: [{ label: '培养机制', value: '62%', tone: 'hot' }, { label: '工作稳定', value: '51%', tone: 'warm' }, { label: '职业发展', value: '48%', tone: 'cool' }, { label: '福利保障', value: '34%', tone: 'cool' }], sentiment: { positive: 46, neutral: 38, negative: 16 }, risks: [{ title: '候选人对成长路径信息不足', note: '连续 3 日成为高频讨论词', confidence: '78%' }, { title: '工作强度讨论出现分化', note: '建议补充真实工作场景说明', confidence: '64%' }] }, { name: '招商银行', industry: '银行总行', health: '84%', newSignal: true, updatedAt: '10月26日 08:46', stats: [{ label: '品牌正向评价', value: '52%', delta: '+6.1%', note: '较上一周期', icon: '↗', tone: 'orange' }, { label: '候选人关注话题', value: '14', delta: '+2', note: '近 7 天新增', icon: '◎', tone: 'purple' }, { label: '新增舆情', value: '8', delta: '+1', note: '模拟社媒样本', icon: '◉', tone: 'blue' }, { label: '待核验风险', value: '1', delta: 'P2', note: '持续观察', icon: '!', tone: 'red' }], official: { title: '管培生项目开放报名，新增数字金融方向', meta: '官方公众号 · 4 小时前' }, focus: { title: '发展空间、专业匹配、培训体系', meta: '候选人讨论 · 高相关' }, hotspot: { title: '银行管培项目怎么选？', meta: '微信公众号 · 热度 +16%' }, ai: { title: '拆解岗位发展路径与轮岗机制', meta: '建议优先级 P1', confidence: '82%', reason: '候选人对管培项目的筛选标准从品牌认知转向具体轮岗与晋升机制。', impact: '阳光需要用更具体的岗位成长地图提升金融人才的理解度。', action: '制作岗位轮岗地图，在重点院校宣讲中加入真实管培生案例。' }, keywords: [{ label: '发展空间', value: '59%', tone: 'hot' }, { label: '轮岗机制', value: '46%', tone: 'warm' }, { label: '专业匹配', value: '41%', tone: 'cool' }, { label: '福利保障', value: '29%', tone: 'cool' }], sentiment: { positive: 52, neutral: 36, negative: 12 }, risks: [{ title: '管培项目认知存在信息差', note: '候选人希望获得更具体的轮岗信息', confidence: '72%' }] }] } }, computed: { activeCompany () { return this.companies.filter(function (item) { return item.name === this.selectedCompany }.bind(this))[0] || this.companies[0] } }, watch: { 'drawer.visible' (visible) { document.body.style.overflow = visible ? 'hidden' : '' } }, mounted () { this.handleEscape = function (event) { if (event.key === 'Escape' && this.drawer.visible) this.drawer.visible = false }.bind(this); window.addEventListener('keydown', this.handleEscape) }, beforeDestroy () { window.removeEventListener('keydown', this.handleEscape); document.body.style.overflow = '' }, methods: { openSignal (kind) { this.drawer = { visible: true, kind: kind } }, adoptSuggestion () { this.drawer.visible = false; this.$emit('toast', '建议已采纳，已加入行动清单') } } }
+import BrandFilter from './brand/BrandFilter'
+import BrandNoteList from './brand/BrandNoteList'
+import BrandRankingPanel from './brand/BrandRankingPanel'
+import ManualNoteDialog from './brand/ManualNoteDialog'
+import BatchImportDialog from './brand/BatchImportDialog'
+import SourceCheckDrawer from './brand/SourceCheckDrawer'
+import CleanNotesDialog from './brand/CleanNotesDialog'
+import BrandNoteDetail from './brand/BrandNoteDetail'
+import EmployerBrandMatrix from './brand/EmployerBrandMatrix'
+import EmployerBrandLegend from './brand/EmployerBrandLegend'
+import { fetchCompanies } from '@/api/supplyRadar'
+import { fetchAccounts, fetchNotes, fetchRankings } from '@/api/employerBrand'
+
+/** 列表每页 6 条（三列 × 两行，需求：三列每列两个推文，超出翻页） */
+var PAGE_SIZE = 6
+
+function defaultFilter () {
+  return {
+    companyCategory: '',
+    companyId: '',
+    accountNature: '',
+    topic: '',
+    sortBy: 'publishedAt',
+    sortDirection: 'desc'
+  }
+}
+
+export default {
+  name: 'EmployerBrandRadar',
+  components: { BrandFilter, BrandNoteList, BrandRankingPanel, ManualNoteDialog, BatchImportDialog, SourceCheckDrawer, CleanNotesDialog, BrandNoteDetail, EmployerBrandMatrix, EmployerBrandLegend },
+  data: function () {
+    return {
+      filter: defaultFilter(),
+      companies: [],
+      accounts: [],
+      pageData: { list: [], total: 0, page: 1, size: PAGE_SIZE, totalPages: 0 },
+      ranking: {},
+      rankingType: 'composite',
+      loading: true,
+      error: '',
+      manualVisible: false,
+      batchVisible: false,
+      sourceVisible: false,
+      cleanVisible: false,
+      detailId: null
+    }
+  },
+  mounted: function () {
+    this.loadBase()
+    this.reload()
+  },
+  methods: {
+    loadBase: function () {
+      var self = this
+      fetchCompanies().then(function (list) {
+        self.companies = list || []
+      }).catch(function () {
+        self.companies = []
+      })
+      fetchAccounts().then(function (list) {
+        self.accounts = list || []
+      }).catch(function () {
+        self.accounts = []
+      })
+    },
+    reload: function () {
+      this.loadNotes()
+      this.loadRankings()
+    },
+    loadNotes: function () {
+      var self = this
+      var params = this.baseParams()
+      params.page = this.pageData.page
+      params.size = this.pageData.size
+      params.sortBy = this.filter.sortBy
+      params.sortDirection = this.filter.sortDirection
+      this.loading = true
+      this.error = ''
+      fetchNotes(params).then(function (data) {
+        self.pageData = data || { list: [], total: 0, page: 1, size: PAGE_SIZE, totalPages: 0 }
+        self.loading = false
+      }).catch(function (e) {
+        self.error = e.message || '加载失败'
+        self.loading = false
+      })
+    },
+    loadRankings: function () {
+      var self = this
+      // 榜单每页 5 条，取 20 条足够翻页
+      var params = { limit: 20 }
+      params.type = this.rankingType
+      if (this.filter.companyId) params.companyId = this.filter.companyId
+      fetchRankings(params).then(function (data) {
+        self.ranking = data || {}
+      }).catch(function (e) {
+        self.ranking = { available: false, reason: e.message || '榜单加载失败', items: [] }
+      })
+    },
+    baseParams: function () {
+      var p = {}
+      if (this.filter.companyId) p.companyIds = this.filter.companyId
+      if (this.filter.companyCategory) p.companyCategory = this.filter.companyCategory
+      if (this.filter.accountNature) p.accountNature = this.filter.accountNature
+      if (this.filter.topic) p.topic = this.filter.topic
+      return p
+    },
+    onFilterChange: function (next) {
+      this.filter = Object.assign({}, this.filter, next)
+      this.pageData.page = 1
+      this.reload()
+    },
+    resetFilter: function () {
+      this.filter = defaultFilter()
+      this.pageData.page = 1
+      this.reload()
+    },
+    changePage: function (page) {
+      this.pageData.page = page
+      this.loadNotes()
+    },
+    changeSort: function (sortBy, sortDirection) {
+      this.filter.sortBy = sortBy
+      this.filter.sortDirection = sortDirection
+      this.pageData.page = 1
+      this.loadNotes()
+    },
+    changeRankingType: function (type) {
+      this.rankingType = type
+      this.loadRankings()
+    },
+    openDetail: function (id) {
+      this.detailId = id
+    },
+    onSaved: function () {
+      this.manualVisible = false
+      this.loadBase()
+      this.reload()
+    },
+    onImported: function () {
+      this.loadBase()
+      this.reload()
+    },
+    onCleaned: function () {
+      this.loadNotes()
+      this.loadRankings()
+    }
+  }
+}
 </script>
 
+<style lang="scss" scoped>
+.brand-main-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 300px;
+  gap: 12px;
+  align-items: start;
+}
 
+.brand-loading,
+.brand-error {
+  padding: 44px;
+  color: #8c96a3;
+  font-size: 11px;
+  text-align: center;
+}
 
+.brand-error {
+  color: #d9534f;
+}
+
+@media (max-width: 1360px) {
+  .brand-main-grid { grid-template-columns: 1fr; }
+}
+</style>

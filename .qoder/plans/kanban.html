@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<!-- Plan 看板 V1.2 · task-111 基线 + 链路挂载（需求包/intent/沙盘/审计/检查点徽标——数据源 kanban-links.json，由 build-kanban-links.js 生成） -->
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plan 看板 · 监督面板</title>
+<style>
+  :root {
+    --draft: #9e9e9e;
+    --active: #2196f3;
+    --in-progress: #ff9800;
+    --done: #4caf50;
+    --blocked: #f44336;
+    --revised: #e91e63;
+    --archived: #78909c;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif;
+    background: #f5f6fa;
+    padding: 16px;
+  }
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+    padding: 12px 16px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,.08);
+  }
+  header h1 { font-size: 18px; color: #333; }
+  header .meta { font-size: 12px; color: #888; }
+  .board {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 12px;
+  }
+  .column {
+    background: #eef0f4;
+    border-radius: 8px;
+    padding: 8px;
+    min-height: 200px;
+  }
+  .column h2 {
+    font-size: 13px;
+    color: #555;
+    padding: 6px 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .column h2 .count {
+    background: #fff;
+    border-radius: 10px;
+    padding: 1px 8px;
+    font-size: 12px;
+  }
+  .card {
+    background: #fff;
+    border-radius: 6px;
+    padding: 10px;
+    margin-bottom: 8px;
+    box-shadow: 0 1px 2px rgba(0,0,0,.06);
+    border-left: 4px solid var(--c, #999);
+    cursor: pointer;
+    transition: box-shadow .15s;
+  }
+  .card:hover { box-shadow: 0 2px 6px rgba(0,0,0,.12); }
+  .card.child { margin-left: 16px; opacity: .92; }
+  .card .id { font-size: 11px; color: #888; }
+  .card .title { font-size: 13px; color: #333; margin: 3px 0; line-height: 1.4; }
+  .card .tags { display: flex; gap: 6px; flex-wrap: wrap; }
+  .tag {
+    font-size: 11px;
+    padding: 1px 6px;
+    border-radius: 4px;
+    background: #f0f0f0;
+    color: #555;
+  }
+  .tag.p0 { background: #fdecea; color: #d32f2f; }
+  .tag.p1 { background: #fff8e1; color: #f57f17; }
+  .tag.score-good { background: #e8f5e9; color: #2e7d32; }
+  .tag.score-warn { background: #fff8e1; color: #f57f17; }
+  .tag.score-bad { background: #fdecea; color: #d32f2f; }
+  .legend { margin-top: 16px; font-size: 12px; color: #777; display: flex; gap: 16px; flex-wrap: wrap; }
+  .legend span { display: flex; align-items: center; gap: 4px; }
+  .dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+  /* 渐进披露展开按钮（task-111） */
+  .expand-btn {
+    width: 100%;
+    margin-top: 4px;
+    padding: 6px;
+    background: #fff;
+    border: 1px dashed #bbb;
+    border-radius: 6px;
+    color: #666;
+    font-size: 12px;
+    cursor: pointer;
+  }
+  .expand-btn:hover { background: #f7f7fa; color: #333; border-color: #999; }
+  /* md 浮层查看器（task-111） */
+  .viewer-mask {
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    background: rgba(0,0,0,.45);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+  .viewer-mask.open { display: flex; }
+  .viewer-panel {
+    background: #fff;
+    border-radius: 10px;
+    width: min(920px, 94vw);
+    max-height: 88vh;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 8px 32px rgba(0,0,0,.25);
+    overflow: hidden;
+  }
+  .viewer-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 12px 16px;
+    border-bottom: 1px solid #eee;
+    flex: none;
+  }
+  .viewer-head .t { font-size: 14px; font-weight: 600; color: #333; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .viewer-close {
+    flex: none;
+    width: 30px;
+    height: 30px;
+    border: none;
+    border-radius: 6px;
+    background: #f0f0f0;
+    color: #555;
+    font-size: 14px;
+    cursor: pointer;
+  }
+  .viewer-close:hover { background: #e0e0e0; }
+  .viewer-body { padding: 14px 22px 28px; overflow-y: auto; font-size: 13px; line-height: 1.75; color: #333; }
+  .viewer-body h1 { font-size: 19px; margin: 14px 0 8px; }
+  .viewer-body h2 { font-size: 16px; margin: 14px 0 8px; }
+  .viewer-body h3 { font-size: 14px; margin: 12px 0 6px; }
+  .viewer-body h4, .viewer-body h5, .viewer-body h6 { font-size: 13px; margin: 10px 0 6px; }
+  .viewer-body p { margin: 6px 0; }
+  .viewer-body table { border-collapse: collapse; margin: 8px 0; width: 100%; font-size: 12px; display: block; overflow-x: auto; }
+  .viewer-body th, .viewer-body td { border: 1px solid #e2e2e2; padding: 5px 8px; text-align: left; vertical-align: top; }
+  .viewer-body th { background: #f7f8fa; white-space: nowrap; }
+  .viewer-body pre { background: #f6f8fa; border-radius: 6px; padding: 10px 12px; overflow-x: auto; font-size: 12px; line-height: 1.6; margin: 8px 0; }
+  .viewer-body code { background: #f0f1f4; border-radius: 3px; padding: 1px 5px; font-size: 12px; font-family: Consolas, "Courier New", monospace; }
+  .viewer-body pre code { background: none; padding: 0; }
+  .viewer-body blockquote { border-left: 3px solid #d0d4da; background: #fafbfc; margin: 8px 0; padding: 2px 12px; color: #666; }
+  .viewer-body ul, .viewer-body ol { padding-left: 22px; margin: 6px 0; }
+  .viewer-body hr { border: none; border-top: 1px solid #e5e5e5; margin: 14px 0; }
+  .viewer-body a { color: #2196f3; }
+  .viewer-loading { color: #888; padding: 20px 0; }
+  .viewer-error { color: #d32f2f; padding: 4px 0 10px; }
+  /* 链路徽标行（V1.2 关联挂载：需求包/intent/沙盘/审计/检查点） */
+  .links { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 6px; padding-top: 6px; border-top: 1px dashed #eee; }
+  .link-badge { font-size: 11px; padding: 1px 7px; border-radius: 10px; background: #eef4fd; color: #1565c0; cursor: pointer; border: 1px solid #d6e4f7; }
+  .link-badge:hover { background: #dcebfd; }
+  .viewer-body .file-list { list-style: none; padding: 0; margin: 4px 0; }
+  .viewer-body .file-list li { padding: 8px 10px; border: 1px solid #eee; border-radius: 6px; margin-bottom: 6px; cursor: pointer; font-size: 13px; color: #1565c0; }
+  .viewer-body .file-list li:hover { background: #f5f8fd; border-color: #cfe0f5; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Plan 看板 · 监督面板</h1>
+  <div class="meta" id="meta">加载中...</div>
+</header>
+
+<div class="board" id="board"></div>
+
+<div class="legend">
+  <span><i class="dot" style="background:var(--draft)"></i> draft 草稿</span>
+  <span><i class="dot" style="background:var(--active)"></i> active 活跃</span>
+  <span><i class="dot" style="background:var(--in-progress)"></i> in-progress 执行中</span>
+  <span><i class="dot" style="background:var(--done)"></i> done 完成</span>
+  <span><i class="dot" style="background:var(--blocked)"></i> blocked 阻塞</span>
+  <span><i class="dot" style="background:var(--revised)"></i> revised 打回待修订</span>
+  <span><i class="dot" style="background:var(--archived)"></i> archived 归档</span>
+</div>
+
+<!-- md 浮层查看器（task-111） -->
+<div class="viewer-mask" id="viewer">
+  <div class="viewer-panel">
+    <div class="viewer-head">
+      <div class="t" id="viewerTitle"></div>
+      <button class="viewer-close" id="viewerClose" title="关闭（ESC）">✕</button>
+    </div>
+    <div class="viewer-body" id="viewerBody"></div>
+  </div>
+</div>
+
+<script>
+// 监督面板：只读渲染 plans.json。状态变更由 AI 编辑 plans.json 完成，本页不提供写入口（避免双写不一致）。
+// V1.1（task-111）：done/archived 渐进披露（updated 倒序 + 截断展开）；点击卡片 → 浮层查看器
+// （fetch 强制 UTF-8 + mini-markdown 渲染——根治直开 .md 的服务器 MIME 乱码链路）。
+// V1.2（链路挂载）：卡片展示链路徽标（需求包/intent/沙盘/审计/检查点）；数据源 kanban-links.json
+// （由 build-kanban-links.js 只读扫描生成——投影原则：本页不产生权威数据）。
+const STATUS_ORDER = ["draft", "active", "in-progress", "done", "blocked", "revised", "archived"];
+const STATUS_LABEL = {
+  draft: "draft 草稿", active: "active 活跃", "in-progress": "in-progress 执行中",
+  done: "done 完成", blocked: "blocked 阻塞", revised: "revised 打回待修订", archived: "archived 归档"
+};
+const STATUS_COLOR = {
+  draft: "var(--draft)", active: "var(--active)", "in-progress": "var(--in-progress)",
+  done: "var(--done)", blocked: "var(--blocked)", revised: "var(--revised)", archived: "var(--archived)"
+};
+
+// 渐进披露配置（task-111）：done/archived 默认仅显示最近 N 项 + 展开切换
+const COLLAPSE_N = 10;
+const expandState = { done: false, archived: false };
+let lastPlans = [];
+let linksData = {};
+let viewerSeq = 0; // 浮层请求序号守卫：仅最新一次点击的响应可渲染（关闭/新点击使在途响应失效）
+
+function scoreClass(s) {
+  if (s == null) return "";
+  if (s >= 19) return "score-good";
+  if (s >= 12) return "score-warn";
+  return "score-bad";
+}
+
+// HTML 转义（task-111）：渲染前先行 escape（覆盖 & < > " ' 五字符），防注入
+function escapeHtml(s) {
+  return String(s)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
+// 链接安全（task-111）：归一化（trim/去空白与控制字符/小写）后按白名单判定；非白名单降级为纯文本
+function safeHref(raw) {
+  const norm = String(raw).toLowerCase().replace(/[\s\u0000-\u001f\u007f]/g, "");
+  if (!norm) return "";
+  if (norm.startsWith("http://") || norm.startsWith("https://")) return raw;
+  if (norm.startsWith("#") || norm.startsWith("./") || norm.startsWith("../")) return raw;
+  if (norm.startsWith("//")) return ""; // 协议相对 URL（//host）排除（audit P2-2 硬化）
+  if (!norm.includes(":")) return raw; // 纯相对路径（含文件名）
+  return ""; // 其余协议（javascript:/data: 等，含变体）一律降级
+}
+
+// 行内格式（输入为已 escape 文本）
+function inlineFmt(s) {
+  s = s.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>");
+  s = s.replace(/`([^`]+)`/g, "<code>$1</code>");
+  s = s.replace(/\[([^\]]+)\]\(([^)]+)\)/g, function (m, text, href) {
+    const h = safeHref(href);
+    return h ? '<a href="' + h + '" target="_blank" rel="noopener">' + text + "</a>" : text;
+  });
+  return s;
+}
+
+// 表格块渲染（跳过 |---| 分隔行）
+function renderTableRows(rows) {
+  const cells = rows.map(function (r) {
+    return r.trim().replace(/^\|/, "").replace(/\|$/, "").split("|").map(function (c) { return c.trim(); });
+  }).filter(function (cs) {
+    return !cs.every(function (c) { return c === "" || /^:?-{3,}:?$/.test(c); });
+  });
+  if (!cells.length) return "";
+  const head = cells[0], rest = cells.slice(1);
+  return "<table><thead><tr>" + head.map(function (c) { return "<th>" + inlineFmt(c) + "</th>"; }).join("") + "</tr></thead>" +
+    "<tbody>" + rest.map(function (r) {
+      return "<tr>" + r.map(function (c) { return "<td>" + inlineFmt(c) + "</td>"; }).join("") + "</tr>";
+    }).join("") + "</tbody></table>";
+}
+
+// mini-markdown 渲染器（task-111）：escape 先行 → 去 frontmatter → 块级解析 → 行内格式
+function renderMarkdown(md) {
+  md = String(md || "").replace(/^\uFEFF/, "");
+  md = md.replace(/^---\r?\n[\s\S]*?\r?\n---\r?\n?/, ""); // 去 frontmatter（首个 --- 块）
+  const lines = escapeHtml(md).split(/\r?\n/);
+  const out = [];
+  const isHr = function (l) { return /^\s*([-*_])\1{2,}\s*$/.test(l); };
+  const isUl = function (l) { return /^\s*[-*+]\s+/.test(l); };
+  const isOl = function (l) { return /^\s*\d+\.\s+/.test(l); };
+  const isQuote = function (l) { return /^\s*&gt;\s?/.test(l); };
+  const isTable = function (l) { return /^\s*\|.*\|\s*$/.test(l); };
+  const isHead = function (l) { return /^#{1,6}\s/.test(l); };
+  const isFence = function (l) { return /^\s*```/.test(l); };
+  let i = 0;
+  while (i < lines.length) {
+    const line = lines[i];
+    if (isFence(line)) { // 代码块（``` 围栏——优先于其他块级）
+      const buf = []; i++;
+      while (i < lines.length && !isFence(lines[i])) { buf.push(lines[i]); i++; }
+      i++; // 闭合围栏
+      out.push("<pre><code>" + buf.join("\n") + "</code></pre>");
+      continue;
+    }
+    if (isTable(line)) {
+      const buf = [];
+      while (i < lines.length && isTable(lines[i])) { buf.push(lines[i]); i++; }
+      out.push(renderTableRows(buf));
+      continue;
+    }
+    const m = line.match(/^(#{1,6})\s+(.*)$/);
+    if (m) {
+      const lv = m[1].length;
+      out.push("<h" + lv + ">" + inlineFmt(m[2]) + "</h" + lv + ">");
+      i++; continue;
+    }
+    if (isHr(line)) { out.push("<hr>"); i++; continue; }
+    if (isQuote(line)) {
+      const buf = [];
+      while (i < lines.length && isQuote(lines[i])) { buf.push(lines[i].replace(/^\s*&gt;\s?/, "")); i++; }
+      out.push("<blockquote>" + buf.map(inlineFmt).join("<br>") + "</blockquote>");
+      continue;
+    }
+    if (isUl(line) || isOl(line)) {
+      const ordered = isOl(line);
+      const items = [];
+      while (i < lines.length && (isUl(lines[i]) || isOl(lines[i]))) {
+        items.push("<li>" + inlineFmt(lines[i].replace(/^\s*([-*+]|\d+\.)\s+/, "")) + "</li>");
+        i++;
+      }
+      out.push((ordered ? "<ol>" : "<ul>") + items.join("") + (ordered ? "</ol>" : "</ul>"));
+      continue;
+    }
+    if (/^\s*$/.test(line)) { i++; continue; }
+    const buf = [line]; i++; // 段落（聚合连续正文行）
+    while (i < lines.length && !/^\s*$/.test(lines[i]) && !isHr(lines[i]) && !isUl(lines[i]) && !isOl(lines[i]) &&
+           !isQuote(lines[i]) && !isTable(lines[i]) && !isHead(lines[i]) && !isFence(lines[i])) {
+      buf.push(lines[i]); i++;
+    }
+    out.push("<p>" + buf.map(inlineFmt).join("<br>") + "</p>");
+  }
+  return out.join("\n");
+}
+
+// —— 浮层查看器（task-111；V1.2 泛化为通用文件浮层） ——
+function openFile(path, title) {
+  if (!path) return;
+  const seq = ++viewerSeq;
+  document.getElementById("viewerTitle").textContent = title || path;
+  const body = document.getElementById("viewerBody");
+  body.innerHTML = '<div class="viewer-loading">加载中…</div>';
+  document.getElementById("viewer").classList.add("open");
+  fetch(path)
+    .then(function (r) { if (!r.ok) throw new Error("HTTP " + r.status); return r.text(); })
+    .then(function (text) {
+      if (seq !== viewerSeq) return; // 迟到响应丢弃（序号守卫）
+      let html = "";
+      try {
+        html = renderMarkdown(text);
+        if (!html.trim()) html = "<pre>" + escapeHtml(text) + "</pre>";
+      } catch (e) {
+        // 渲染异常兜底：降级为 escape 原文（不崩不白屏）
+        html = '<div class="viewer-error">渲染异常，已降级为原文展示：' + escapeHtml(e.message || e) +
+               "</div><pre>" + escapeHtml(text) + "</pre>";
+      }
+      body.innerHTML = html;
+    })
+    .catch(function (err) {
+      if (seq !== viewerSeq) return;
+      body.innerHTML = '<div class="viewer-error">加载失败: ' + escapeHtml(err.message || String(err)) +
+        "<br>（本地服务未启动？请使用 start-kanban.bat 启动）</div>";
+    });
+}
+
+function openViewer(p) {
+  if (!p.file) return; // file 缺失：卡片不响应（保持）
+  openFile(p.file, p.id + (p.parent ? "（子 plan → " + p.parent + "）" : "") + " · " + p.title);
+}
+
+function closeViewer() {
+  viewerSeq++; // 关闭时解除守卫——在途响应失效（迟到丢弃）
+  document.getElementById("viewer").classList.remove("open");
+  document.getElementById("viewerBody").innerHTML = "";
+}
+
+// 链路清单浮层（V1.2：多条挂载先出清单，点条目进文件浮层）
+function openList(items, title) {
+  const seq = ++viewerSeq;
+  document.getElementById("viewerTitle").textContent = title + "（" + items.length + " 项）";
+  const body = document.getElementById("viewerBody");
+  body.innerHTML = "";
+  const ul = document.createElement("ul");
+  ul.className = "file-list";
+  items.forEach(function (it) {
+    const li = document.createElement("li");
+    li.textContent = it.name;
+    li.addEventListener("click", function () { openFile(it.path, it.name); });
+    ul.appendChild(li);
+  });
+  body.appendChild(ul);
+  document.getElementById("viewer").classList.add("open");
+}
+
+// 链路徽标行（V1.2 关联挂载：单条直开文件 / 多条出清单；click 不冒泡到卡片）
+function buildLinksRow(lk) {
+  const row = document.createElement("div");
+  row.className = "links";
+  const toItems = function (ps) { return ps.map(function (x) { return { path: x, name: x.split("/").pop() }; }); };
+  const badge = function (label, items) {
+    const b = document.createElement("span");
+    b.className = "link-badge";
+    b.textContent = label + (items.length > 1 ? " ×" + items.length : "");
+    b.title = "点击查看" + (items.length > 1 ? "清单" : "");
+    b.addEventListener("click", function (e) {
+      e.stopPropagation(); // 防触发卡片详情
+      if (items.length === 1) openFile(items[0].path, items[0].name);
+      else openList(items, label);
+    });
+    return b;
+  };
+  if (lk.requirementPackage) {
+    const v = lk.requirementPackage.version ? " v" + lk.requirementPackage.version : "";
+    row.appendChild(badge("📦 需求包" + v, [{ path: lk.requirementPackage.path, name: "需求包 README" }]));
+  }
+  if (lk.intent) row.appendChild(badge("✦ intent", toItems([lk.intent])));
+  if (lk.sandbox && lk.sandbox.length) row.appendChild(badge("📋 沙盘", toItems(lk.sandbox)));
+  if (lk.audit && lk.audit.length) row.appendChild(badge("🛡️ 审计", toItems(lk.audit)));
+  if (lk.checkpoints && lk.checkpoints.length) row.appendChild(badge("⏱ 检查点", toItems(lk.checkpoints)));
+  return row;
+}
+
+function render(plans) {
+  const board = document.getElementById("board");
+  board.innerHTML = "";
+  const byStatus = {};
+  STATUS_ORDER.forEach(s => byStatus[s] = []);
+  plans.forEach(p => {
+    (byStatus[p.status] = byStatus[p.status] || []).push(p);
+  });
+  STATUS_ORDER.forEach(status => {
+    const rawList = byStatus[status] || [];
+    // done/archived：updated 倒序（稳定排序——同日期保持 plans.json 原序）
+    let list = rawList;
+    if (status === "done" || status === "archived") {
+      list = rawList.map((p, idx) => ({ p: p, idx: idx }))
+        .sort((a, b) => String(b.p.updated || "").localeCompare(String(a.p.updated || "")) || (a.idx - b.idx))
+        .map(x => x.p);
+    }
+    if (list.length === 0 && status !== "draft") return; // 空列仅保留 draft 占位
+    const col = document.createElement("div");
+    col.className = "column";
+    col.innerHTML = `<h2 style="color:${STATUS_COLOR[status]}">${STATUS_LABEL[status]} <span class="count">${list.length}</span></h2>`;
+    const wrap = document.createElement("div");
+    // 渐进披露（task-111）：done/archived 超阈值时默认仅显示最近 COLLAPSE_N 项
+    const collapsible = (status === "done" || status === "archived") && list.length > COLLAPSE_N;
+    const showList = collapsible && !expandState[status] ? list.slice(0, COLLAPSE_N) : list;
+    showList.forEach(p => {
+      const card = document.createElement("div");
+      card.className = "card" + (p.parent ? " child" : "");
+      card.style.setProperty("--c", STATUS_COLOR[p.status]);
+      const prio = p.priority ? `<span class="tag ${(p.priority || "").toLowerCase()}">${p.priority}</span>` : "";
+      const cx = p.complexity != null ? `<span class="tag">复杂度 ${p.complexity}</span>` : "";
+      // 评分 tag 仅在 active/in-progress 展示（revised/blocked/draft/done/archived 的旧评分具误导性）
+      const showScore = ['active', 'in-progress'].includes(p.status);
+      const qs = showScore && p.qualityScore != null ? `<span class="tag ${scoreClass(p.qualityScore)}">质量 ${p.qualityScore}/24</span>` : "";
+      card.innerHTML = `
+        <div class="id">${p.id}${p.parent ? " · 子 plan → " + p.parent : ""}</div>
+        <div class="title">${p.title}</div>
+        <div class="tags">${prio}${cx}${qs}</div>`;
+      card.title = (p.file || p.title) + "（点击查看详情）";
+      card.onclick = () => openViewer(p);
+      const lk = linksData[p.id];
+      if (lk) card.appendChild(buildLinksRow(lk));
+      wrap.appendChild(card);
+    });
+    col.appendChild(wrap);
+    if (collapsible) {
+      const btn = document.createElement("button");
+      btn.className = "expand-btn";
+      btn.textContent = expandState[status]
+        ? "▴ 收起（仅显示最近 " + COLLAPSE_N + " 项）"
+        : "▾ 显示全部 " + list.length + " 项";
+      btn.onclick = () => { expandState[status] = !expandState[status]; render(lastPlans); };
+      col.appendChild(btn);
+    }
+    board.appendChild(col);
+  });
+}
+
+async function load() {
+  try {
+    const results = await Promise.all([
+      fetch("plans.json"),
+      fetch("kanban-links.json").catch(function () { return null; }) // 索引缺失不阻断（fail-soft）
+    ]);
+    const resp = results[0], lr = results[1];
+    if (!resp.ok) throw new Error("HTTP " + resp.status);
+    const data = await resp.json();
+    if (lr && lr.ok) { try { linksData = (await lr.json()).plans || {}; } catch (e2) { linksData = {}; } }
+    document.getElementById("meta").textContent =
+      "最后更新: " + (data.updated || "-") + " | 活跃 plan: " + (data.activePlan || "-") + " | 总数: " + data.plans.length;
+    lastPlans = data.plans || [];
+    render(lastPlans);
+  } catch (e) {
+    // fetch 本地文件被浏览器拦截（file:// CORS）时，提示一键启动脚本
+    document.getElementById("meta").textContent = "加载失败: " + e.message;
+    document.getElementById("board").innerHTML =
+      '<div style="background:#fff;padding:24px;border-radius:8px;color:#888;font-size:14px;line-height:1.8">' +
+      '<b style="color:#d32f2f">无法加载 plans.json</b><br>' +
+      '直接双击本文件会被浏览器 CORS 拦截（file:// 协议禁止 fetch）。<br><br>' +
+      '请使用一键启动脚本：双击 <code>start-kanban.bat</code>（与本文件同目录），' +
+      '或手动执行：<br><code>cd 项目根 && python -m http.server 8080</code><br>' +
+      '然后访问 <code>http://localhost:8080/.qoder/plans/kanban.html</code></div>';
+  }
+}
+
+// 浮层关闭：X 按钮 / 遮罩点击 / ESC（task-111）
+document.getElementById("viewerClose").addEventListener("click", closeViewer);
+document.getElementById("viewer").addEventListener("click", function (e) { if (e.target === this) closeViewer(); });
+document.addEventListener("keydown", function (e) {
+  if (e.key === "Escape" && document.getElementById("viewer").classList.contains("open")) closeViewer();
+});
+
+load();
+</script>
+</body>
+</html>

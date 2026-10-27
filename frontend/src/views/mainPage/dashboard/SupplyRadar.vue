@@ -1,12 +1,380 @@
 <template>
-  <section class="radar-page supply-radar"><div class="radar-heading"><div><p class="eyebrow purple-eyebrow">SUPPLY SIDE INTELLIGENCE · 演示数据</p><h1>供给端雷达</h1><p>高校招聘活动情报 · 宣讲会 · 双选会 · 就业动态</p></div><div class="radar-heading-actions"><span class="demo-label">Mock 数据 · {{ filteredEvents.length }} 条活动</span><button class="ghost-btn" @click="resetFilters">↻ 刷新数据</button><div class="view-switch"><button :class="{ selected: view === 'list' }" @click="view = 'list'">☷ 列表视图</button><button :class="{ selected: view === 'school' }" @click="view = 'school'">▦ 高校分组</button></div></div></div><div class="supply-stats"><div v-for="card in statistics" :key="card.label" :class="['supply-stat', card.tone]"><span>{{ card.icon }}</span><div><small>{{ card.label }}</small><strong>{{ card.value }}</strong><p>{{ card.note }}</p></div></div></div><section class="panel supply-filter"><div class="filter-head"><div><div class="section-label"><span class="section-mark purple-mark"></span>筛选情报范围</div><h2>按高校、城市、活动类型和时间组合查询</h2></div><span class="filter-state">{{ activeFilterText }}</span></div><div class="supply-filter-grid"><label class="search-box"><span>⌕</span><input v-model="filters.keyword" placeholder="搜索活动名称或高校"></label><select v-model="filters.city"><option value="全部城市">全部城市</option><option v-for="city in cities" :key="city">{{ city }}</option></select><select v-model="filters.school"><option value="全部高校">全部高校</option><option v-for="school in schools" :key="school.id" :value="school.name">{{ school.name }}</option></select><select v-model="filters.time"><option>全部时间</option><option>今日</option><option>未来 7 天</option><option>未来 30 天</option><option>已结束活动</option></select><select v-model="filters.status"><option>全部状态</option><option>未开始</option><option>进行中</option><option>已结束</option><option>已取消</option><option>待核验</option></select><button class="primary-btn" @click="applied = !applied">查询</button><button class="ghost-btn" @click="resetFilters">重置</button></div></section><div class="category-tabs"><button v-for="tab in tabs" :key="tab.key" :class="{ selected: category === tab.key }" @click="category = tab.key">{{ tab.label }} <em>{{ categoryCount(tab.key) }}</em></button></div><section v-if="view === 'list'" class="panel event-list-panel"><div class="list-toolbar"><span>按活动日期升序排列 · 共 {{ filteredEvents.length }} 条</span><div><button class="sort-btn" @click="sortAsc = !sortAsc">{{ sortAsc ? '日期正序' : '日期倒序' }} ↕</button><span class="demo-label">所有活动均为模拟数据</span></div></div><div v-for="event in pagedEvents" :key="event.id" class="event-row" @click="openDetail(event)"><div class="event-date"><b>{{ event.eventDate.slice(5).replace('-', '/') }}</b><span>{{ weekLabel(event.eventDate) }}</span></div><div class="event-main"><h3>{{ event.eventTitle }} <span v-if="event.mockData" class="mock-chip">演示</span></h3><div class="event-meta"><span>{{ event.schoolName }}</span><span>{{ event.schoolCity }}</span><span :class="['event-type', eventTone(event.standardCategory)]">{{ categoryLabels[event.standardCategory] }}</span><span>{{ event.startTime }}{{ event.endTime ? '—' + event.endTime : '' }}</span><span>{{ event.venueName || '地点待补充' }}</span></div></div><div class="event-side"><span :class="['event-status', statusTone(event.eventStatus)]">{{ event.eventStatus }}</span><small>更新 {{ event.updatedAt.slice(5, 16) }}</small></div><div class="event-actions"><button @click.stop="openDetail(event)">查看详情</button><button @click.stop="$emit('source', event)">来源 ↗</button></div></div><div v-if="!pagedEvents.length" class="empty-state">没有符合条件的活动，试试重置筛选条件。</div><div class="supply-pager"><span>显示 {{ pagedEvents.length }} / {{ filteredEvents.length }}</span><div><button :disabled="page <= 1" @click="page--">‹</button><b>{{ page }}</b><span>/ {{ pageCount }}</span><button :disabled="page >= pageCount" @click="page++">›</button></div></div></section><section v-else class="school-grid"><article v-for="school in schoolGroups" :key="school.id" class="school-card"><div class="school-card-head"><span class="school-avatar">{{ school.name.slice(0, 1) }}</span><div><h3>{{ school.name }}</h3><p>{{ school.city }} · 更新于 {{ school.updatedAt }}</p></div><b>{{ school.events.length }} 场</b></div><div class="school-metrics"><span><i class="purple-dot"></i>宣讲 {{ school.talks }}</span><span><i class="orange-dot"></i>双选 {{ school.fairs }}</span><span><i class="blue-dot"></i>其他 {{ school.others }}</span></div><div class="school-card-foot"><span>当前筛选范围内</span><button @click="showSchool(school.name)">查看全部活动 →</button></div></article><div v-if="!schoolGroups.length" class="empty-state">暂无高校活动</div></section><SupplyDetailDrawer v-if="detail" :event="detail" @close="detail = null" @source="$emit('source', $event)" /></section>
+  <section class="radar-page supply-radar">
+    <!-- 工具条：左侧类型页签 + 右侧操作，同一行（标题由全局 Header 承担） -->
+    <div class="radar-heading radar-toolbar">
+      <SupplyRadarTabs :active="typeTab" :counts="stats.typeCounts" @change="onTypeChange" />
+      <div class="radar-heading-actions">
+        <span class="demo-label">最近采集 {{ lastCrawlAtText }} · 监测 {{ stats.monitoredSchoolCount || 0 }} 所</span>
+        <button class="ghost-btn" :disabled="crawling" @click="triggerCrawl">
+          {{ crawling ? '采集进行中…' : '立即更新' }}
+        </button>
+        <button class="ghost-btn" @click="taskPanelVisible = true">采集任务</button>
+        <div class="view-switch">
+          <button :class="{ selected: view === 'list' }" @click="switchView('list')">☷ 列表视图</button>
+          <button :class="{ selected: view === 'school' }" @click="switchView('school')">▦ 高校分组</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 统计卡行已移除（顶部页签已带总数）；倒计时 + 预警条仅在「双选会」页签下展示 -->
+    <SupplyRadarCountdown
+      v-if="typeTab === 'JOB_FAIR'"
+      :events="countdownList"
+      :schools="schools"
+      @detail="openDetail"
+      @source="openSource"
+    />
+
+    <!-- 筛选区 -->
+    <SupplyRadarFilter
+      :filters="filters"
+      :schools="schools"
+      :cities="cities"
+      :companies="companies"
+      :view-mode="filterMode"
+      @change="onFilterChange"
+      @reset="resetFilters"
+    />
+
+    <!-- 三态 -->
+    <div v-if="loading" class="panel" style="padding:48px;text-align:center;color:#8c96a3">数据加载中…</div>
+    <div v-else-if="error" class="panel" style="padding:48px;text-align:center;color:#d9534f">
+      {{ error }}
+      <div style="margin-top:12px"><button class="ghost-btn" @click="reload">重试</button></div>
+    </div>
+
+    <template v-else>
+      <!-- 列表视图 -->
+      <section v-if="view === 'list'" class="panel event-list-panel">
+        <div class="list-toolbar">
+          <span>共 {{ pageData.total }} 条 · {{ sortLabel }}</span>
+          <div>
+            <select v-model="sortBy" @change="applySort" style="margin-right:8px">
+              <option value="eventDate">按活动日期</option>
+              <option value="lastSeenAt">按最近采集</option>
+              <option value="sourcePublishedAt">按发布时间</option>
+            </select>
+            <button class="sort-btn" @click="toggleDirection">{{ sortAsc ? '升序 ↑' : '降序 ↓' }}</button>
+          </div>
+        </div>
+
+        <SupplyEventCard
+          v-for="event in pageData.list"
+          :key="event.id"
+          :event="event"
+          @detail="openDetail"
+          @source="openSource"
+        />
+
+        <div v-if="!pageData.list.length" class="empty-state">{{ TEXT.EMPTY_LIST }}</div>
+
+        <SupplyPager
+          :total="pageData.total"
+          :page="pageData.page"
+          :size="pageData.size"
+          :total-pages="pageData.totalPages"
+          @change="changePage"
+        />
+      </section>
+
+      <!-- 分组视图 -->
+      <section v-else class="school-grid">
+        <SupplySchoolGroup
+          v-for="group in pageData.list"
+          :key="group.schoolId"
+          :group="group"
+          @expand="expandSchool"
+          @detail="openDetail"
+        />
+        <div v-if="!pageData.list.length" class="empty-state">{{ TEXT.EMPTY_LIST }}</div>
+      </section>
+    </template>
+
+    <!-- 详情抽屉 -->
+    <SupplyDetailDrawer
+      v-if="detailId"
+      :event-id="detailId"
+      @close="detailId = null"
+      @source="openSource"
+    />
+
+    <!-- 采集任务面板 -->
+    <CrawlTaskPanel
+      v-if="taskPanelVisible"
+      :last-crawl-at="lastCrawlAtText"
+      :last-crawl-status="lastCrawlStatus"
+      @close="taskPanelVisible = false"
+    />
+  </section>
 </template>
+
 <script>
+import SupplyRadarCountdown from './supply/SupplyRadarCountdown'
+import SupplyRadarFilter from './supply/SupplyRadarFilter'
+import SupplyRadarTabs from './supply/SupplyRadarTabs'
+import SupplyEventCard from './supply/SupplyEventCard'
+import SupplySchoolGroup from './supply/SupplySchoolGroup'
+import SupplyPager from './supply/SupplyPager'
+import CrawlTaskPanel from './supply/CrawlTaskPanel'
+import crawlPollingMixin from './supply/crawlPollingMixin'
 import SupplyDetailDrawer from './SupplyDetailDrawer'
-import { mockSchools, mockEmploymentEvents, categoryLabels } from './mockSupplyRadar'
-export default { name: 'SupplyRadar', components: { SupplyDetailDrawer }, data () { return { schools: mockSchools, events: mockEmploymentEvents, categoryLabels: categoryLabels, categories: categoryLabels, category: 'ALL', view: 'list', page: 1, pageSize: 8, sortAsc: true, applied: false, detail: null, filters: { keyword: '', city: '全部城市', school: '全部高校', time: '全部时间', status: '全部状态' } } }, computed: { cities () { return Array.from(new Set(this.schools.map(function (item) { return item.city }))) }, tabs () { return Object.keys(this.categories).map(function (key) { return { key: key, label: this.categories[key] } }.bind(this)) }, filteredEvents () { var list = this.events.filter(function (event) { var f = this.filters; var keywordMatch = !f.keyword || event.eventTitle.indexOf(f.keyword) > -1 || event.schoolName.indexOf(f.keyword) > -1; var cityMatch = f.city === '全部城市' || event.schoolCity === f.city; var schoolMatch = f.school === '全部高校' || event.schoolName === f.school; var categoryMatch = this.category === 'ALL' || event.standardCategory === this.category; var statusMatch = f.status === '全部状态' || event.eventStatus === f.status; var timeMatch = f.time === '全部时间' || (f.time === '已结束活动' ? event.eventStatus === '已结束' || event.eventStatus === '已取消' : f.time === '今日' ? event.eventDate === '2026-10-26' : f.time === '未来 7 天' ? event.eventDate >= '2026-10-26' && event.eventDate <= '2026-11-02' : f.time === '未来 30 天' ? event.eventDate >= '2026-10-26' && event.eventDate <= '2026-11-25' : true); return keywordMatch && cityMatch && schoolMatch && categoryMatch && statusMatch && timeMatch }.bind(this)); return list.sort(function (a, b) { return this.sortAsc ? a.eventDate.localeCompare(b.eventDate) : b.eventDate.localeCompare(a.eventDate) }.bind(this)) }, pagedEvents () { return this.filteredEvents.slice((this.page - 1) * this.pageSize, this.page * this.pageSize) }, statistics () { var list = this.filteredEvents; return [{ label: '监测高校数', value: new Set(list.map(function (item) { return item.schoolId })).size, note: '当前筛选范围', icon: '⌂', tone: 'purple' }, { label: '招聘活动总数', value: list.length, note: 'Mock 活动样本', icon: '◈', tone: 'orange' }, { label: '近期宣讲会', value: list.filter(function (item) { return item.standardCategory.indexOf('TALK') > -1 && item.eventStatus !== '已结束' }).length, note: '宣讲活动', icon: '◉', tone: 'blue' }, { label: '近期双选会', value: list.filter(function (item) { return item.standardCategory.indexOf('FAIR') > -1 && item.eventStatus !== '已结束' }).length, note: '双选活动', icon: '▣', tone: 'violet' }, { label: '待核验活动', value: list.filter(function (item) { return item.eventStatus === '待核验' }).length, note: '需人工复核', icon: '!', tone: 'red' }] }, schoolGroups () { var map = {}; this.filteredEvents.forEach(function (event) { if (!map[event.schoolId]) map[event.schoolId] = { id: event.schoolId, name: event.schoolName, city: event.schoolCity, events: [], talks: 0, fairs: 0, others: 0, updatedAt: event.updatedAt.slice(5, 16) }; map[event.schoolId].events.push(event); if (event.standardCategory.indexOf('TALK') > -1) map[event.schoolId].talks++; else if (event.standardCategory.indexOf('FAIR') > -1) map[event.schoolId].fairs++; else map[event.schoolId].others++ }); return Object.keys(map).map(function (key) { return map[key] }) }, pageCount () { return Math.max(1, Math.ceil(this.filteredEvents.length / this.pageSize)) }, activeFilterText () { return [this.filters.city, this.filters.school, this.filters.time].filter(function (item) { return item.indexOf('全部') === -1 }).join(' · ') || '全部高校 · 全部时间' } }, watch: { category () { this.page = 1 }, filters: { deep: true, handler () { this.page = 1 } }, view () { this.page = 1 } }, methods: { categoryCount (key) { return this.events.filter(function (event) { return key === 'ALL' || event.standardCategory === key }).length }, eventTone (type) { return type.indexOf('FAIR') > -1 ? 'fair' : type === 'OTHER' ? 'other' : type === 'PENDING_REVIEW' ? 'pending' : 'talk' }, statusTone (status) { return status === '未开始' ? 'upcoming' : status === '进行中' ? 'running' : status === '待核验' ? 'pending' : status === '已取消' ? 'cancelled' : 'ended' }, weekLabel (date) { return date === '2026-10-26' ? '今天' : '模拟日期' }, openDetail (event) { this.detail = event }, showSchool (name) { this.filters.school = name; this.view = 'list' }, resetFilters () { this.filters = { keyword: '', city: '全部城市', school: '全部高校', time: '全部时间', status: '全部状态' }; this.category = 'ALL'; this.page = 1; this.$emit('toast', '已重新读取本地 Mock 数据') } } }
+import { fetchSchools, fetchCompanies, fetchEvents, fetchStatistics } from '@/api/supplyRadar'
+import { TEXT } from '@/constants/supplyRadar'
+
+function defaultFilters () {
+  return {
+    keyword: '',
+    city: '',
+    schoolIds: [],
+    timeRange: 'all',
+    startDate: '',
+    endDate: '',
+    status: '',
+    venueType: '',
+    verificationStatus: '',
+    companyCategory: '',
+    companyName: '',
+    registrationStatus: '',
+    hasRegistrationUrl: false
+  }
+}
+
+function formatDate (d) {
+  var y = d.getFullYear()
+  var m = ('0' + (d.getMonth() + 1)).slice(-2)
+  var day = ('0' + d.getDate()).slice(-2)
+  return y + '-' + m + '-' + day
+}
+
+export default {
+  name: 'SupplyRadar',
+  mixins: [crawlPollingMixin],
+  components: {
+    SupplyRadarCountdown, SupplyRadarFilter, SupplyRadarTabs, SupplyEventCard,
+    SupplySchoolGroup, SupplyPager, CrawlTaskPanel, SupplyDetailDrawer
+  },
+  data () {
+    return {
+      TEXT: TEXT,
+      /** 类型页签：ALL / TALK / JOB_FAIR / OTHER（不区分校内/校外） */
+      typeTab: 'TALK',
+      companies: [],
+      stats: { categoryCounts: {}, typeCounts: {} },
+      lastCrawlAt: null,
+      lastCrawlStatus: null,
+      schools: [],
+      filters: defaultFilters(),
+      view: 'list',
+      page: 1,
+      /** 列表每页条数（产品要求：一屏 10 条后翻页） */
+      size: 10,
+      sortBy: 'eventDate',
+      sortDirection: 'asc',
+      pageData: { list: [], total: 0, page: 1, size: 10, totalPages: 0 },
+      /** 未来 30 天双选会倒计时数据（页面顶部常驻，口径独立于筛选） */
+      countdownList: [],
+      loading: false,
+      error: '',
+      detailId: null,
+      taskPanelVisible: false
+    }
+  },
+  computed: {
+    /** 筛选器组合与统计口径：由类型页签驱动（宣讲→企业筛选 / 双选→报名筛选） */
+    filterMode: function () {
+      return this.typeTab === 'JOB_FAIR' ? 'fair' : 'talk'
+    },
+    cities: function () {
+      var set = {}
+      this.schools.forEach(function (s) { if (s.schoolCity) set[s.schoolCity] = 1 })
+      return Object.keys(set)
+    },
+    lastCrawlAtText: function () {
+      return this.lastCrawlAt || '暂无采集记录'
+    },
+    sortAsc: function () {
+      return this.sortDirection === 'asc'
+    },
+    sortLabel: function () {
+      var map = { eventDate: '活动日期', lastSeenAt: '最近采集', sourcePublishedAt: '发布时间' }
+      return (map[this.sortBy] || '活动日期') + (this.sortAsc ? ' 升序' : ' 降序')
+    }
+  },
+  created: function () {
+    this.loadSchools()
+    this.loadCompanies()
+    this.reload()
+  },
+  methods: {
+    /** 时间范围 → startDate/endDate */
+    buildQuery: function (includePaging) {
+      var f = this.filters
+      var q = {
+        keyword: f.keyword || undefined,
+        city: f.city || undefined,
+        venueType: f.venueType || undefined,
+        status: f.status || undefined,
+        verificationStatus: f.verificationStatus || undefined,
+        companyCategory: f.companyCategory || undefined,
+        companyName: f.companyName || undefined,
+        registrationStatus: f.registrationStatus || undefined,
+        hasRegistrationUrl: f.hasRegistrationUrl || undefined
+      }
+      // 类型页签（不区分校内/校外）
+      if (this.typeTab === 'TALK') {
+        q.eventType = 'TALK'
+      } else if (this.typeTab === 'JOB_FAIR') {
+        q.eventType = 'JOB_FAIR'
+      } else if (this.typeTab === 'OTHER') {
+        q.excludeEventTypes = 'TALK,JOB_FAIR'
+      }
+      if (f.schoolIds && f.schoolIds.length) q.schoolIds = f.schoolIds.join(',')
+      var range = this.resolveRange()
+      if (range) {
+        q.startDate = range[0]
+        q.endDate = range[1]
+        q.timeFilterEnabled = true
+      } else {
+        q.timeFilterEnabled = false
+      }
+      if (includePaging) {
+        q.page = this.page
+        q.size = this.size
+        q.sortBy = this.sortBy
+        q.sortDirection = this.sortDirection
+        if (this.view === 'school') q.groupBy = 'school'
+      }
+      return q
+    },
+    resolveRange: function () {
+      var f = this.filters
+      var today = new Date()
+      if (f.timeRange === 'all') return null
+      if (f.timeRange === 'today') return [formatDate(today), formatDate(today)]
+      if (f.timeRange === '7') {
+        var d7 = new Date(); d7.setDate(today.getDate() + 7)
+        return [formatDate(today), formatDate(d7)]
+      }
+      if (f.timeRange === '30') {
+        var d30 = new Date(); d30.setDate(today.getDate() + 30)
+        return [formatDate(today), formatDate(d30)]
+      }
+      if (f.timeRange === 'custom' && f.startDate && f.endDate) {
+        return [f.startDate, f.endDate]
+      }
+      return null
+    },
+    /** 倒计时口径：仅未来 30 天已采集的双选会（不受列表筛选影响） */
+    buildCountdownQuery: function () {
+      var today = new Date()
+      var end = new Date()
+      end.setDate(today.getDate() + 30)
+      return {
+        eventType: 'JOB_FAIR',
+        timeFilterEnabled: true,
+        startDate: formatDate(today),
+        endDate: formatDate(end),
+        page: 1,
+        size: 50,
+        sortBy: 'eventDate',
+        sortDirection: 'asc'
+      }
+    },
+    loadSchools: function () {
+      var that = this
+      fetchSchools({}).then(function (list) {
+        that.schools = list || []
+      }).catch(function () {
+        that.schools = []
+      })
+    },
+    loadCompanies: function () {
+      var that = this
+      fetchCompanies({}).then(function (list) {
+        that.companies = list || []
+      }).catch(function () {
+        that.companies = []
+      })
+    },
+    reload: function () {
+      this.loadAll(true)
+    },
+    /** @param {Boolean} refreshCountdown 是否刷新顶部倒计时数据（初次加载/采集完成后） */
+    loadAll: function (refreshCountdown) {
+      var that = this
+      this.loading = true
+      this.error = ''
+      var statQuery = this.buildQuery(false)
+      var listQuery = this.buildQuery(true)
+      var tasks = [fetchStatistics(statQuery), fetchEvents(listQuery)]
+      if (refreshCountdown) tasks.push(fetchEvents(this.buildCountdownQuery()))
+      Promise.all(tasks)
+        .then(function (res) {
+          var stats = res[0] || {}
+          that.stats = stats
+          that.lastCrawlAt = stats.lastCrawlAt || null
+          that.lastCrawlStatus = stats.lastCrawlTaskStatus || null
+          that.pageData = res[1] || { list: [], total: 0, page: 1, size: 10, totalPages: 0 }
+          if (!refreshCountdown) return
+          that.countdownList = (res[2] && res[2].list) ? res[2].list : []
+        })
+        .catch(function (e) {
+          that.error = (e && e.message) ? e.message : TEXT.LOAD_ERROR
+        })
+        .then(function () {
+          that.loading = false
+        })
+    },
+    onFilterChange: function (filters) {
+      this.filters = filters
+      this.page = 1
+      this.loadAll()
+    },
+    resetFilters: function () {
+      this.filters = defaultFilters()
+      this.page = 1
+      this.loadAll()
+    },
+    onTypeChange: function (key) {
+      this.typeTab = key
+      this.page = 1
+      this.loadAll()
+    },
+    switchView: function (view) {
+      this.view = view
+      this.page = 1
+      this.loadAll()
+    },
+    changePage: function (page) {
+      this.page = page
+      this.loadAll()
+    },
+    applySort: function () {
+      this.page = 1
+      this.loadAll()
+    },
+    toggleDirection: function () {
+      this.sortDirection = this.sortAsc ? 'desc' : 'asc'
+      this.page = 1
+      this.loadAll()
+    },
+    expandSchool: function (schoolId) {
+      this.filters.schoolIds = [schoolId]
+      this.view = 'list'
+      this.page = 1
+      this.loadAll()
+    },
+    openDetail: function (event) {
+      this.detailId = event.id
+    },
+    openSource: function (event) {
+      var url = event && (event.sourceUrl || event.url)
+      if (url) window.open(url, '_blank', 'noopener,noreferrer')
+    }
+  }
+}
 </script>
 
-
-
-
+<style scoped>
+.category-tabs { margin-bottom: 0; }
+</style>

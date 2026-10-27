@@ -1,0 +1,25 @@
+{
+  "permissions": {
+    "allow": [
+      "Read",
+      "Glob",
+      "Grep",
+      "Bash(git status*)",
+      "Bash(git diff*)",
+      "Bash(git log*)",
+      "Bash(mvn compile*)",
+      "Bash(mvn test*)",
+      "Bash(./gradlew build*)",
+      "Bash(npm run build*)",
+      "Bash(npm run lint*)",
+      "Bash(npm run test*)",
+      "Bash(pnpm build*)",
+      "Bash(pytest*)",
+      "Bash(uv run pytest*)",
+      "Bash(python -c*)",
+      "Bash(node *)",
+      "Bash(ls:*)",
+      "Bash(cd:*)"
+    ]
+  }
+}

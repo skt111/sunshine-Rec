@@ -1,0 +1,152 @@
+{
+  "timestamp": "2026-10-27T07:15:20.225Z",
+  "stacks": {
+    "frontend": [
+      {
+        "file": "frontend/src/components/Header.vue",
+        "routes": [
+          "/"
+        ],
+        "identifier": "Header",
+        "summary": "",
+        "contract_file": null
+      },
+      {
+        "file": "frontend/src/router/authRouter.js",
+        "routes": [
+          "user",
+          "role",
+          "reports",
+          "logs",
+          "/authInfo"
+        ],
+        "identifier": "User",
+        "summary": "",
+        "contract_file": null
+      },
+      {
+        "file": "frontend/src/router/generateRouter.js",
+        "routes": [
+          "/",
+          "/404",
+          "*"
+        ],
+        "identifier": "MainPage",
+        "summary": "",
+        "contract_file": null
+      },
+      {
+        "file": "frontend/src/router.js",
+        "routes": [
+          "/noAuthority",
+          "/sessionFail",
+          "/",
+          "/404",
+          "*"
+        ],
+        "identifier": "Authority",
+        "summary": "",
+        "contract_file": null
+      },
+      {
+        "file": "frontend/src/views/mainPage/MainHeader.vue",
+        "routes": [
+          "/config/otherBase/handbook"
+        ],
+        "identifier": "MainHeader",
+        "summary": "",
+        "contract_file": null
+      }
+    ],
+    "java_bff": [
+      {
+        "file": "java_bff/src/main/java/org/example/common/ProbeController.java",
+        "routes": [
+          "/api/probe"
+        ],
+        "identifier": "ProbeController",
+        "summary": "受保护探针端点：用于验证登录拦截器（无 token → 401，带 token → 200）。 | <p>不对外暴露业务数据，仅用于 P0 出口门禁与单测。</p>",
+        "contract_file": ".qoder/api-contract/java_bff/ProbeController-api.md"
+      },
+      {
+        "file": "java_bff/src/main/java/org/example/socialbrand/controller/SocialBrandController.java",
+        "routes": [
+          "/api/supply-radar/social",
+          "/stats",
+          "/accounts",
+          "/notes",
+          "/notes/{id}",
+          "/rankings",
+          "/source-status",
+          "/notes/manual",
+          "/notes/batch"
+        ],
+        "identifier": "SocialBrandController",
+        "summary": "雇主品牌 · 重点企业公开笔记（小红书）接口。 | <p>阶段一只提供人工录入与查询，不含任何平台抓取逻辑。</p>",
+        "contract_file": ".qoder/api-contract/java_bff/SocialBrandController-api.md"
+      },
+      {
+        "file": "java_bff/src/main/java/org/example/supplyradar/controller/CompanyController.java",
+        "routes": [
+          "/api/supply-radar",
+          "/companies"
+        ],
+        "identifier": "CompanyController",
+        "summary": "重点监测企业配置接口（供给侧筛选用，文档八：GET /companies）。",
+        "contract_file": ".qoder/api-contract/java_bff/CompanyController-api.md"
+      },
+      {
+        "file": "java_bff/src/main/java/org/example/supplyradar/controller/CrawlTaskController.java",
+        "routes": [
+          "/api/supply-radar",
+          "/crawl-tasks",
+          "/crawl-tasks/{taskId}",
+          "/crawl-status"
+        ],
+        "identifier": "CrawlTaskController",
+        "summary": "采集任务与采集状态接口。",
+        "contract_file": ".qoder/api-contract/java_bff/CrawlTaskController-api.md"
+      },
+      {
+        "file": "java_bff/src/main/java/org/example/supplyradar/controller/EventController.java",
+        "routes": [
+          "/api/supply-radar",
+          "/events",
+          "/events/{id}"
+        ],
+        "identifier": "EventController",
+        "summary": "活动列表 / 详情接口（含 groupBy=school 分组模式）。",
+        "contract_file": ".qoder/api-contract/java_bff/EventController-api.md"
+      },
+      {
+        "file": "java_bff/src/main/java/org/example/supplyradar/controller/SchoolController.java",
+        "routes": [
+          "/api/supply-radar",
+          "/schools"
+        ],
+        "identifier": "SchoolController",
+        "summary": "高校列表接口。",
+        "contract_file": ".qoder/api-contract/java_bff/SchoolController-api.md"
+      },
+      {
+        "file": "java_bff/src/main/java/org/example/supplyradar/controller/StatisticsController.java",
+        "routes": [
+          "/api/supply-radar",
+          "/statistics"
+        ],
+        "identifier": "StatisticsController",
+        "summary": "统计指标接口（与列表同筛选口径）。",
+        "contract_file": ".qoder/api-contract/java_bff/StatisticsController-api.md"
+      }
+    ],
+    "python_ai": []
+  },
+  "lineage": [],
+  "config": {
+    "version": "1.0.0",
+    "project": {
+      "name": "sunshine-Rec",
+      "architecture": "mono-repo (frontend + java_bff)"
+    }
+  }
+}
